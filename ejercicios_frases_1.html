@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ejercicios de griego — Frases 1</title>
+<style>
+  :root{
+    --bg:#e8e7dd;
+    --surface:#f6f5ef;
+    --surface-raised:#ffffff;
+    --ink:#1e211d;
+    --ink-muted:#5b5f56;
+    --rule:#c9c4b3;
+    --accent:#3c6e72;
+    --accent-strong:#294b4e;
+    --accent-ink:#f6f5ef;
+    --correct:#4f7a34;
+    --correct-bg:#e4ecd7;
+    --warn:#93701c;
+    --warn-bg:#f2e6c2;
+    --incorrect:#b5502e;
+    --incorrect-bg:#f3ded4;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+    --radius-card: 10px;
+    --radius-chip: 999px;
+    --serif: 'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+    --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14181a;
+      --surface:#1d2224;
+      --surface-raised:#242a2c;
+      --ink:#e7e4d9;
+      --ink-muted:#9ca39b;
+      --rule:#333a38;
+      --accent:#6fb3ac;
+      --accent-strong:#8fc9c2;
+      --accent-ink:#0f1516;
+      --correct:#8fb35d;
+      --correct-bg:#26301f;
+      --warn:#d3ac52;
+      --warn-bg:#392f18;
+      --incorrect:#e08464;
+      --incorrect-bg:#392420;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+    --rule:#333a38; --accent:#6fb3ac; --accent-strong:#8fc9c2; --accent-ink:#0f1516;
+    --correct:#8fb35d; --correct-bg:#26301f; --warn:#d3ac52; --warn-bg:#392f18;
+    --incorrect:#e08464; --incorrect-bg:#392420;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#e8e7dd; --surface:#f6f5ef; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c9c4b3; --accent:#3c6e72; --accent-strong:#294b4e; --accent-ink:#f6f5ef;
+    --correct:#4f7a34; --correct-bg:#e4ecd7; --warn:#93701c; --warn-bg:#f2e6c2;
+    --incorrect:#b5502e; --incorrect-bg:#f3ded4;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  .wrap{ max-width:840px; margin:0 auto; padding:2.25rem 1.25rem 5rem; }
+
+  .eyebrow{
+    font-family:var(--sans); font-size:.72rem; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent-strong);
+  }
+  h1{
+    font-family:var(--serif); font-weight:400; font-size:2rem; margin:.35rem 0 .25rem;
+    text-wrap:balance; color:var(--ink);
+  }
+  .lede{ color:var(--ink-muted); font-size:1rem; max-width:60ch; margin:0 0 1.75rem; }
+
+  .identity{
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card);
+    padding:1.25rem 1.4rem; box-shadow:var(--shadow); margin-bottom:2.25rem;
+  }
+  .identity-grid{ display:flex; flex-wrap:wrap; gap:.9rem; align-items:end; }
+  .field{ display:flex; flex-direction:column; gap:.35rem; flex:1 1 200px; }
+  .field label{ font-size:.78rem; color:var(--ink-muted); font-weight:600; }
+  .field input{
+    font-family:var(--sans); font-size:.95rem; padding:.55rem .7rem; border-radius:7px;
+    border:1px solid var(--rule); background:var(--surface-raised); color:var(--ink);
+  }
+  .field input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  button{ font-family:var(--sans); cursor:pointer; }
+  .btn{
+    border:none; border-radius:8px; padding:.65rem 1.2rem; font-size:.92rem; font-weight:600;
+    background:var(--accent); color:var(--accent-ink); transition:background .15s ease, opacity .15s ease;
+  }
+  .btn:hover{ background:var(--accent-strong); }
+  .btn:disabled{ opacity:.45; cursor:not-allowed; }
+  .btn:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+  .btn-ghost{
+    background:transparent; color:var(--accent-strong); border:1px solid var(--rule);
+  }
+  .btn-ghost:hover{ background:var(--surface-raised); }
+
+  main{ display:none; }
+  main.visible{ display:block; }
+
+  .exercise{
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card);
+    padding:1.5rem 1.6rem 1.75rem; margin-bottom:1.75rem; box-shadow:var(--shadow);
+  }
+  .exercise-head{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .exercise h2{ font-family:var(--serif); font-weight:400; font-size:1.4rem; margin:.15rem 0 .3rem; }
+  .exercise .instructions{ color:var(--ink-muted); font-size:.92rem; margin:0 0 1.25rem; max-width:62ch; }
+  .score-pill{
+    font-family:var(--sans); font-variant-numeric:tabular-nums; font-size:.82rem; font-weight:700;
+    background:var(--surface-raised); border:1px solid var(--rule); border-radius:var(--radius-chip);
+    padding:.3rem .75rem; color:var(--ink-muted); white-space:nowrap;
+  }
+  .score-pill.shown{ color:var(--ink); }
+
+  /* --- Ejercicio 1: emparejar --- */
+  .match-row{
+    display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:stretch;
+    padding:.6rem 0; border-top:1px solid var(--rule);
+  }
+  .match-row:first-of-type{ border-top:none; }
+  .match-greek{
+    font-family:var(--serif); font-size:1.2rem; padding:.75rem .9rem; display:flex; align-items:center;
+  }
+  .slot{
+    border:1.5px dashed var(--rule); border-radius:8px; min-height:2.9rem; padding:.5rem .8rem;
+    display:flex; align-items:center; justify-content:space-between; gap:.5rem; cursor:pointer;
+    background:var(--surface-raised); transition:border-color .15s ease, background .15s ease;
+    font-size:.95rem;
+  }
+  .slot.dragover{ border-color:var(--accent); background:var(--correct-bg); }
+  .slot .placeholder{ color:var(--ink-muted); font-size:.85rem; }
+  .slot .placed{ display:flex; align-items:center; justify-content:space-between; width:100%; gap:.5rem; }
+  .slot .remove{ background:none; border:none; color:var(--ink-muted); font-size:1rem; line-height:1; padding:0 .2rem; }
+  .slot.g-ok{ border-style:solid; border-color:var(--correct); background:var(--correct-bg); }
+  .slot.g-bad{ border-style:solid; border-color:var(--incorrect); background:var(--incorrect-bg); }
+
+  .pool{
+    display:flex; flex-wrap:wrap; gap:.55rem; margin-top:1.1rem; padding-top:1.1rem;
+    border-top:1px solid var(--rule);
+  }
+  .pool:empty::after{ content:'Todas las traducciones están ubicadas.'; color:var(--ink-muted); font-size:.85rem; }
+  .card{
+    border:1px solid var(--rule); background:var(--surface-raised); border-radius:8px;
+    padding:.55rem .85rem; font-size:.92rem; cursor:grab; user-select:none;
+    transition:box-shadow .15s ease, border-color .15s ease;
+  }
+  .card:hover{ border-color:var(--accent); }
+  .card.picked{ border-color:var(--accent); box-shadow:0 0 0 2px var(--accent) inset; }
+  .card.dragging{ opacity:.4; }
+  .card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* --- Ejercicios 2 y 3: fichas de palabra --- */
+  .phrase-block{ padding:1rem 0; border-top:1px solid var(--rule); }
+  .phrase-block:first-of-type{ border-top:none; }
+  .phrase-num{ font-size:.75rem; color:var(--ink-muted); font-weight:600; letter-spacing:.05em; margin-bottom:.4rem; }
+  .tokens{ display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; }
+  .token{
+    font-family:var(--serif); font-size:1.1rem; border:1.5px solid var(--rule);
+    background:var(--surface-raised); border-radius:var(--radius-chip); padding:.32rem 1rem;
+    cursor:pointer; transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .token input{ display:none; }
+  .token.on{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+  .token.meta{ font-family:var(--sans); font-size:.82rem; font-weight:600; color:var(--ink-muted);
+    border-style:dashed; }
+  .token.meta.on{ border-style:solid; }
+  .token.g-ok{ border-color:var(--correct); background:var(--correct-bg); color:var(--correct); }
+  .token.g-warn{ border-color:var(--warn); background:var(--warn-bg); color:var(--warn); }
+  .token.g-bad{ border-color:var(--incorrect); background:var(--incorrect-bg); color:var(--incorrect); }
+  .token:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+  .hint{ font-size:.8rem; color:var(--incorrect); margin:.35rem 0 0 .1rem; }
+
+  .case-picker{
+    display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:.5rem 0 0 .1rem;
+    padding:.5rem .7rem; background:var(--surface-raised); border:1px solid var(--rule); border-radius:8px;
+  }
+  .case-picker .for-word{ font-family:var(--serif); font-size:1rem; margin-right:.3rem; color:var(--ink-muted); }
+  .case-chip{
+    font-family:var(--sans); font-size:.78rem; font-weight:600; border:1.5px solid var(--rule);
+    border-radius:var(--radius-chip); padding:.22rem .65rem; cursor:pointer; background:transparent;
+    color:var(--ink-muted);
+  }
+  .case-chip.on{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+  .case-chip.g-ok{ border-color:var(--correct); background:var(--correct-bg); color:var(--correct); }
+  .case-chip.g-warn{ border-color:var(--warn); background:var(--warn-bg); color:var(--warn); }
+  .case-chip.g-bad{ border-color:var(--incorrect); background:var(--incorrect-bg); color:var(--incorrect); }
+
+  .diff-group{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.25rem 0 1.1rem; }
+  .diff-chip{
+    font-family:var(--sans); font-size:.88rem; font-weight:600; border:1.5px solid var(--rule);
+    border-radius:var(--radius-chip); padding:.45rem 1.1rem; cursor:pointer;
+    background:var(--surface-raised); color:var(--ink-muted); transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .diff-chip:hover{ border-color:var(--accent); }
+  .diff-chip.on{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+  .diff-chip:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+
+  .submit-bar{
+    display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:.5rem;
+  }
+  .status{ font-size:.88rem; color:var(--ink-muted); }
+  .status.ok{ color:var(--correct); }
+  .status.err{ color:var(--incorrect); }
+
+  footer{ margin-top:2.5rem; color:var(--ink-muted); font-size:.8rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Griego · Prácticas de lengua</p>
+  <h1>Frases 1 — Emparejar, formas verbales, sustantivos y caso</h1>
+  <p class="lede">Seis frases para trabajar traducción, reconocimiento de formas verbales, análisis de sustantivos por caso y observaciones sintácticas.</p>
+
+  <section class="identity" id="identity">
+    <div class="identity-grid">
+      <div class="field">
+        <label for="in-nombre">Nombre y apellido</label>
+        <input id="in-nombre" type="text" autocomplete="name" placeholder="Como querés que figure" />
+      </div>
+      <div class="field">
+        <label for="in-email">Email</label>
+        <input id="in-email" type="email" autocomplete="email" placeholder="tu@email.com" />
+      </div>
+      <button class="btn" id="btn-start" disabled>Comenzar</button>
+    </div>
+  </section>
+
+  <main id="main">
+
+    <section class="exercise" id="ex1">
+      <div class="exercise-head">
+        <div>
+          <p class="eyebrow">Ejercicio 1</p>
+          <h2>Emparejar cada frase con su traducción</h2>
+        </div>
+        <span class="score-pill" id="score-1">— / 6</span>
+      </div>
+      <p class="instructions">Arrastrá cada traducción hasta la frase griega que le corresponde. También podés hacer clic en una traducción y después en la frase para ubicarla.</p>
+      <div id="rows-1"></div>
+      <div class="pool" id="pool-1"></div>
+    </section>
+
+    <section class="exercise" id="ex2">
+      <div class="exercise-head">
+        <div>
+          <p class="eyebrow">Ejercicio 2</p>
+          <h2>Identificar las formas verbales</h2>
+        </div>
+        <span class="score-pill" id="score-2">— / 6</span>
+      </div>
+      <p class="instructions">Marcá qué palabras de cada frase son formas verbales (verbos conjugados o infinitivos). Si una frase no tiene ninguna, marcá "No hay forma verbal".</p>
+      <div id="rows-2"></div>
+    </section>
+
+    <section class="exercise" id="ex3">
+      <div class="exercise-head">
+        <div>
+          <p class="eyebrow">Ejercicio 3</p>
+          <h2>Identificar los sustantivos y su caso</h2>
+        </div>
+        <span class="score-pill" id="score-3">— / 6</span>
+      </div>
+      <p class="instructions">Marcá cuáles son los sustantivos de cada frase y en qué caso está cada uno en esta oración puntual. Si marcás un caso que la palabra podría tener en otro contexto pero no es el que corresponde acá, va a quedar en amarillo al corregir: no está mal reconocida la forma, pero no es la lectura correcta de esta frase.</p>
+      <div id="rows-3"></div>
+    </section>
+
+    <section class="exercise" id="ex4">
+      <div class="exercise-head">
+        <div>
+          <p class="eyebrow">Ejercicio 4</p>
+          <h2>Emparejar cada frase con su apreciación lingüística</h2>
+        </div>
+        <span class="score-pill" id="score-4">— / 6</span>
+      </div>
+      <p class="instructions">Arrastrá cada apreciación hasta la frase griega que le corresponde. También podés hacer clic en una apreciación y después en la frase para ubicarla.</p>
+      <div id="rows-4"></div>
+      <div class="pool" id="pool-4"></div>
+    </section>
+
+    <section class="exercise" id="evaluacion">
+      <div class="exercise-head">
+        <div>
+          <p class="eyebrow">Antes de enviar</p>
+          <h2>¿Cómo te resultó la actividad?</h2>
+        </div>
+      </div>
+      <p class="instructions">Esto es para mejorar el material — no afecta tu corrección.</p>
+
+      <div class="diff-group" id="diff-group">
+        <button type="button" class="diff-chip" data-value="muy-facil">Muy fácil</button>
+        <button type="button" class="diff-chip" data-value="facil">Fácil</button>
+        <button type="button" class="diff-chip" data-value="complicado">Complicado</button>
+        <button type="button" class="diff-chip" data-value="imposible">Imposible</button>
+      </div>
+      <div class="field">
+        <label for="in-diff-comment">Comentario sobre la dificultad (opcional)</label>
+        <input id="in-diff-comment" type="text" placeholder="¿algo que quieras agregar?" />
+      </div>
+
+      <div class="field" style="margin-top:1rem;">
+        <label for="in-suggestion">La actividad funcionaría mejor si…</label>
+        <input id="in-suggestion" type="text" placeholder="completá la idea" />
+      </div>
+    </section>
+
+    <div class="submit-bar">
+      <button class="btn" id="btn-check">Corregir</button>
+      <button class="btn btn-ghost" id="btn-send">Enviar respuestas</button>
+      <span class="status" id="status"></span>
+    </div>
+
+  </main>
+
+  <footer>Griego I / II · material de cátedra</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Completar después de desplegar el Apps Script (ver registrar_respuestas_ejercicios.gs).
+  var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMjdVZa0X6Q4nGa60gwy-3GWbJUdbm6W57inTFvrwgpNze3r-ytqK1mOIDo9oTIfKyPQ/exec";
+
+  var CASES = [
+    {code:"nom", label:"Nominativo"},
+    {code:"gen", label:"Genitivo"},
+    {code:"dat", label:"Dativo"},
+    {code:"ac",  label:"Acusativo"},
+    {code:"voc", label:"Vocativo"}
+  ];
+  var CASE_LABEL = {}; CASES.forEach(function(c){ CASE_LABEL[c.code] = c.label; });
+
+  var PHRASES = [
+    {
+      id:1,
+      greek:"λόγος ἐστὶ φωνὴ σημαντική",
+      spanish:"El discurso es voz con significado",
+      tokens:["λόγος","ἐστὶ","φωνὴ","σημαντική"],
+      verbIdx:[1], noVerb:false,
+      nouns:{
+        0:{correct:"nom", plausible:[]},
+        2:{correct:"nom", plausible:["voc"]}
+      },
+      note:"El adjetivo tiene tres terminaciones (masculino, neutro, femenino): aquí figura en femenino por concordancia con el núcleo al que modifica."
+    },
+    {
+      id:2,
+      greek:"ἐκ καρποῦ δένδρον γιγνώσκετε",
+      spanish:"Por el fruto conocen el árbol",
+      tokens:["ἐκ","καρποῦ","δένδρον","γιγνώσκετε"],
+      verbIdx:[3], noVerb:false,
+      nouns:{
+        1:{correct:"gen", plausible:[]},
+        2:{correct:"ac", plausible:["nom","voc"]}
+      },
+      note:"La preposición rige genitivo; el sintagma preposicional funciona como τόπος πόθεν."
+    },
+    {
+      id:3,
+      greek:"ὁ ὕπνος τοῦ θανάτου ἀδελφός ἐστιν",
+      spanish:"El sueño es hermano de la muerte",
+      tokens:["ὁ","ὕπνος","τοῦ","θανάτου","ἀδελφός","ἐστιν"],
+      verbIdx:[5], noVerb:false,
+      nouns:{
+        1:{correct:"nom", plausible:[]},
+        3:{correct:"gen", plausible:[]},
+        4:{correct:"nom", plausible:[]}
+      },
+      note:"ἀδελφός concuerda en nominativo con el sujeto ὁ ὕπνος: es un predicativo subjetivo del verbo copulativo εἰμί."
+    },
+    {
+      id:4,
+      greek:"φασὶ γὰρ τὴν τοῦ ἀνθρώπου ψυχὴν εἶναι ἀθάνατον",
+      spanish:"Pues dicen que el alma del hombre es inmortal",
+      tokens:["φασὶ","γὰρ","τὴν","τοῦ","ἀνθρώπου","ψυχὴν","εἶναι","ἀθάνατον"],
+      verbIdx:[0,6], noVerb:false,
+      nouns:{
+        4:{correct:"gen", plausible:[]},
+        5:{correct:"ac", plausible:[]}
+      },
+      note:"El objeto directo del núcleo verbal es una proposición de infinitivo más acusativo."
+    },
+    {
+      id:5,
+      greek:"Πίνδαρος ὁ ποιητὴς τὸν οἶνον καλέει δρόσον τῆς ἀμπέλου",
+      spanish:"El poeta Píndaro llama rocío de la vid al vino",
+      tokens:["Πίνδαρος","ὁ","ποιητὴς","τὸν","οἶνον","καλέει","δρόσον","τῆς","ἀμπέλου"],
+      verbIdx:[5], noVerb:false,
+      nouns:{
+        0:{correct:"nom", plausible:[]},
+        2:{correct:"nom", plausible:[]},
+        4:{correct:"ac", plausible:[]},
+        6:{correct:"ac", plausible:[]},
+        8:{correct:"gen", plausible:[]}
+      },
+      note:"Predicativo objetivo motivado por el significado del núcleo verbal."
+    },
+    {
+      id:6,
+      greek:"λόγος κάτοπτρον τοῦ θυμοῦ",
+      spanish:"El discurso es espejo del ánimo",
+      tokens:["λόγος","κάτοπτρον","τοῦ","θυμοῦ"],
+      verbIdx:[], noVerb:true,
+      nouns:{
+        0:{correct:"nom", plausible:[]},
+        1:{correct:"nom", plausible:["ac","voc"]},
+        3:{correct:"gen", plausible:[]}
+      },
+      note:"No hay verbo expreso: la cópula ἐστίν está elidida, como es frecuente en las sentencias gnómicas."
+    }
+  ];
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  // ---------- estado ----------
+  var identity = { nombre:"", email:"" };
+  var match1 = {};          // phraseId -> translationId | null
+  var poolOrder = shuffled(PHRASES.map(function(p){ return p.id; }));
+  var match4 = {};          // phraseId -> noteId | null
+  var poolOrder4 = shuffled(PHRASES.map(function(p){ return p.id; }));
+  var verbState = {};       // phraseId -> {selected:Set, noVerb:bool}
+  var nounState = {};       // phraseId -> {selected:Set, cases:{idx:Set}}
+  PHRASES.forEach(function(p){
+    match1[p.id] = null;
+    match4[p.id] = null;
+    verbState[p.id] = { selected:new Set(), noVerb:false };
+    nounState[p.id] = { selected:new Set(), cases:{} };
+  });
+
+  // ---------- identidad ----------
+  var inNombre = document.getElementById("in-nombre");
+  var inEmail = document.getElementById("in-email");
+  var btnStart = document.getElementById("btn-start");
+  function checkIdentity(){
+    btnStart.disabled = !(inNombre.value.trim() && inEmail.value.trim().indexOf("@") > 0);
+  }
+  inNombre.addEventListener("input", checkIdentity);
+  inEmail.addEventListener("input", checkIdentity);
+  btnStart.addEventListener("click", function(){
+    identity.nombre = inNombre.value.trim();
+    identity.email = inEmail.value.trim();
+    document.getElementById("identity").style.display = "none";
+    document.getElementById("main").classList.add("visible");
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  // ---------- Ejercicio 1: emparejar ----------
+  var rows1 = document.getElementById("rows-1");
+  var pool1 = document.getElementById("pool-1");
+
+  PHRASES.forEach(function(p){
+    var row = document.createElement("div");
+    row.className = "match-row";
+    row.innerHTML =
+      '<div class="match-greek">' + p.greek + '</div>' +
+      '<div class="slot" id="slot-' + p.id + '" data-phrase="' + p.id + '">' +
+        '<span class="placeholder">Soltá acá la traducción</span>' +
+      '</div>';
+    rows1.appendChild(row);
+  });
+
+  var pickedTranslation = null; // id elegido por clic, pendiente de ubicar
+
+  function renderPool(){
+    pool1.innerHTML = "";
+    var placed = Object.values(match1);
+    poolOrder.forEach(function(tid){
+      if (placed.indexOf(tid) !== -1) return;
+      var p = PHRASES.filter(function(x){ return x.id === tid; })[0];
+      var card = document.createElement("div");
+      card.className = "card" + (pickedTranslation === tid ? " picked" : "");
+      card.textContent = p.spanish;
+      card.draggable = true;
+      card.tabIndex = 0;
+      card.dataset.tid = tid;
+      card.addEventListener("dragstart", function(e){
+        e.dataTransfer.setData("text/plain", String(tid));
+        card.classList.add("dragging");
+      });
+      card.addEventListener("dragend", function(){ card.classList.remove("dragging"); });
+      card.addEventListener("click", function(){
+        pickedTranslation = (pickedTranslation === tid) ? null : tid;
+        renderPool();
+      });
+      card.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); card.click(); }
+      });
+      pool1.appendChild(card);
+    });
+  }
+
+  function renderSlots(){
+    PHRASES.forEach(function(p){
+      var slot = document.getElementById("slot-" + p.id);
+      slot.classList.remove("g-ok", "g-bad");
+      var tid = match1[p.id];
+      if (tid == null){
+        slot.innerHTML = '<span class="placeholder">Soltá acá la traducción</span>';
+      } else {
+        var t = PHRASES.filter(function(x){ return x.id === tid; })[0];
+        slot.innerHTML = '<span class="placed"><span>' + t.spanish + '</span>' +
+          '<button type="button" class="remove" aria-label="Quitar">×</button></span>';
+        slot.querySelector(".remove").addEventListener("click", function(e){
+          e.stopPropagation();
+          match1[p.id] = null;
+          renderPool(); renderSlots();
+        });
+      }
+    });
+  }
+
+  rows1.querySelectorAll(".slot").forEach(function(){}); // placeholder no-op (slots creados arriba)
+  Array.from(document.querySelectorAll(".slot")).forEach(function(slot){
+    var pid = Number(slot.dataset.phrase);
+    slot.addEventListener("dragover", function(e){ e.preventDefault(); slot.classList.add("dragover"); });
+    slot.addEventListener("dragleave", function(){ slot.classList.remove("dragover"); });
+    slot.addEventListener("drop", function(e){
+      e.preventDefault(); slot.classList.remove("dragover");
+      var tid = Number(e.dataTransfer.getData("text/plain"));
+      placeTranslation(pid, tid);
+    });
+    slot.addEventListener("click", function(){
+      if (pickedTranslation != null){
+        placeTranslation(pid, pickedTranslation);
+        pickedTranslation = null;
+      }
+    });
+  });
+
+  function placeTranslation(phraseId, tid){
+    // liberar si esa traducción ya estaba en otra frase
+    Object.keys(match1).forEach(function(k){ if (match1[k] === tid) match1[k] = null; });
+    match1[phraseId] = tid;
+    renderPool(); renderSlots();
+  }
+
+  renderPool(); renderSlots();
+
+  // ---------- Ejercicio 2: formas verbales ----------
+  var rows2 = document.getElementById("rows-2");
+  PHRASES.forEach(function(p){
+    var block = document.createElement("div");
+    block.className = "phrase-block";
+    var num = document.createElement("div");
+    num.className = "phrase-num";
+    num.textContent = "Frase " + p.id;
+    block.appendChild(num);
+
+    var tokensEl = document.createElement("div");
+    tokensEl.className = "tokens";
+
+    p.tokens.forEach(function(word, idx){
+      var chip = document.createElement("label");
+      chip.className = "token";
+      chip.dataset.idx = idx;
+      chip.textContent = word;
+      chip.addEventListener("click", function(e){
+        e.preventDefault();
+        var st = verbState[p.id];
+        if (st.selected.has(idx)) st.selected.delete(idx); else st.selected.add(idx);
+        chip.classList.toggle("on", st.selected.has(idx));
+        chip.classList.remove("g-ok", "g-bad");
+        clearHints(block);
+      });
+      chip.tabIndex = 0;
+      chip.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); chip.click(); }
+      });
+      tokensEl.appendChild(chip);
+    });
+
+    var noVerbChip = document.createElement("label");
+    noVerbChip.className = "token meta";
+    noVerbChip.textContent = "No hay forma verbal";
+    noVerbChip.tabIndex = 0;
+    noVerbChip.addEventListener("click", function(){
+      var st = verbState[p.id];
+      st.noVerb = !st.noVerb;
+      noVerbChip.classList.toggle("on", st.noVerb);
+      noVerbChip.classList.remove("g-ok", "g-bad");
+      clearHints(block);
+    });
+    noVerbChip.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); noVerbChip.click(); }
+    });
+    tokensEl.appendChild(noVerbChip);
+
+    block.appendChild(tokensEl);
+    rows2.appendChild(block);
+  });
+
+  // ---------- Ejercicio 3: sustantivos y caso ----------
+  var rows3 = document.getElementById("rows-3");
+  PHRASES.forEach(function(p){
+    var block = document.createElement("div");
+    block.className = "phrase-block";
+    var num = document.createElement("div");
+    num.className = "phrase-num";
+    num.textContent = "Frase " + p.id;
+    block.appendChild(num);
+
+    var tokensEl = document.createElement("div");
+    tokensEl.className = "tokens";
+    var casesHost = document.createElement("div");
+
+    function renderCasePicker(idx, word){
+      var existing = casesHost.querySelector('[data-case-for="' + idx + '"]');
+      if (existing) existing.remove();
+      var st = nounState[p.id];
+      if (!st.selected.has(idx)) { delete st.cases[idx]; return; }
+      if (!st.cases[idx]) st.cases[idx] = new Set();
+
+      var picker = document.createElement("div");
+      picker.className = "case-picker";
+      picker.dataset.caseFor = idx;
+      var label = document.createElement("span");
+      label.className = "for-word";
+      label.textContent = word + " ·";
+      picker.appendChild(label);
+
+      CASES.forEach(function(c){
+        var chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "case-chip";
+        chip.textContent = c.label;
+        chip.addEventListener("click", function(){
+          var set = st.cases[idx];
+          if (set.has(c.code)) set.delete(c.code); else set.add(c.code);
+          chip.classList.toggle("on", set.has(c.code));
+          chip.classList.remove("g-ok", "g-warn", "g-bad");
+          clearHints(block);
+        });
+        picker.appendChild(chip);
+      });
+      casesHost.appendChild(picker);
+    }
+
+    p.tokens.forEach(function(word, idx){
+      var chip = document.createElement("label");
+      chip.className = "token";
+      chip.dataset.idx = idx;
+      chip.textContent = word;
+      chip.addEventListener("click", function(e){
+        e.preventDefault();
+        var st = nounState[p.id];
+        if (st.selected.has(idx)) st.selected.delete(idx); else st.selected.add(idx);
+        chip.classList.toggle("on", st.selected.has(idx));
+        chip.classList.remove("g-ok", "g-bad");
+        clearHints(block);
+        renderCasePicker(idx, word);
+      });
+      chip.tabIndex = 0;
+      chip.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); chip.click(); }
+      });
+      tokensEl.appendChild(chip);
+    });
+
+    block.appendChild(tokensEl);
+    block.appendChild(casesHost);
+    rows3.appendChild(block);
+  });
+
+  // ---------- Ejercicio 4: emparejar con apreciación lingüística ----------
+  var rows4 = document.getElementById("rows-4");
+  var pool4 = document.getElementById("pool-4");
+
+  PHRASES.forEach(function(p){
+    var row = document.createElement("div");
+    row.className = "match-row";
+    row.innerHTML =
+      '<div class="match-greek">' + p.greek + '</div>' +
+      '<div class="slot" id="note-slot-' + p.id + '" data-phrase="' + p.id + '">' +
+        '<span class="placeholder">Soltá acá la apreciación</span>' +
+      '</div>';
+    rows4.appendChild(row);
+  });
+
+  var pickedNote = null;
+
+  function renderPool4(){
+    pool4.innerHTML = "";
+    var placed = Object.values(match4);
+    poolOrder4.forEach(function(tid){
+      if (placed.indexOf(tid) !== -1) return;
+      var p = PHRASES.filter(function(x){ return x.id === tid; })[0];
+      var card = document.createElement("div");
+      card.className = "card" + (pickedNote === tid ? " picked" : "");
+      card.textContent = p.note;
+      card.draggable = true;
+      card.tabIndex = 0;
+      card.dataset.tid = tid;
+      card.addEventListener("dragstart", function(e){
+        e.dataTransfer.setData("text/plain", String(tid));
+        card.classList.add("dragging");
+      });
+      card.addEventListener("dragend", function(){ card.classList.remove("dragging"); });
+      card.addEventListener("click", function(){
+        pickedNote = (pickedNote === tid) ? null : tid;
+        renderPool4();
+      });
+      card.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); card.click(); }
+      });
+      pool4.appendChild(card);
+    });
+  }
+
+  function renderSlots4(){
+    PHRASES.forEach(function(p){
+      var slot = document.getElementById("note-slot-" + p.id);
+      slot.classList.remove("g-ok", "g-bad");
+      var tid = match4[p.id];
+      if (tid == null){
+        slot.innerHTML = '<span class="placeholder">Soltá acá la apreciación</span>';
+      } else {
+        var t = PHRASES.filter(function(x){ return x.id === tid; })[0];
+        slot.innerHTML = '<span class="placed"><span>' + t.note + '</span>' +
+          '<button type="button" class="remove" aria-label="Quitar">×</button></span>';
+        slot.querySelector(".remove").addEventListener("click", function(e){
+          e.stopPropagation();
+          match4[p.id] = null;
+          renderPool4(); renderSlots4();
+        });
+      }
+    });
+  }
+
+  Array.from(rows4.querySelectorAll(".slot")).forEach(function(slot){
+    var pid = Number(slot.dataset.phrase);
+    slot.addEventListener("dragover", function(e){ e.preventDefault(); slot.classList.add("dragover"); });
+    slot.addEventListener("dragleave", function(){ slot.classList.remove("dragover"); });
+    slot.addEventListener("drop", function(e){
+      e.preventDefault(); slot.classList.remove("dragover");
+      var tid = Number(e.dataTransfer.getData("text/plain"));
+      placeNote(pid, tid);
+    });
+    slot.addEventListener("click", function(){
+      if (pickedNote != null){
+        placeNote(pid, pickedNote);
+        pickedNote = null;
+      }
+    });
+  });
+
+  function placeNote(phraseId, tid){
+    Object.keys(match4).forEach(function(k){ if (match4[k] === tid) match4[k] = null; });
+    match4[phraseId] = tid;
+    renderPool4(); renderSlots4();
+  }
+
+  renderPool4(); renderSlots4();
+
+  // ---------- Evaluación del ejercicio ----------
+  var DIFF_LABELS = {
+    "muy-facil":"Muy fácil", "facil":"Fácil", "complicado":"Complicado", "imposible":"Imposible"
+  };
+  var evalState = { dificultad:null };
+  Array.from(document.querySelectorAll(".diff-chip")).forEach(function(chip){
+    chip.addEventListener("click", function(){
+      evalState.dificultad = chip.dataset.value;
+      document.querySelectorAll(".diff-chip").forEach(function(c){ c.classList.remove("on"); });
+      chip.classList.add("on");
+    });
+  });
+  var inDiffComment = document.getElementById("in-diff-comment");
+  var inSuggestion = document.getElementById("in-suggestion");
+
+  function evaluationLog(){
+    var comentario = inDiffComment.value.trim();
+    var sugerencia = inSuggestion.value.trim();
+    return [
+      { ejercicio:"Evaluación", frase:"", item:"Dificultad percibida",
+        respuesta: evalState.dificultad ? DIFF_LABELS[evalState.dificultad] : "(sin responder)", correcta:null },
+      { ejercicio:"Evaluación", frase:"", item:"Comentario sobre la dificultad",
+        respuesta: comentario || "(sin responder)", correcta:null },
+      { ejercicio:"Evaluación", frase:"", item:"Sugerencia",
+        respuesta: sugerencia ? ("La actividad funcionaría mejor si " + sugerencia) : "(sin responder)", correcta:null }
+    ];
+  }
+
+  // ---------- corrección ----------
+  function setEqual(a, b){
+    if (a.size !== b.size) return false;
+    for (var v of a) if (!b.has(v)) return false;
+    return true;
+  }
+
+  function clearHints(block){
+    block.querySelectorAll(".hint").forEach(function(el){ el.remove(); });
+  }
+
+  function gradeAll(revealAnswers){
+    var log = [];
+    var scores = { ex1:0, ex2:0, ex3:0, ex4:0 };
+
+    // Ejercicio 1
+    PHRASES.forEach(function(p){
+      var ok = match1[p.id] === p.id;
+      if (ok) scores.ex1++;
+      var slot = document.getElementById("slot-" + p.id);
+      slot.classList.remove("g-ok", "g-bad");
+      slot.classList.add(ok ? "g-ok" : "g-bad");
+      log.push({ ejercicio:"1 - Emparejar", frase:p.id, item:"traducción elegida",
+        respuesta: match1[p.id] ? PHRASES.filter(function(x){return x.id===match1[p.id];})[0].spanish : "(sin responder)",
+        correcta: ok });
+    });
+
+    // Ejercicio 2
+    var rows2Blocks = rows2.children;
+    PHRASES.forEach(function(p, i){
+      var block = rows2Blocks[i];
+      clearHints(block);
+      var chips = block.querySelectorAll(".token:not(.meta)");
+      var st = verbState[p.id];
+      var expectedSet = new Set(p.verbIdx);
+      var phraseOk = p.noVerb
+        ? (st.noVerb && st.selected.size === 0)
+        : (!st.noVerb && setEqual(st.selected, expectedSet));
+      if (phraseOk) scores.ex2++;
+
+      chips.forEach(function(chip, idx){
+        var expected = expectedSet.has(idx);
+        var actual = st.selected.has(idx);
+        var ok = expected === actual;
+        chip.classList.remove("g-ok", "g-bad");
+        chip.classList.add(ok ? "g-ok" : "g-bad");
+        log.push({ ejercicio:"2 - Formas verbales", frase:p.id, item:p.tokens[idx],
+          respuesta: actual ? "marcada" : "no marcada", correcta: ok });
+      });
+      var metaChip = block.querySelector(".token.meta");
+      var metaOk = st.noVerb === p.noVerb;
+      metaChip.classList.remove("g-ok", "g-bad");
+      metaChip.classList.add(metaOk ? "g-ok" : "g-bad");
+      log.push({ ejercicio:"2 - Formas verbales", frase:p.id, item:"No hay forma verbal",
+        respuesta: st.noVerb ? "marcada" : "no marcada", correcta: metaOk });
+
+      if (!phraseOk && revealAnswers){
+        var note = document.createElement("div");
+        note.className = "hint";
+        note.textContent = p.noVerb
+          ? "Esta frase no tiene forma verbal (cópula elidida)."
+          : "Formas verbales correctas: " + p.verbIdx.map(function(ix){ return p.tokens[ix]; }).join(", ");
+        block.appendChild(note);
+      }
+    });
+
+    // Ejercicio 3
+    var rows3Blocks = rows3.children;
+    PHRASES.forEach(function(p, i){
+      var block = rows3Blocks[i];
+      clearHints(block);
+      var chips = block.querySelectorAll(".token");
+      var st = nounState[p.id];
+      var nounIdxs = Object.keys(p.nouns).map(Number);
+      var expectedNounSet = new Set(nounIdxs);
+      var phraseNounsOk = setEqual(st.selected, expectedNounSet);
+      var phraseCasesOk = true;
+
+      chips.forEach(function(chip, idx){
+        var expectedNoun = expectedNounSet.has(idx);
+        var actualNoun = st.selected.has(idx);
+        var idOk = expectedNoun === actualNoun;
+        chip.classList.remove("g-ok", "g-bad");
+        chip.classList.add(idOk ? "g-ok" : "g-bad");
+        log.push({ ejercicio:"3 - Sustantivos", frase:p.id, item:p.tokens[idx] + " (¿es sustantivo?)",
+          respuesta: actualNoun ? "marcada" : "no marcada", correcta: idOk });
+
+        if (expectedNoun){
+          var spec = p.nouns[idx];
+          var chosen = st.cases[idx] || new Set();
+          var caseOk = actualNoun && chosen.size === 1 && chosen.has(spec.correct);
+          if (!caseOk) phraseCasesOk = false;
+          log.push({ ejercicio:"3 - Sustantivos", frase:p.id, item:p.tokens[idx] + " (caso)",
+            respuesta: chosen.size ? Array.from(chosen).map(function(c){return CASE_LABEL[c];}).join(" + ") : "(sin marcar)",
+            correcta: actualNoun ? caseOk : null });
+
+          var picker = block.querySelector('[data-case-for="' + idx + '"]');
+          if (picker){
+            picker.querySelectorAll(".case-chip").forEach(function(chipEl, ci){
+              var code = CASES[ci].code;
+              var isChosen = chosen.has(code);
+              chipEl.classList.remove("g-ok", "g-warn", "g-bad");
+              if (!isChosen) return;
+              if (code === spec.correct) chipEl.classList.add("g-ok");
+              else if (spec.plausible.indexOf(code) !== -1) chipEl.classList.add("g-warn");
+              else chipEl.classList.add("g-bad");
+            });
+            if (!caseOk && revealAnswers){
+              var note = document.createElement("div");
+              note.className = "hint";
+              note.textContent = "El caso correcto para " + p.tokens[idx] + " acá es " + CASE_LABEL[spec.correct] + ".";
+              block.appendChild(note);
+            }
+          } else if (revealAnswers) {
+            var note2 = document.createElement("div");
+            note2.className = "hint";
+            note2.textContent = p.tokens[idx] + " es sustantivo (" + CASE_LABEL[spec.correct] + ") y no fue marcado.";
+            block.appendChild(note2);
+          }
+        }
+      });
+
+      if (phraseNounsOk && phraseCasesOk) scores.ex3++;
+    });
+
+    // Ejercicio 4
+    PHRASES.forEach(function(p){
+      var ok = match4[p.id] === p.id;
+      if (ok) scores.ex4++;
+      var slot = document.getElementById("note-slot-" + p.id);
+      slot.classList.remove("g-ok", "g-bad");
+      slot.classList.add(ok ? "g-ok" : "g-bad");
+      log.push({ ejercicio:"4 - Apreciación lingüística", frase:p.id, item:"apreciación elegida",
+        respuesta: match4[p.id] ? PHRASES.filter(function(x){return x.id===match4[p.id];})[0].note : "(sin responder)",
+        correcta: ok });
+    });
+
+    document.getElementById("score-1").textContent = scores.ex1 + " / 6";
+    document.getElementById("score-2").textContent = scores.ex2 + " / 6";
+    document.getElementById("score-3").textContent = scores.ex3 + " / 6";
+    document.getElementById("score-4").textContent = scores.ex4 + " / 6";
+    ["score-1","score-2","score-3","score-4"].forEach(function(id){
+      document.getElementById(id).classList.add("shown");
+    });
+
+    return { scores:scores, log:log };
+  }
+
+  var statusEl = document.getElementById("status");
+  var answersRevealed = false;
+
+  document.getElementById("btn-check").addEventListener("click", function(){
+    gradeAll(answersRevealed);
+    statusEl.textContent = "Corregido — lo marcado en amarillo o rojo tiene algún problema; fijate cuál por tu cuenta. Corregí y volvé a presionar \"Corregir\" las veces que necesites. Las respuestas correctas se muestran al enviar.";
+    statusEl.className = "status";
+  });
+
+  document.getElementById("btn-send").addEventListener("click", function(){
+    answersRevealed = true;
+    var result = gradeAll(true);
+    result.log = result.log.concat(evaluationLog());
+
+    if (!APPS_SCRIPT_URL){
+      statusEl.textContent = "Corregido. (No se envió: falta configurar la URL del Apps Script.)";
+      statusEl.className = "status";
+      return;
+    }
+
+    statusEl.textContent = "Enviando…";
+    statusEl.className = "status";
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        nombre: identity.nombre,
+        email: identity.email,
+        respuestas: result.log
+      })
+    }).then(function(){
+      statusEl.textContent = "Enviado. ¡Gracias!";
+      statusEl.className = "status ok";
+    }).catch(function(){
+      statusEl.textContent = "No se pudo enviar (revisá tu conexión). Podés reintentar con \"Enviar respuestas\".";
+      statusEl.className = "status err";
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
