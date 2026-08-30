@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Griego I · Fichas de morfología</title>
+<style>
+  :root{
+    --bg:#e3e6e6; --surface:#eef1f1; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c7cccc; --accent:#33587a; --accent-strong:#24425c; --accent-ink:#eef4f7;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+    --radius-card: 10px; --radius-chip: 999px;
+    --serif: 'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+    --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+      --rule:#333a38; --accent:#6aa8c9; --accent-strong:#8fc4dd; --accent-ink:#0f1516;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+    --rule:#333a38; --accent:#6aa8c9; --accent-strong:#8fc4dd; --accent-ink:#0f1516;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#e3e6e6; --surface:#eef1f1; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c7cccc; --accent:#33587a; --accent-strong:#24425c; --accent-ink:#eef4f7;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  html,body{ margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  .layout{ max-width:1180px; margin:0 auto; padding:2.25rem 1.25rem 6rem; display:grid; grid-template-columns:230px minmax(0,1fr); gap:2.5rem; align-items:start; }
+  @media (max-width:900px){ .layout{ grid-template-columns:1fr; } }
+
+  .toc{ position:sticky; top:1.5rem; background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.1rem 1.2rem; box-shadow:var(--shadow); max-height:calc(100vh - 3rem); overflow-y:auto; }
+  @media (max-width:900px){ .toc{ position:static; max-height:none; } }
+  .toc-title{ font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent-strong); margin-bottom:.75rem; }
+  .toc ol{ list-style:none; margin:0; padding:0; }
+  .toc > ol > li{ margin-bottom:.6rem; }
+  .toc a{ color:var(--ink); text-decoration:none; font-size:.86rem; display:block; padding:.15rem 0; border-left:2px solid transparent; padding-left:.6rem; margin-left:-.6rem; }
+  .toc a:hover{ color:var(--accent-strong); border-left-color:var(--accent); }
+  .toc .toc-sub{ list-style:none; margin:.3rem 0 0; padding:0 0 0 .6rem; }
+  .toc .toc-sub a{ font-size:.8rem; color:var(--ink-muted); }
+  .toc .toc-sub a:hover{ color:var(--accent-strong); }
+
+  main{ min-width:0; }
+
+  .eyebrow{ font-family:var(--sans); font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-strong); }
+  h1{ font-family:var(--serif); font-weight:400; font-size:1.95rem; margin:.35rem 0 .25rem; text-wrap:balance; }
+  .lede{ color:var(--ink-muted); font-size:1rem; max-width:70ch; margin:0 0 1rem; }
+  .method-note{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1rem 1.2rem; box-shadow:var(--shadow); font-size:.86rem; color:var(--ink-muted); margin-bottom:2.5rem; }
+  .method-note strong{ color:var(--ink); }
+
+  section.block{ margin-bottom:3rem; scroll-margin-top:1.5rem; }
+  section.block > h2{ font-family:var(--serif); font-weight:400; font-size:1.6rem; margin:0 0 .3rem; padding-bottom:.5rem; border-bottom:2px solid var(--accent); color:var(--accent-strong); }
+  section.block > .block-note{ color:var(--ink-muted); font-size:.88rem; margin:.5rem 0 1.5rem; max-width:72ch; }
+
+  h3.sub{ font-family:var(--serif); font-weight:400; font-size:1.25rem; margin:2rem 0 .3rem; scroll-margin-top:1.5rem; }
+  .sub-note{ color:var(--ink-muted); font-size:.85rem; margin:0 0 1rem; max-width:72ch; }
+
+  .card{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.3rem 1.4rem 1.5rem; box-shadow:var(--shadow); margin-bottom:1.4rem; }
+  .card-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem 1rem; margin-bottom:.9rem; }
+  .card-head .lemma{ font-family:var(--serif); font-size:1.15rem; }
+  .card-head .gloss{ color:var(--ink-muted); font-size:.85rem; }
+  .chip{ display:inline-block; font-size:.68rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-ink); background:var(--accent); border-radius:var(--radius-chip); padding:.18rem .6rem; }
+
+  table{ border-collapse:collapse; width:100%; font-family:var(--serif); font-size:.95rem; }
+  table.wide{ min-width:640px; }
+  .table-scroll{ overflow-x:auto; }
+  th,td{ padding:.4rem .65rem; text-align:left; border-bottom:1px solid var(--rule); white-space:nowrap; }
+  thead th{ font-family:var(--sans); font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-muted); border-bottom:2px solid var(--rule); }
+  tbody th{ font-family:var(--sans); font-size:.78rem; font-weight:600; color:var(--accent-strong); white-space:nowrap; }
+  tbody tr:last-child td, tbody tr:last-child th{ border-bottom:none; }
+  .col-group-label{ font-family:var(--sans); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); text-align:center !important; border-bottom:2px solid var(--rule); }
+
+  .two-up{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; }
+  @media (max-width:720px){ .two-up{ grid-template-columns:1fr; } }
+  .three-up{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.4rem; }
+  @media (max-width:900px){ .three-up{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .three-up{ grid-template-columns:1fr; } }
+
+  .verb-table th.pers{ font-family:var(--sans); font-weight:600; color:var(--ink-muted); font-size:.8rem; }
+
+  .notes-list{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.1rem 1.3rem; box-shadow:var(--shadow); font-size:.88rem; margin-bottom:1.4rem; }
+  .notes-list p{ margin:.5rem 0; }
+  .notes-list p:first-child{ margin-top:0; }
+  .notes-list p:last-child{ margin-bottom:0; }
+
+  footer{ margin-top:3.5rem; padding-top:1.5rem; border-top:1px solid var(--rule); color:var(--ink-muted); font-size:.82rem; }
+  footer h4{ font-family:var(--sans); font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent-strong); margin:0 0 .5rem; }
+  footer ul{ margin:0 0 1.2rem; padding-left:1.2rem; }
+
+  @media print{
+    .toc{ display:none; }
+    .layout{ grid-template-columns:1fr; display:block; }
+    body{ background:#fff; }
+    .card{ box-shadow:none; break-inside:avoid; }
+    section.block{ break-before:page; }
+    section.block:first-of-type{ break-before:auto; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="Tabla de contenidos">
+    <div class="toc-title">Contenidos</div>
+    <ol>
+      <li><a href="#sustantivos">1. Sustantivos</a>
+        <ol class="toc-sub">
+          <li><a href="#articulo">El artículo</a></li>
+          <li><a href="#decl1">1ª declinación</a></li>
+          <li><a href="#decl2">2ª declinación</a></li>
+          <li><a href="#decl3">3ª declinación (todas las variantes)</a></li>
+        </ol>
+      </li>
+      <li><a href="#adjetivos">2. Adjetivos</a>
+        <ol class="toc-sub">
+          <li><a href="#adj1">1ª clase (tres terminaciones)</a></li>
+          <li><a href="#adj-ntstem">Tipo ἑκών / πᾶς (tema en -ντ)</a></li>
+        </ol>
+      </li>
+      <li><a href="#pronombres">3. Pronombres</a>
+        <ol class="toc-sub">
+          <li><a href="#pron-personales">Personales</a></li>
+          <li><a href="#pron-autos">αὐτός</a></li>
+          <li><a href="#pron-houtos">οὗτος</a></li>
+          <li><a href="#pron-interrogativo">τίς / τις</a></li>
+        </ol>
+      </li>
+      <li><a href="#verbos">4. Verbos</a>
+        <ol class="toc-sub">
+          <li><a href="#verbo-intro">Verbo modelo: παιδεύω</a></li>
+          <li><a href="#presente">Presente indicativo</a></li>
+          <li><a href="#imperfecto">Imperfecto indicativo</a></li>
+          <li><a href="#eimi">εἰμί (ser/estar)</a></li>
+          <li><a href="#imperativo">Imperativo presente</a></li>
+          <li><a href="#futuro">Futuro sigmático</a></li>
+          <li><a href="#infinitivos">Infinitivos</a></li>
+        </ol>
+      </li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="eyebrow">Griego I · Puán · Material de consulta</div>
+    <h1>Fichas de morfología griega</h1>
+    <p class="lede">Declinaciones, pronombres y las formas verbales dadas hasta ahora en Griego I, para volver a consultar cuantas veces haga falta. Sin desarrollos teóricos: solo los paradigmas organizados por caso, número, persona y tiempo.</p>
+
+    <div class="method-note">
+      <strong>Fuente:</strong> van Emde Boas, E.; Rijksbaron, A.; Huitink, L.; de Bakker, M. (2019) <em>The Cambridge Grammar of Classical Greek</em> (Cambridge University Press). Cada paradigma cita el/los números de sección (§) de donde sale, para poder ir directo a la explicación completa si hace falta. Los macrones (ᾱ, ῑ, ῡ) se conservan donde el propio manual marca la cantidad vocálica larga en vocales ambiguas (α, ι, υ); donde no aparece marca, la cantidad no está indicada (convención habitual en los textos griegos).
+    </div>
+
+    <!-- ============ 1. SUSTANTIVOS ============ -->
+    <section class="block" id="sustantivos">
+      <h2>1. Sustantivos</h2>
+      <p class="block-note">El artículo y las tres declinaciones dadas en Griego I. La 3ª declinación se organiza por tipo de tema (consonántico o vocálico), que es lo que determina las desinencias reales — el nominativo singular por sí solo no siempre lo deja ver.</p>
+
+      <h3 class="sub" id="articulo">El artículo — ὁ, ἡ, τό</h3>
+      <p class="sub-note">§3.1. Fuera del nom. sg. masc. ὁ (sin desinencia), el artículo usa las mismas desinencias que la 2ª declinación (masc./neut.) y la 1ª declinación (fem.).</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc.</th><th class="col-group-label">Fem.</th><th class="col-group-label">Neut.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom. sg.</th><td>ὁ</td><td>ἡ</td><td>τό</td></tr>
+            <tr><th>Gen. sg.</th><td>τοῦ</td><td>τῆς</td><td>τοῦ</td></tr>
+            <tr><th>Dat. sg.</th><td>τῷ</td><td>τῇ</td><td>τῷ</td></tr>
+            <tr><th>Ac. sg.</th><td>τόν</td><td>τήν</td><td>τό</td></tr>
+            <tr><th>Nom. pl.</th><td>οἱ</td><td>αἱ</td><td>τά</td></tr>
+            <tr><th>Gen. pl.</th><td>τῶν</td><td>τῶν</td><td>τῶν</td></tr>
+            <tr><th>Dat. pl.</th><td>τοῖς</td><td>ταῖς</td><td>τοῖς</td></tr>
+            <tr><th>Ac. pl.</th><td>τούς</td><td>τάς</td><td>τά</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h3 class="sub" id="decl1">1ª declinación (tema en -α)</h3>
+      <p class="sub-note">§4.3–4.13. Mayoría femeninos, con cuatro variantes según la vocal final sea η, ᾱ larga (tras ε/ι/ρ), ᾰ breve, o ᾰ breve tras ε/ι/ρ — en plural las cuatro coinciden. Los masculinos en -ης/-ᾱς toman el gen. sg. de la 2ª declinación (-ου) y tienen un vocativo propio.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">ἡ φυγή<br>(η larga)</th><th class="col-group-label">ἡ χώρᾱ<br>(ᾱ, tras ε/ι/ρ)</th><th class="col-group-label">ἡ μοῦσᾰ<br>(ᾰ breve)</th><th class="col-group-label">ἡ διάνοιᾰ<br>(ᾰ, tras ε/ι/ρ)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom./voc. sg.</th><td>φυγή</td><td>χώρᾱ</td><td>μοῦσᾰ</td><td>διάνοιᾰ</td></tr>
+            <tr><th>Gen. sg.</th><td>φυγῆς</td><td>χώρᾱς</td><td>μούσης</td><td>διανοίᾱς</td></tr>
+            <tr><th>Dat. sg.</th><td>φυγῇ</td><td>χώρᾳ</td><td>μούσῃ</td><td>διανοίᾳ</td></tr>
+            <tr><th>Ac. sg.</th><td>φυγήν</td><td>χώρᾱν</td><td>μοῦσᾰν</td><td>διάνοιᾰν</td></tr>
+            <tr><th>Nom./voc. pl.</th><td>φυγαί</td><td>χῶραι</td><td>μοῦσαι</td><td>διάνοιαι</td></tr>
+            <tr><th>Gen. pl.</th><td>φυγῶν</td><td>χωρῶν</td><td>μουσῶν</td><td>διανοιῶν</td></tr>
+            <tr><th>Dat. pl.</th><td>φυγαῖς</td><td>χώραις</td><td>μούσαις</td><td>διανοίαις</td></tr>
+            <tr><th>Ac. pl.</th><td>φυγᾱ́ς</td><td>χώρᾱς</td><td>μούσᾱς</td><td>διανοίᾱς</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="lemma">ὁ δεσπότης, -ου</span><span class="gloss">amo, señor — masc. en -ης</span> · <span class="lemma">ὁ νεανίᾱς, -ου</span><span class="gloss">joven — masc. en -ᾱς, tras ε/ι/ρ</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Sg. (δεσπότης)</th><th class="col-group-label">Pl. (δεσπότης)</th><th class="col-group-label">Sg. (νεανίᾱς)</th><th class="col-group-label">Pl. (νεανίᾱς)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>δεσπότης</td><td>δεσπόται</td><td>νεανίᾱς</td><td>νεανίαι</td></tr>
+            <tr><th>Voc.</th><td>δέσποτᾰ</td><td>δεσπόται</td><td>νεανίᾱ</td><td>νεανίαι</td></tr>
+            <tr><th>Gen.</th><td>δεσπότου</td><td>δεσποτῶν</td><td>νεανίου</td><td>νεανιῶν</td></tr>
+            <tr><th>Dat.</th><td>δεσπότῃ</td><td>δεσπόταις</td><td>νεανίᾳ</td><td>νεανίαις</td></tr>
+            <tr><th>Ac.</th><td>δεσπότην</td><td>δεσπότᾱς</td><td>νεανίᾱν</td><td>νεανίᾱς</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <p class="sub-note">Nota: el vocativo en -της/gentilicios da -ᾰ (κριτής → κριτᾰ́); el resto de -ης/-ᾱς da -η/-ᾱ.</p>
+
+      <h3 class="sub" id="decl2">2ª declinación (tema en -ο)</h3>
+      <p class="sub-note">§4.19–4.26. Masculinos en -ος; neutros en -ον (nom.=voc.=ac. siempre, y -ᾰ en plural). Existen también variantes contractas (νό-ος &gt; νοῦς, ὀστέ-ον &gt; ὀστοῦν).</p>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="lemma">ὁ δοῦλος, -ου</span><span class="gloss">esclavo</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>δοῦλος</td><td>δοῦλοι</td></tr>
+              <tr><th>Voc.</th><td>δοῦλε</td><td>δοῦλοι</td></tr>
+              <tr><th>Gen.</th><td>δούλου</td><td>δούλων</td></tr>
+              <tr><th>Dat.</th><td>δούλῳ</td><td>δούλοις</td></tr>
+              <tr><th>Ac.</th><td>δοῦλον</td><td>δούλους</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="lemma">τὸ δῶρον, -ου</span><span class="gloss">regalo</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc./ac.</th><td>δῶρον</td><td>δῶρᾰ</td></tr>
+              <tr><th>Gen.</th><td>δώρου</td><td>δώρων</td></tr>
+              <tr><th>Dat.</th><td>δώρῳ</td><td>δώροις</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="lemma">ὁ νοῦς, νοῦ</span><span class="gloss">mente (&lt; νό-ος, contracto)</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc.</th><td>νοῦς / νοῦ</td><td>νοῖ</td></tr>
+              <tr><th>Gen.</th><td>νοῦ</td><td>νῶν</td></tr>
+              <tr><th>Dat.</th><td>νῷ</td><td>νοῖς</td></tr>
+              <tr><th>Ac.</th><td>νοῦν</td><td>νοῦς</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="lemma">τὸ ὀστοῦν, ὀστοῦ</span><span class="gloss">hueso (&lt; ὀστέ-ον, contracto)</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc./ac.</th><td>ὀστοῦν</td><td>ὀστᾶ</td></tr>
+              <tr><th>Gen.</th><td>ὀστοῦ</td><td>ὀστῶν</td></tr>
+              <tr><th>Dat.</th><td>ὀστῷ</td><td>ὀστοῖς</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <h3 class="sub" id="decl3">3ª declinación — todas las variantes</h3>
+      <p class="sub-note">§4.32–4.93. La 3ª declinación se reconoce por el genitivo singular, no por el nominativo: la clave es el tema (lo que queda al sacar la desinencia del gen. sg.). Se agrupa acá por tipo de tema — consonántico primero, vocálico después — y cierra con el cuadro resumen del propio manual.</p>
+
+      <h4 style="font-family:var(--serif); font-weight:400; font-size:1.05rem; margin:1.6rem 0 .6rem; color:var(--ink);">Temas en consonante</h4>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Labial / velar</span> <span class="lemma">ὁ φύλαξ, φύλακος</span><span class="gloss">guardia</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc.</th><td>φύλαξ</td><td>φύλακες</td></tr>
+              <tr><th>Gen.</th><td>φύλακος</td><td>φυλάκων</td></tr>
+              <tr><th>Dat.</th><td>φύλακῐ</td><td>φύλαξῐ(ν)</td></tr>
+              <tr><th>Ac.</th><td>φύλακᾰ</td><td>φύλακᾰς</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Dental</span> <span class="lemma">ἡ ἐλπίς, ἐλπίδος</span><span class="gloss">esperanza</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>ἐλπίς</td><td>ἐλπίδες</td></tr>
+              <tr><th>Voc.</th><td>ἐλπί</td><td>ἐλπίδες</td></tr>
+              <tr><th>Gen.</th><td>ἐλπίδος</td><td>ἐλπίδων</td></tr>
+              <tr><th>Dat.</th><td>ἐλπίδι</td><td>ἐλπίσι(ν)</td></tr>
+              <tr><th>Ac.</th><td>ἐλπίδα</td><td>ἐλπίδας</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Dental neutro</span> <span class="lemma">τὸ σῶμα, σώματος</span><span class="gloss">cuerpo</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc./ac.</th><td>σῶμα</td><td>σώματα</td></tr>
+              <tr><th>Gen.</th><td>σώματος</td><td>σωμάτων</td></tr>
+              <tr><th>Dat.</th><td>σώματι</td><td>σώμασι(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Tema en -ντ</span> <span class="lemma">ὁ γέρων, γέροντος</span><span class="gloss">anciano</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>γέρων</td><td>γέροντες</td></tr>
+              <tr><th>Voc.</th><td>γέρον</td><td>γέροντες</td></tr>
+              <tr><th>Gen.</th><td>γέροντος</td><td>γερόντων</td></tr>
+              <tr><th>Dat.</th><td>γέροντι</td><td>γέρουσι(ν)</td></tr>
+              <tr><th>Ac.</th><td>γέροντα</td><td>γέροντας</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Nasal, con ablaut</span> <span class="lemma">ὁ δαίμων, δαίμονος</span><span class="gloss">espíritu, divinidad</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>δαίμων</td><td>δαίμονες</td></tr>
+              <tr><th>Voc.</th><td>δαῖμον</td><td>δαίμονες</td></tr>
+              <tr><th>Gen.</th><td>δαίμονος</td><td>δαιμόνων</td></tr>
+              <tr><th>Dat.</th><td>δαίμονι</td><td>δαίμοσι(ν)</td></tr>
+              <tr><th>Ac.</th><td>δαίμονα</td><td>δαίμονας</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Líquida</span> <span class="lemma">ὁ ῥήτωρ, ῥήτορος</span><span class="gloss">orador</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>ῥήτωρ</td><td>ῥήτορες</td></tr>
+              <tr><th>Voc.</th><td>ῥῆτορ</td><td>ῥήτορες</td></tr>
+              <tr><th>Gen.</th><td>ῥήτορος</td><td>ῥητόρων</td></tr>
+              <tr><th>Dat.</th><td>ῥήτορι</td><td>ῥήτορσι(ν)</td></tr>
+              <tr><th>Ac.</th><td>ῥήτορᾰ</td><td>ῥήτορᾰς</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="chip">Líquida, con ablaut</span> <span class="lemma">ὁ πατήρ, πατρός</span><span class="gloss">padre</span> · <span class="lemma">ὁ ἀνήρ, ἀνδρός</span><span class="gloss">hombre, varón</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Sg. (πατήρ)</th><th class="col-group-label">Pl. (πατήρ)</th><th class="col-group-label">Sg. (ἀνήρ)</th><th class="col-group-label">Pl. (ἀνήρ)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>πατήρ</td><td>πατέρες</td><td>ἀνήρ</td><td>ἄνδρες</td></tr>
+            <tr><th>Voc.</th><td>πάτερ</td><td>πατέρες</td><td>ἄνερ</td><td>ἄνδρες</td></tr>
+            <tr><th>Gen.</th><td>πατρός</td><td>πατέρων</td><td>ἀνδρός</td><td>ἀνδρῶν</td></tr>
+            <tr><th>Dat.</th><td>πατρί</td><td>πατρᾰ́σι(ν)</td><td>ἀνδρί</td><td>ἀνδρᾰ́σι(ν)</td></tr>
+            <tr><th>Ac.</th><td>πατέρα</td><td>πατέρᾰς</td><td>ἄνδρα</td><td>ἄνδρᾰς</td></tr>
+          </tbody>
+        </table></div>
+        <p class="sub-note" style="margin-top:.8rem;">Mismo patrón (con tres grados de la raíz) en μήτηρ, θυγάτηρ, γαστήρ.</p>
+      </div>
+
+      <h4 style="font-family:var(--serif); font-weight:400; font-size:1.05rem; margin:1.8rem 0 .6rem; color:var(--ink);">Temas en vocal o diptongo</h4>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Tema en -σ, neutro</span> <span class="lemma">τὸ γένος, γένους</span><span class="gloss">linaje, raza</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc./ac.</th><td>γένος</td><td>γένη</td></tr>
+              <tr><th>Gen.</th><td>γένους</td><td>γενῶν</td></tr>
+              <tr><th>Dat.</th><td>γένει</td><td>γένεσι(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Tema en ι</span> <span class="lemma">ἡ πόλις, πόλεως</span><span class="gloss">ciudad</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>πόλῐς</td><td>πόλεις</td></tr>
+              <tr><th>Voc.</th><td>πόλῐ</td><td>πόλεις</td></tr>
+              <tr><th>Gen.</th><td>πόλεως</td><td>πόλεων</td></tr>
+              <tr><th>Dat.</th><td>πόλει</td><td>πόλεσῐ(ν)</td></tr>
+              <tr><th>Ac.</th><td>πόλῐν</td><td>πόλεις</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Tema en υ</span> <span class="lemma">ἡ ἰσχύς, ἰσχύος</span><span class="gloss">fuerza</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom.</th><td>ἰσχύς</td><td>ἰσχύες / ἰσχῦς</td></tr>
+              <tr><th>Voc.</th><td>ἰσχύ</td><td>ἰσχύες / ἰσχῦς</td></tr>
+              <tr><th>Gen.</th><td>ἰσχύος</td><td>ἰσχύων</td></tr>
+              <tr><th>Dat.</th><td>ἰσχύϊ</td><td>ἰσχύσι(ν)</td></tr>
+              <tr><th>Ac.</th><td>ἰσχύν</td><td>ἰσχῦς / ἰσχύᾱς</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Tema en υ neutro</span> <span class="lemma">τὸ ἄστυ, ἄστεως</span><span class="gloss">ciudad, pueblo</span></div>
+          <div class="table-scroll"><table>
+            <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+            <tbody>
+              <tr><th>Nom./voc./ac.</th><td>ἄστυ</td><td>ἄστη</td></tr>
+              <tr><th>Gen.</th><td>ἄστεως</td><td>ἄστεων</td></tr>
+              <tr><th>Dat.</th><td>ἄστει</td><td>ἄστεσι(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="chip">Diptongo -ευ</span> <span class="lemma">ὁ βασιλεύς, βασιλέως</span><span class="gloss">rey</span></div>
+        <div class="table-scroll"><table>
+          <thead><tr><th></th><th class="col-group-label">Sg.</th><th class="col-group-label">Pl.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>βασιλεύς</td><td>βασιλῆς / βασιλεῖς</td></tr>
+            <tr><th>Voc.</th><td>βασιλεῦ</td><td>βασιλῆς / βασιλεῖς</td></tr>
+            <tr><th>Gen.</th><td>βασιλέως</td><td>βασιλέων</td></tr>
+            <tr><th>Dat.</th><td>βασιλεῖ</td><td>βασιλεῦσι(ν)</td></tr>
+            <tr><th>Ac.</th><td>βασιλέᾱ</td><td>βασιλέᾱς / βασιλεῖς</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h4 style="font-family:var(--serif); font-weight:400; font-size:1.05rem; margin:1.8rem 0 .6rem; color:var(--ink);">Irregulares notables</h4>
+      <div class="card">
+        <div class="card-head"><span class="lemma">ὁ Ζεύς</span><span class="gloss">Zeus</span> · <span class="lemma">ἡ ναῦς, νεώς</span><span class="gloss">nave</span> · <span class="lemma">ὁ/ἡ βοῦς, βοός</span><span class="gloss">buey, vaca</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Ζεύς</th><th class="col-group-label">ναῦς (sg.)</th><th class="col-group-label">ναῦς (pl.)</th><th class="col-group-label">βοῦς (sg.)</th><th class="col-group-label">βοῦς (pl.)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>Ζεύς</td><td>ναῦς</td><td>νῆες</td><td>βοῦς</td><td>βόες</td></tr>
+            <tr><th>Voc.</th><td>Ζεῦ</td><td>ναῦ</td><td>νῆες</td><td>βοῦ</td><td>βόες</td></tr>
+            <tr><th>Gen.</th><td>Διός</td><td>νεώς</td><td>νεῶν</td><td>βοός</td><td>βοῶν</td></tr>
+            <tr><th>Dat.</th><td>Διί</td><td>νηΐ</td><td>ναυσί(ν)</td><td>βοΐ</td><td>βουσί(ν)</td></tr>
+            <tr><th>Ac.</th><td>Δία</td><td>ναῦν</td><td>ναῦς</td><td>βοῦν</td><td>βοῦς</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="notes-list">
+        <p><strong>Otras irregularidades del manual</strong> (formas puntuales, no paradigmas completos — consultar §4.90–4.91 si hace falta el detalle): τὸ κέρας, κέρατος/κέρως <em>cuerno</em> (dental y σ-tema mezclados); ὁ χρώς <em>piel</em> (solo singular, con tres bases alternativas); τὸ γόνυ <em>rodilla</em> y τὸ δόρυ <em>lanza</em> (nom./ac. sg. tipo υ, resto en tema -ατ-); τὸ ὕδωρ, ὕδατος <em>agua</em>; ἡ γυνή, γυναικός <em>mujer</em> (como φύλαξ, tema en velar); ὁ ἥρως, ἥρωος <em>héroe</em>; ὁ υἱός <em>hijo</em> (con formas alternativas de tema en υ junto a las regulares de 2ª declinación).</p>
+      </div>
+
+      <h4 style="font-family:var(--serif); font-weight:400; font-size:1.05rem; margin:1.8rem 0 .6rem; color:var(--ink);">Cuadro resumen (Conspectus, §4.93)</h4>
+      <p class="sub-note">Tabla del propio manual: a partir de la terminación del nom. sg. y del gen. sg., permite reconocer a qué declinación y subtipo pertenece una palabra nueva.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th>Nom. sg.</th><th>Gen. sg.</th><th>Decl.</th><th>Subtipo</th><th>Género</th><th>§</th></tr></thead>
+          <tbody>
+            <tr><td>-ᾰ</td><td>-ᾱς / -ης</td><td>1ª</td><td>—</td><td>fem.</td><td>4.3–7</td></tr>
+            <tr><td>-ᾱ</td><td>-ᾱς</td><td>1ª</td><td>tras ε, ι, ρ</td><td>fem.</td><td>4.3–7</td></tr>
+            <tr><td>-ᾱς</td><td>-ου</td><td>1ª</td><td>tras ε, ι, ρ</td><td>masc.</td><td>4.8–13</td></tr>
+            <tr><td>-ᾱς</td><td>-ᾰντος</td><td>3ª</td><td>tema -ντ</td><td>masc.</td><td>4.45–8</td></tr>
+            <tr><td>-ᾰς</td><td>-ᾰτος</td><td>3ª</td><td>tema dental</td><td>neut.</td><td>4.40–2</td></tr>
+            <tr><td>-εύς</td><td>-έως</td><td>3ª</td><td>tema -ευ</td><td>masc.</td><td>4.84–5</td></tr>
+            <tr><td>-η</td><td>-ης</td><td>1ª</td><td>—</td><td>fem.</td><td>4.3–7</td></tr>
+            <tr><td>-ην</td><td>-ηνος / -ενος</td><td>3ª</td><td>tema -ν</td><td>masc./fem.</td><td>4.49–52</td></tr>
+            <tr><td>-ηρ</td><td>-ηρος / -ερος</td><td>3ª</td><td>tema líquida</td><td>masc.</td><td>4.55–8</td></tr>
+            <tr><td>-(τ)ηρ</td><td>-(τ)ρος</td><td>3ª</td><td>líquida con ablaut</td><td>masc./fem.</td><td>4.62–4</td></tr>
+            <tr><td>-ῆς</td><td>-έους</td><td>3ª</td><td>tema -σ (nombres propios)</td><td>masc.</td><td>4.65–9</td></tr>
+            <tr><td>-ης</td><td>-ητος</td><td>3ª</td><td>tema dental</td><td>fem./masc.</td><td>4.40–2</td></tr>
+            <tr><td>-ης</td><td>-ου</td><td>1ª</td><td>—</td><td>masc.</td><td>4.8–13</td></tr>
+            <tr><td>-ῐς</td><td>-εως</td><td>3ª</td><td>tema ι</td><td>fem.</td><td>4.74–7</td></tr>
+            <tr><td>-ῐς</td><td>-ῐδος / -ῐθος / -ῐτος</td><td>3ª</td><td>tema dental</td><td>fem.</td><td>4.40–4</td></tr>
+            <tr><td>-ῑς</td><td>-ῖνος</td><td>3ª</td><td>tema -ν</td><td>fem.</td><td>4.49–52</td></tr>
+            <tr><td>-μα</td><td>-ματος</td><td>3ª</td><td>tema dental</td><td>neut.</td><td>4.40–2</td></tr>
+            <tr><td>-ξ</td><td>-γος / -κος / -χος</td><td>3ª</td><td>tema velar</td><td>masc./fem.</td><td>4.35–7</td></tr>
+            <tr><td>-ος</td><td>-ου</td><td>2ª</td><td>—</td><td>masc.</td><td>4.19–22</td></tr>
+            <tr><td>-ος</td><td>-ους</td><td>3ª</td><td>tema -σ</td><td>neut.</td><td>4.65–7</td></tr>
+            <tr><td>-ον</td><td>-ου</td><td>2ª</td><td>—</td><td>neut.</td><td>4.24–6</td></tr>
+            <tr><td>-ουν</td><td>-ου</td><td>2ª</td><td>contracto</td><td>neut.</td><td>4.24–6</td></tr>
+            <tr><td>-ους</td><td>-οντος</td><td>3ª</td><td>tema -ντ</td><td>masc.</td><td>4.45–8</td></tr>
+            <tr><td>-ους</td><td>-ου</td><td>2ª</td><td>contracto</td><td>masc.</td><td>4.19–22</td></tr>
+            <tr><td>-υ</td><td>-εως</td><td>3ª</td><td>tema υ</td><td>neut.</td><td>4.83</td></tr>
+            <tr><td>-υς</td><td>-υος</td><td>3ª</td><td>tema -υ</td><td>masc.</td><td>4.79–81</td></tr>
+            <tr><td>-υς</td><td>-εως</td><td>3ª</td><td>tema υ, con ablaut</td><td>masc.</td><td>4.79–82</td></tr>
+            <tr><td>-ψ</td><td>-βος / -πος / -φος</td><td>3ª</td><td>tema labial</td><td>masc./fem.</td><td>4.35–7</td></tr>
+            <tr><td>-ων</td><td>-ονος</td><td>3ª</td><td>tema -ν</td><td>masc./fem.</td><td>4.49–52</td></tr>
+            <tr><td>-ων</td><td>-οντος</td><td>3ª</td><td>tema -ντ</td><td>masc.</td><td>4.45–8</td></tr>
+            <tr><td>-ων</td><td>-ωνος</td><td>3ª</td><td>tema -ν</td><td>masc.</td><td>4.49–53</td></tr>
+            <tr><td>-(τ)ωρ</td><td>-(τ)ορος</td><td>3ª</td><td>tema líquida</td><td>masc.</td><td>4.55–8</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ============ 2. ADJETIVOS ============ -->
+    <section class="block" id="adjetivos">
+      <h2>2. Adjetivos</h2>
+      <p class="block-note">Los adjetivos de 1ª clase se declinan como sustantivos de 1ª/2ª declinación (masc./neut. como δοῦλος/δῶρον, fem. como φυγή o χώρα). Los de tema en -ντ combinan 3ª declinación (masc./neut.) con 1ª declinación (fem.).</p>
+
+      <h3 class="sub" id="adj1">1ª clase, tres terminaciones (-ος, -η/-ᾱ, -ον)</h3>
+      <p class="sub-note">§5.1–5.2. δεινός es el tipo general; δίκαιος muestra la variante con ᾱ en vez de η en el femenino (tras ε/ι/ρ).</p>
+      <div class="card">
+        <div class="card-head"><span class="lemma">δεινός, -ή, -όν</span><span class="gloss">terrible, temible, hábil</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc. sg.</th><th class="col-group-label">Fem. sg.</th><th class="col-group-label">Neut. sg.</th><th class="col-group-label">Masc. pl.</th><th class="col-group-label">Fem. pl.</th><th class="col-group-label">Neut. pl.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>δεινός</td><td>δεινή</td><td>δεινόν</td><td>δεινοί</td><td>δειναί</td><td>δεινά</td></tr>
+            <tr><th>Voc.</th><td>δεινέ</td><td>δεινή</td><td>δεινόν</td><td>δεινοί</td><td>δειναί</td><td>δεινά</td></tr>
+            <tr><th>Gen.</th><td>δεινοῦ</td><td>δεινῆς</td><td>δεινοῦ</td><td>δεινῶν</td><td>δεινῶν</td><td>δεινῶν</td></tr>
+            <tr><th>Dat.</th><td>δεινῷ</td><td>δεινῇ</td><td>δεινῷ</td><td>δεινοῖς</td><td>δειναῖς</td><td>δεινοῖς</td></tr>
+            <tr><th>Ac.</th><td>δεινόν</td><td>δεινήν</td><td>δεινόν</td><td>δεινούς</td><td>δεινάς</td><td>δεινά</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="lemma">δίκαιος, -ᾱ, -ον</span><span class="gloss">justo (fem. en ᾱ, tras ε/ι/ρ)</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc. sg.</th><th class="col-group-label">Fem. sg.</th><th class="col-group-label">Neut. sg.</th><th class="col-group-label">Masc. pl.</th><th class="col-group-label">Fem. pl.</th><th class="col-group-label">Neut. pl.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>δίκαιος</td><td>δικαίᾱ</td><td>δίκαιον</td><td>δίκαιοι</td><td>δίκαιαι</td><td>δίκαιᾰ</td></tr>
+            <tr><th>Voc.</th><td>δίκαιε</td><td>δικαίᾱ</td><td>δίκαιον</td><td>δίκαιοι</td><td>δίκαιαι</td><td>δίκαιᾰ</td></tr>
+            <tr><th>Gen.</th><td>δικαίου</td><td>δικαίᾱς</td><td>δικαίου</td><td>δικαίων</td><td>δικαίων</td><td>δικαίων</td></tr>
+            <tr><th>Dat.</th><td>δικαίῳ</td><td>δικαίᾳ</td><td>δικαίῳ</td><td>δικαίοις</td><td>δικαίαις</td><td>δικαίοις</td></tr>
+            <tr><th>Ac.</th><td>δίκαιον</td><td>δικαίᾱν</td><td>δίκαιον</td><td>δικαίους</td><td>δικαίᾱς</td><td>δίκαιᾰ</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h3 class="sub" id="adj-ntstem">Tipo ἑκών, ἑκοῦσα, ἑκόν y πᾶς, πᾶσα, πᾶν (tema en -ντ)</h3>
+      <p class="sub-note">§5.15–5.16. El masculino y el neutro siguen la 3ª declinación (tema -ντ, como γέρων); el femenino sigue la 1ª declinación en -ᾰ (ἑκοῦσᾰ &lt; *ἑκόντ-yᾰ). En πᾶς, el grupo -ντ desaparece ante -ς con alargamiento compensatorio (πᾶς &lt; *πάντς) — el mismo fenómeno fonético que en γίγᾱς.</p>
+      <div class="card">
+        <div class="card-head"><span class="lemma">ἑκών, ἑκοῦσα, ἑκόν</span><span class="gloss">voluntario, de buen grado</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc. sg.</th><th class="col-group-label">Fem. sg.</th><th class="col-group-label">Neut. sg.</th><th class="col-group-label">Masc. pl.</th><th class="col-group-label">Fem. pl.</th><th class="col-group-label">Neut. pl.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom./voc.</th><td>ἑκών</td><td>ἑκοῦσᾰ</td><td>ἑκόν</td><td>ἑκόντες</td><td>ἑκοῦσαι</td><td>ἑκόντᾰ</td></tr>
+            <tr><th>Gen.</th><td>ἑκόντος</td><td>ἑκούσης</td><td>ἑκόντος</td><td>ἑκόντων</td><td>ἑκουσῶν</td><td>ἑκόντων</td></tr>
+            <tr><th>Dat.</th><td>ἑκόντῐ</td><td>ἑκούσῃ</td><td>ἑκόντῐ</td><td>ἑκοῦσῐ(ν)</td><td>ἑκούσαις</td><td>ἑκοῦσῐ(ν)</td></tr>
+            <tr><th>Ac.</th><td>ἑκόντᾰ</td><td>ἑκοῦσᾰν</td><td>ἑκόν</td><td>ἑκόντᾱς</td><td>ἑκούσᾱς</td><td>ἑκόντᾰ</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="lemma">πᾶς, πᾶσα, πᾶν</span><span class="gloss">todo, cada</span></div>
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc. sg.</th><th class="col-group-label">Fem. sg.</th><th class="col-group-label">Neut. sg.</th><th class="col-group-label">Masc. pl.</th><th class="col-group-label">Fem. pl.</th><th class="col-group-label">Neut. pl.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom./voc.</th><td>πᾶς</td><td>πᾶσᾰ</td><td>πᾶν</td><td>πάντες</td><td>πᾶσαι</td><td>πάντᾰ</td></tr>
+            <tr><th>Gen.</th><td>παντός</td><td>πάσης</td><td>παντός</td><td>πάντων</td><td>πᾱσῶν</td><td>πάντων</td></tr>
+            <tr><th>Dat.</th><td>παντί</td><td>πάσῃ</td><td>παντί</td><td>πᾶσῐ(ν)</td><td>πάσαις</td><td>πᾶσῐ(ν)</td></tr>
+            <tr><th>Ac.</th><td>πάντᾰ</td><td>πᾶσᾰν</td><td>πᾶν</td><td>πάντᾱς</td><td>πάσᾱς</td><td>πάντᾰ</td></tr>
+          </tbody>
+        </table></div>
+        <p class="sub-note" style="margin-top:.8rem;">Este mismo patrón (masc./neut. 3ª decl. en -ντ, fem. 1ª decl. en -ᾰ) es el que siguen los participios de presente activo: παιδεύων, παιδεύουσα, παιδεῦον.</p>
+      </div>
+    </section>
+
+    <!-- ============ 3. PRONOMBRES ============ -->
+    <section class="block" id="pronombres">
+      <h2>3. Pronombres</h2>
+
+      <h3 class="sub" id="pron-personales">Personales — ἐγώ, σύ</h3>
+      <p class="sub-note">§7.1. Junto a las formas tónicas, hay formas átonas (enclíticas) de genitivo, dativo y acusativo singular.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">yo (tónica)</th><th class="col-group-label">yo (átona)</th><th class="col-group-label">tú (tónica)</th><th class="col-group-label">tú (átona)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>ἐγώ</td><td>—</td><td>σύ</td><td>—</td></tr>
+            <tr><th>Gen.</th><td>ἐμοῦ</td><td>μου</td><td>σοῦ</td><td>σου</td></tr>
+            <tr><th>Dat.</th><td>ἐμοί</td><td>μοι</td><td>σοί</td><td>σοι</td></tr>
+            <tr><th>Ac.</th><td>ἐμέ</td><td>με</td><td>σέ</td><td>σε</td></tr>
+          </tbody>
+        </table></div>
+        <div class="table-scroll" style="margin-top:.9rem;"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">nosotros</th><th class="col-group-label">vosotros</th></tr></thead>
+          <tbody>
+            <tr><th>Nom.</th><td>ἡμεῖς</td><td>ὑμεῖς</td></tr>
+            <tr><th>Gen.</th><td>ἡμῶν</td><td>ὑμῶν</td></tr>
+            <tr><th>Dat.</th><td>ἡμῖν</td><td>ὑμῖν</td></tr>
+            <tr><th>Ac.</th><td>ἡμᾶς</td><td>ὑμᾶς</td></tr>
+          </tbody>
+        </table></div>
+        <p class="sub-note" style="margin-top:.8rem;">No hay formas átonas en plural. Para la 3ª persona (él/ella/ellos) el griego usa el pronombre αὐτός en sus casos oblicuos.</p>
+      </div>
+
+      <h3 class="sub" id="pron-autos">Demostrativo/anafórico — αὐτός</h3>
+      <p class="sub-note">§7.10. Se declina como los adjetivos en -ος, -η, -ον, salvo el nom./ac. sg. neutro αὐτό (no *αὐτον), que usa la terminación pronominal -ο.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc.</th><th class="col-group-label">Fem.</th><th class="col-group-label">Neut.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom. sg.</th><td>αὐτός</td><td>αὐτή</td><td>αὐτό</td></tr>
+            <tr><th>Gen. sg.</th><td>αὐτοῦ</td><td>αὐτῆς</td><td>αὐτοῦ</td></tr>
+            <tr><th>Dat. sg.</th><td>αὐτῷ</td><td>αὐτῇ</td><td>αὐτῷ</td></tr>
+            <tr><th>Ac. sg.</th><td>αὐτόν</td><td>αὐτήν</td><td>αὐτό</td></tr>
+            <tr><th>Nom. pl.</th><td>αὐτοί</td><td>αὐταί</td><td>αὐτά</td></tr>
+            <tr><th>Gen. pl.</th><td>αὐτῶν</td><td>αὐτῶν</td><td>αὐτῶν</td></tr>
+            <tr><th>Dat. pl.</th><td>αὐτοῖς</td><td>αὐταῖς</td><td>αὐτοῖς</td></tr>
+            <tr><th>Ac. pl.</th><td>αὐτούς</td><td>αὐτάς</td><td>αὐτά</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h3 class="sub" id="pron-houtos">Demostrativo — οὗτος</h3>
+      <p class="sub-note">§7.14. Toma las mismas desinencias que αὐτός (incluida la -ο pronominal en nom./ac. sg. neut.). El tema alterna entre (τ)ουτ- y (τ)αυτ- según la vocal siguiente; los nominativos masc./fem. llevan espíritu áspero en vez de τ-, como el artículo.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Masc.</th><th class="col-group-label">Fem.</th><th class="col-group-label">Neut.</th></tr></thead>
+          <tbody>
+            <tr><th>Nom. sg.</th><td>οὗτος</td><td>αὕτη</td><td>τοῦτο</td></tr>
+            <tr><th>Gen. sg.</th><td>τούτου</td><td>ταύτης</td><td>τούτου</td></tr>
+            <tr><th>Dat. sg.</th><td>τούτῳ</td><td>ταύτῃ</td><td>τούτῳ</td></tr>
+            <tr><th>Ac. sg.</th><td>τοῦτον</td><td>ταύτην</td><td>τοῦτο</td></tr>
+            <tr><th>Nom. pl.</th><td>οὗτοι</td><td>αὗται</td><td>ταῦτα</td></tr>
+            <tr><th>Gen. pl.</th><td>τούτων</td><td>τούτων</td><td>τούτων</td></tr>
+            <tr><th>Dat. pl.</th><td>τούτοις</td><td>ταύταις</td><td>τούτοις</td></tr>
+            <tr><th>Ac. pl.</th><td>τούτους</td><td>ταύτας</td><td>ταῦτα</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h3 class="sub" id="pron-interrogativo">Interrogativo τίς, τί / indefinido τις, τι</h3>
+      <p class="sub-note">§7.24. Idénticos en la forma, se distinguen por el acento: τίς/τί llevan siempre tilde aguda en la primera sílaba (interrogativo); τις/τι es enclítico, sin acento propio salvo que la regla de los enclíticos se lo exija. Ambos son de 3ª declinación, tema en -ν.</p>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">τίς (interr., m./f.)</th><th class="col-group-label">τί (interr., neut.)</th><th class="col-group-label">τις (indef., m./f.)</th><th class="col-group-label">τι (indef., neut.)</th></tr></thead>
+          <tbody>
+            <tr><th>Nom. sg.</th><td>τίς</td><td>τί</td><td>τις</td><td>τι</td></tr>
+            <tr><th>Gen. sg.</th><td>τίνος (τοῦ)</td><td>τίνος (τοῦ)</td><td>τινος (του)</td><td>τινος (του)</td></tr>
+            <tr><th>Dat. sg.</th><td>τίνι (τῷ)</td><td>τίνι (τῷ)</td><td>τινι (τῳ)</td><td>τινι (τῳ)</td></tr>
+            <tr><th>Ac. sg.</th><td>τίνα</td><td>τί</td><td>τινα</td><td>τι</td></tr>
+            <tr><th>Nom. pl.</th><td>τίνες</td><td>τίνα</td><td>τινες</td><td>τινα</td></tr>
+            <tr><th>Gen. pl.</th><td>τίνων</td><td>τίνων</td><td>τινων</td><td>τινων</td></tr>
+            <tr><th>Dat. pl.</th><td>τίσι(ν)</td><td>τίσι(ν)</td><td>τισι(ν)</td><td>τισι(ν)</td></tr>
+            <tr><th>Ac. pl.</th><td>τίνας</td><td>τίνα</td><td>τινας</td><td>τινα</td></tr>
+          </tbody>
+        </table></div>
+        <p class="sub-note" style="margin-top:.8rem;">Las formas entre paréntesis (τοῦ, τῷ, του, τῳ) son alternativas frecuentes en prosa y poesía, idénticas por su forma al artículo pero identificables por el contexto.</p>
+      </div>
+    </section>
+
+    <!-- ============ 4. VERBOS ============ -->
+    <section class="block" id="verbos">
+      <h2>4. Verbos</h2>
+      <p class="block-note">Verbos temáticos (en -ω) no contractos — el modelo es παιδεύω, educar. Todo lo de esta sección se aplica igual a cualquier verbo de este tipo, cambiando solo el tema.</p>
+
+      <h3 class="sub" id="verbo-intro">Verbo modelo: παιδεύω</h3>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th>Tema de presente</th><th>1ª sg. pres. ind. act.</th><th>Traducción</th></tr></thead>
+          <tbody>
+            <tr><td>παιδευ-</td><td>παιδεύω</td><td>educar</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <h3 class="sub" id="presente">Presente indicativo</h3>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Activa</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">παιδεύω</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>παιδεύω</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>παιδεύεις</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδεύει</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>παιδεύομεν</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύετε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδεύουσι(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Mediopasiva</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">παιδεύομαι</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>παιδεύομαι</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>παιδεύῃ (παιδεύει)</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδεύεται</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>παιδευόμεθα</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύεσθε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδεύονται</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <p class="sub-note">§12.3–12.4. La 2ª sg. mediopasiva "esperable" por las reglas de contracción es παιδεύῃ, pero desde el s. IV a.C. convive con παιδεύει (confusión fonética de η/ει).</p>
+
+      <h3 class="sub" id="imperfecto">Imperfecto indicativo</h3>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Activa</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">ἐπαίδευον</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>ἐπαίδευον</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>ἐπαίδευες</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>ἐπαίδευε(ν)</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>ἐπαιδεύομεν</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>ἐπαιδεύετε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>ἐπαίδευον</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Mediopasiva</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">ἐπαιδευόμην</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>ἐπαιδευόμην</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>ἐπαιδεύου</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>ἐπαιδεύετο</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>ἐπαιδευόμεθα</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>ἐπαιδεύεσθε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>ἐπαιδεύοντο</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+      <p class="sub-note">§12.3–12.4. El imperfecto añade el aumento (ἐ-) al tema de presente y usa desinencias secundarias.</p>
+
+      <h3 class="sub" id="eimi">εἰμί (ser, estar)</h3>
+      <p class="sub-note">§12.36. Verbo atemático (raíz ἐ(σ)-), irregular por su frecuencia — se da aparte por ser indispensable desde el principio.</p>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Presente indicativo</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">εἰμί</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>εἰμί</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>εἶ</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>ἐστί(ν)</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>ἐσμέν</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>ἐστέ</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>εἰσί(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Imperfecto indicativo</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">ἦν</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>ἦ(ν)</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>ἦσθα</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>ἦν</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>ἦμεν</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>ἦτε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>ἦσαν</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <h3 class="sub" id="imperativo">Imperativo presente</h3>
+      <p class="sub-note">§12.3–12.4. El griego tiene imperativo de 3ª persona (una orden sobre alguien ausente), además de la 2ª — a diferencia del español.</p>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Activa</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">Forma</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">2ª sg.</th><td>παίδευε</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδευέτω</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύετε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδευόντων</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Mediopasiva</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">Forma</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">2ª sg.</th><td>παιδεύου</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδευέσθω</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύεσθε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδευέσθων</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <h3 class="sub" id="futuro">Futuro sigmático</h3>
+      <p class="sub-note">§15.1–15.3. Se forma agregando σ al tema verbal. El futuro griego no tiene voz pasiva propia en este sistema: usa el futuro medio (o, para pasiva, el futuro en -θησ-/-ησ-, que es un tema aparte).</p>
+      <div class="two-up">
+        <div class="card">
+          <div class="card-head"><span class="chip">Activa</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">παιδεύσω</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>παιδεύσω</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>παιδεύσεις</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδεύσει</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>παιδεύσομεν</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύσετε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδεύσουσι(ν)</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="chip">Media</span></div>
+          <div class="table-scroll"><table class="verb-table">
+            <thead><tr><th class="pers"></th><th class="col-group-label">παιδεύσομαι</th></tr></thead>
+            <tbody>
+              <tr><th class="pers">1ª sg.</th><td>παιδεύσομαι</td></tr>
+              <tr><th class="pers">2ª sg.</th><td>παιδεύσει (παιδεύσῃ)</td></tr>
+              <tr><th class="pers">3ª sg.</th><td>παιδεύσεται</td></tr>
+              <tr><th class="pers">1ª pl.</th><td>παιδευσόμεθα</td></tr>
+              <tr><th class="pers">2ª pl.</th><td>παιδεύσεσθε</td></tr>
+              <tr><th class="pers">3ª pl.</th><td>παιδεύσονται</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <h3 class="sub" id="infinitivos">Infinitivos</h3>
+      <div class="card">
+        <div class="table-scroll"><table class="wide">
+          <thead><tr><th></th><th class="col-group-label">Activo</th><th class="col-group-label">Mediopasivo / medio</th></tr></thead>
+          <tbody>
+            <tr><th>Presente</th><td>παιδεύειν</td><td>παιδεύεσθαι</td></tr>
+            <tr><th>Futuro</th><td>παιδεύσειν</td><td>παιδεύσεσθαι</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <footer>
+      <h4>Fuente</h4>
+      <ul>
+        <li>van Emde Boas, E.; Rijksbaron, A.; Huitink, L.; de Bakker, M. (2019) <em>The Cambridge Grammar of Classical Greek</em>. Cambridge: Cambridge University Press. Se encuentra en «Gramáticas y obras de referencia» dentro de esta carpeta.</li>
+      </ul>
+      <p>Cada paradigma indica su número de sección (§) del manual para poder consultar la explicación completa.</p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
