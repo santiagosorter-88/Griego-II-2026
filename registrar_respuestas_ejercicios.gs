@@ -282,7 +282,7 @@ function doGetVocabulario_() {
 // ---------------------------------------------------------------------------
 // Contenido de la página de entrada (index.html), leído de la hoja "Índice".
 // Columnas: Semana | SemanaActual (SI/vacío) | Tipo | Título | Link | Estado
-// Tipo: "Lectura fuente" / "Lectura bibliográfica" / "Práctico" / "Audio" / "Actividad"
+// Tipo: "Lectura fuente" / "Lectura bibliográfica" / "Práctico" / "Ficha" / "Audio" / "Actividad"
 // Estado: solo aplica a "Actividad" — "Obligatoria" / "Optativa"
 // ---------------------------------------------------------------------------
 const INDICE_SHEET_NAME = 'Índice';

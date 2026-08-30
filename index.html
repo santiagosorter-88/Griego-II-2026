@@ -171,6 +171,7 @@ function groupBySemana(items){
 function renderWeekBody(items){
   var lecturas = items.filter(function(i){ return i.tipo === "Lectura fuente" || i.tipo === "Lectura bibliográfica"; });
   var practicos = items.filter(function(i){ return i.tipo === "Práctico"; });
+  var fichas = items.filter(function(i){ return i.tipo === "Ficha"; });
   var audios = items.filter(function(i){ return i.tipo === "Audio"; });
   var actividades = items.filter(function(i){ return i.tipo === "Actividad"; });
 
@@ -191,6 +192,15 @@ function renderWeekBody(items){
     practicos.forEach(function(p){
       html += '<a class="reading-link" href="' + escapeHtml(p.link) + '" target="_blank" rel="noopener">' +
         '<span class="reading-tag">Práctico</span><span>' + escapeHtml(p.titulo) + '</span></a>';
+    });
+    html += '</div>';
+  }
+
+  if (fichas.length){
+    html += '<div class="block"><p class="block-label">Fichas</p>';
+    fichas.forEach(function(f){
+      html += '<a class="reading-link" href="' + escapeHtml(f.link) + '" target="_blank" rel="noopener">' +
+        '<span class="reading-tag">Ficha</span><span>' + escapeHtml(f.titulo) + '</span></a>';
     });
     html += '</div>';
   }
