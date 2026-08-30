@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Griego · Repaso nonstop</title>
+<style>
+  :root{
+    --bg:#e8e7dd; --surface:#f6f5ef; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c9c4b3; --accent:#3c6e72; --accent-strong:#294b4e; --accent-ink:#f6f5ef;
+    --correct:#4f7a34; --correct-bg:#e4ecd7; --warn:#93701c; --warn-bg:#f2e6c2;
+    --incorrect:#b5502e; --incorrect-bg:#f3ded4;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+    --radius-card: 10px; --radius-chip: 999px;
+    --serif: 'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+    --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+      --rule:#333a38; --accent:#6fb3ac; --accent-strong:#8fc9c2; --accent-ink:#0f1516;
+      --correct:#8fb35d; --correct-bg:#26301f; --warn:#d3ac52; --warn-bg:#392f18;
+      --incorrect:#e08464; --incorrect-bg:#392420;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+    --rule:#333a38; --accent:#6fb3ac; --accent-strong:#8fc9c2; --accent-ink:#0f1516;
+    --correct:#8fb35d; --correct-bg:#26301f; --warn:#d3ac52; --warn-bg:#392f18;
+    --incorrect:#e08464; --incorrect-bg:#392420;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#e8e7dd; --surface:#f6f5ef; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c9c4b3; --accent:#3c6e72; --accent-strong:#294b4e; --accent-ink:#f6f5ef;
+    --correct:#4f7a34; --correct-bg:#e4ecd7; --warn:#93701c; --warn-bg:#f2e6c2;
+    --incorrect:#b5502e; --incorrect-bg:#f3ded4;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased; }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+
+  .wrap{ max-width:640px; margin:0 auto; padding:2.25rem 1.25rem 5rem; }
+  .eyebrow{ font-family:var(--sans); font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-strong); }
+  h1{ font-family:var(--serif); font-weight:400; font-size:1.85rem; margin:.35rem 0 .25rem; text-wrap:balance; }
+  .lede{ color:var(--ink-muted); font-size:1rem; max-width:60ch; margin:0 0 1.75rem; }
+
+  .identity{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.25rem 1.4rem; box-shadow:var(--shadow); margin-bottom:2.25rem; }
+  .identity-grid{ display:flex; flex-wrap:wrap; gap:.9rem; align-items:end; }
+  .field{ display:flex; flex-direction:column; gap:.35rem; flex:1 1 200px; }
+  .field label{ font-size:.78rem; color:var(--ink-muted); font-weight:600; }
+  .field input{ font-family:var(--sans); font-size:.95rem; padding:.55rem .7rem; border-radius:7px; border:1px solid var(--rule); background:var(--surface-raised); color:var(--ink); }
+  .field input:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; }
+
+  button{ font-family:var(--sans); cursor:pointer; }
+  .btn{ border:none; border-radius:8px; padding:.7rem 1.3rem; font-size:.95rem; font-weight:600; background:var(--accent); color:var(--accent-ink); transition:background .15s ease, opacity .15s ease; }
+  .btn:hover{ background:var(--accent-strong); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn:focus-visible{ outline:2px solid var(--accent-strong); outline-offset:2px; }
+  .btn-ghost{ background:transparent; color:var(--accent-strong); border:1px solid var(--rule); }
+  .btn-ghost:hover{ background:var(--surface-raised); }
+
+  main{ display:none; } main.visible{ display:block; }
+  .view{ display:none; } .view.visible{ display:block; }
+
+  .top-bar{ display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+  .counter{ font-family:var(--sans); font-variant-numeric:tabular-nums; font-size:.85rem; color:var(--ink-muted); background:var(--surface-raised); border:1px solid var(--rule); border-radius:var(--radius-chip); padding:.4rem .9rem; }
+  .counter strong{ color:var(--ink); }
+
+  .practice-card{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.6rem 1.5rem 1.75rem; box-shadow:var(--shadow); }
+  .kind-label{ font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-muted); text-align:center; margin-bottom:.6rem; }
+
+  .example-block{ background:var(--warn-bg); border:1px solid var(--rule); border-radius:8px; padding:1rem 1.1rem; margin-bottom:1.4rem; }
+  .example-label{ font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--warn); margin:0 0 .5rem; }
+  .example-greek{ font-family:var(--serif); font-size:1.15rem; line-height:1.5; margin:0 0 .4rem; }
+  .example-greek b{ background:var(--warn-bg); border-bottom:2px solid var(--warn); padding:0 .1rem; }
+  .example-trans{ font-size:.9rem; color:var(--ink-muted); margin:0; }
+
+  .word-greek{ font-family:var(--serif); font-size:2.1rem; text-align:center; padding:1.2rem 1rem .4rem; background:var(--surface-raised); border:1px solid var(--rule); border-radius:8px 8px 0 0; margin-bottom:0; }
+  .word-citation{ font-family:var(--serif); font-size:.95rem; text-align:center; padding:0 1rem 1rem; background:var(--surface-raised); border:1px solid var(--rule); border-top:none; border-radius:0 0 8px 8px; margin-bottom:1.4rem; color:var(--ink-muted); }
+  .prompt{ font-size:.9rem; color:var(--ink-muted); text-align:center; margin:0 0 1.1rem; }
+  .meaning-reveal{ font-family:var(--serif); font-size:1.25rem; text-align:center; margin:0 0 1rem; color:var(--accent-strong); }
+
+  .option-list{ display:flex; flex-direction:column; gap:.6rem; }
+  .option-btn{ display:flex; align-items:center; justify-content:center; text-align:center; width:100%; border:1.5px solid var(--rule); background:var(--surface-raised); border-radius:8px; padding:.75rem .9rem; font-size:.98rem; color:var(--ink); transition:border-color .15s ease, background .15s ease; }
+  .option-btn:hover:not(:disabled){ border-color:var(--accent); }
+  .option-btn.ghost{ border-style:dashed; color:var(--ink-muted); }
+  .option-btn.g-ok{ border-color:var(--correct); background:var(--correct-bg); color:var(--correct); font-weight:600; }
+  .option-btn.g-bad{ border-color:var(--incorrect); background:var(--incorrect-bg); color:var(--incorrect); }
+  .option-btn:disabled{ cursor:default; opacity:.6; }
+
+  .picker-row{ display:flex; flex-wrap:wrap; align-items:center; gap:.3rem; margin-bottom:.9rem; justify-content:center; }
+  .dim-label{ font-size:.78rem; color:var(--ink-muted); margin-right:.3rem; }
+  .case-chip{ font-family:var(--sans); font-size:.82rem; font-weight:600; border:1.5px solid var(--rule); border-radius:var(--radius-chip); padding:.32rem .8rem; cursor:pointer; background:transparent; color:var(--ink-muted); }
+  .case-chip.on{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+  .case-chip.g-ok{ border-color:var(--correct); background:var(--correct-bg); color:var(--correct); }
+  .case-chip.g-bad{ border-color:var(--incorrect); background:var(--incorrect-bg); color:var(--incorrect); }
+
+  .feedback-line{ font-size:.92rem; font-weight:600; margin-top:1.1rem; text-align:center; }
+  .feedback-line.ok{ color:var(--correct); }
+  .feedback-line.reveal{ color:var(--incorrect); }
+  .next-nav{ display:flex; justify-content:center; margin-top:1.2rem; }
+
+  .diff-group{ display:flex; flex-wrap:wrap; gap:.5rem; margin:.25rem 0 1.1rem; }
+  .diff-chip{ font-family:var(--sans); font-size:.88rem; font-weight:600; border:1.5px solid var(--rule); border-radius:var(--radius-chip); padding:.45rem 1.1rem; cursor:pointer; background:var(--surface-raised); color:var(--ink-muted); }
+  .diff-chip.on{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+
+  .exercise{ background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card); padding:1.5rem 1.6rem 1.75rem; margin-bottom:1.75rem; box-shadow:var(--shadow); }
+  .submit-bar{ display:flex; align-items:center; gap:1rem; flex-wrap:wrap; margin-top:.5rem; }
+  .status{ font-size:.88rem; color:var(--ink-muted); } .status.ok{ color:var(--correct); } .status.err{ color:var(--incorrect); }
+
+  footer{ margin-top:2.5rem; color:var(--ink-muted); font-size:.8rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Griego · Repaso nonstop</p>
+  <h1>Repaso nonstop</h1>
+  <p class="lede">Repaso mecánico de todo el vocabulario visto hasta ahora. Es un loop sin fin — practicá lo que quieras y apretá "LISTO" cuando decidas terminar por hoy.</p>
+
+  <section class="identity" id="identity">
+    <div class="identity-grid">
+      <div class="field">
+        <label for="in-nombre">Nombre y apellido</label>
+        <input id="in-nombre" type="text" autocomplete="name" placeholder="Como querés que figure" />
+      </div>
+      <div class="field">
+        <label for="in-email">Email</label>
+        <input id="in-email" type="email" autocomplete="email" placeholder="tu@email.com" />
+      </div>
+      <button class="btn" id="btn-start" disabled>Comenzar</button>
+    </div>
+    <p class="status" id="load-status" style="margin-top:.8rem;"></p>
+  </section>
+
+  <main id="main">
+
+    <div class="view visible" id="view-practice">
+      <div class="top-bar">
+        <span class="counter" id="counter">Palabras practicadas: <strong>0</strong> · Aciertos: <strong>0</strong></span>
+        <button class="btn btn-ghost" id="btn-listo">LISTO</button>
+      </div>
+
+      <div class="practice-card">
+        <div class="kind-label" id="kind-label"></div>
+        <div id="example-host"></div>
+        <p class="prompt" id="prompt-text"></p>
+        <div class="word-greek" id="word-greek"></div>
+        <div class="word-citation" id="word-citation"></div>
+        <div id="meaning-host"></div>
+        <div id="picker-host"></div>
+        <div class="option-list" id="option-list"></div>
+        <div id="feedback-host"></div>
+        <div class="next-nav" id="next-nav"></div>
+      </div>
+    </div>
+
+    <div class="view" id="view-fin">
+      <div class="exercise" id="evaluacion">
+        <p class="eyebrow">Antes de enviar</p>
+        <h2 style="font-family:var(--serif); font-weight:400; font-size:1.5rem; margin:.3rem 0 1rem;">¿Cómo te resultó esta ronda?</h2>
+        <p style="color:var(--ink-muted); font-size:.92rem; margin:0 0 1.2rem;">Esto es para mejorar el material — no afecta tu recorrido.</p>
+        <div class="diff-group" id="diff-group">
+          <button type="button" class="diff-chip" data-value="muy-facil">Muy fácil</button>
+          <button type="button" class="diff-chip" data-value="facil">Fácil</button>
+          <button type="button" class="diff-chip" data-value="complicado">Complicado</button>
+          <button type="button" class="diff-chip" data-value="imposible">Imposible</button>
+        </div>
+        <div class="field">
+          <label for="in-diff-comment">Comentario sobre la dificultad</label>
+          <input id="in-diff-comment" type="text" placeholder="¿cómo te fue?" />
+        </div>
+        <div class="field" style="margin-top:1rem;">
+          <label for="in-suggestion">La actividad funcionaría mejor si…</label>
+          <input id="in-suggestion" type="text" placeholder="completá la idea" />
+        </div>
+      </div>
+      <div class="submit-bar">
+        <button class="btn" id="btn-send" disabled>Enviar respuestas</button>
+        <span class="status" id="status"></span>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>Griego I / II · material de cátedra · repaso nonstop</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMjdVZa0X6Q4nGa60gwy-3GWbJUdbm6W57inTFvrwgpNze3r-ytqK1mOIDo9oTIfKyPQ/exec";
+
+  var CASES = [
+    {code:"nom", label:"Nominativo"}, {code:"gen", label:"Genitivo"}, {code:"dat", label:"Dativo"},
+    {code:"ac",  label:"Acusativo"},  {code:"voc", label:"Vocativo"}
+  ];
+  var CASE_LABEL = {}; CASES.forEach(function(c){ CASE_LABEL[c.code] = c.label; });
+  var NUMBERS = [ {code:"sg", label:"Singular"}, {code:"pl", label:"Plural"} ];
+  var NUMBER_LABEL = {}; NUMBERS.forEach(function(n){ NUMBER_LABEL[n.code] = n.label; });
+  var PERSONS = [ {code:"1", label:"1ª"}, {code:"2", label:"2ª"}, {code:"3", label:"3ª"} ];
+  var PERSON_LABEL = {}; PERSONS.forEach(function(p){ PERSON_LABEL[p.code] = p.label; });
+  var VOICES = [ {code:"act", label:"Activa"}, {code:"med", label:"Media"} ];
+  var VOICE_LABEL = {}; VOICES.forEach(function(v){ VOICE_LABEL[v.code] = v.label; });
+
+  // Banco de respaldo (por si el fetch a la planilla falla, p. ej. probando el archivo
+  // en file:// sin conexión) — mínimo, solo para no dejar la pantalla vacía.
+  var FALLBACK_BANK = [
+    {greek:"λόγος", meaning:"discurso, palabra", kind:"nombre", number:"sg", correctCases:["nom"], citation:"λόγος, -ου",
+     contextGreek:"λόγος ἐστὶ φωνὴ σημαντική", contextWord:"λόγος", contextSpanish:"El discurso es voz con significado"}
+  ];
+
+  function shuffled(arr){
+    var a = arr.slice();
+    for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+    return a;
+  }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  var BANK = [];
+  var identity = { nombre:"", email:"" };
+  var submitLog = [];
+  var practicadas = 0, aciertos = 0;
+
+  var inNombre = document.getElementById("in-nombre");
+  var inEmail = document.getElementById("in-email");
+  var btnStart = document.getElementById("btn-start");
+  var loadStatus = document.getElementById("load-status");
+
+  function checkIdentity(){
+    btnStart.disabled = !(inNombre.value.trim() && inEmail.value.trim().indexOf("@") > 0) || BANK.length === 0;
+  }
+  inNombre.addEventListener("input", checkIdentity);
+  inEmail.addEventListener("input", checkIdentity);
+
+  loadStatus.textContent = "Cargando banco de vocabulario…";
+  fetch(APPS_SCRIPT_URL)
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      BANK = (data.bank && data.bank.length) ? data.bank : FALLBACK_BANK;
+      loadStatus.textContent = "Listo — " + BANK.length + " palabras cargadas.";
+      checkIdentity();
+    })
+    .catch(function(){
+      BANK = FALLBACK_BANK;
+      loadStatus.textContent = "No se pudo cargar el banco completo (sin conexión al backend) — usando un banco reducido de prueba.";
+      checkIdentity();
+    });
+
+  btnStart.addEventListener("click", function(){
+    identity.nombre = inNombre.value.trim();
+    identity.email = inEmail.value.trim();
+    document.getElementById("identity").style.display = "none";
+    document.getElementById("main").classList.add("visible");
+    loadNextItem();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  });
+
+  function showView(id){
+    Array.from(document.querySelectorAll(".view")).forEach(function(v){ v.classList.remove("visible"); });
+    document.getElementById(id).classList.add("visible");
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+
+  // =================================================================
+  // Loop infinito: cada ítem sortea una palabra al azar y un tipo al azar
+  // (significado / forma). No hay principio ni fin — el estudiante corta con LISTO.
+  //
+  // Significado — dos intentos:
+  //   intento 1: solo la palabra + cita. Botón "Comprobar" -> revela el significado
+  //     y ofrece ["La sabía", "Dame más contexto"].
+  //   "La sabía": acierto, sigue de largo.
+  //   "Dame más contexto": se oculta el significado, aparece la frase de origen con
+  //     la palabra en negrita, botón "Comprobar" de nuevo (intento 2) -> revela el
+  //     significado otra vez y ofrece ["Ahora sí", "No la sabía"].
+  //   "Ahora sí": acierto (cuenta igual que un acierto directo). "No la sabía": no
+  //     cuenta como acierto, hay que tocar "Siguiente palabra" para seguir.
+  //
+  // Forma — un intento: arma el picker según kind (nombre/participio: caso múltiple +
+  //   número; verbo: persona + número; infinitivo: voz), botón "Comprobar" corrige
+  //   al toque. Correcta: sigue de largo. Incorrecta: revela la respuesta correcta y
+  //   hay que tocar "Siguiente palabra".
+  // =================================================================
+  var current = null;
+
+  var kindLabelEl = document.getElementById("kind-label");
+  var exampleHostEl = document.getElementById("example-host");
+  var promptEl = document.getElementById("prompt-text");
+  var wordGreekEl = document.getElementById("word-greek");
+  var wordCitationEl = document.getElementById("word-citation");
+  var meaningHostEl = document.getElementById("meaning-host");
+  var pickerHostEl = document.getElementById("picker-host");
+  var optionListEl = document.getElementById("option-list");
+  var feedbackHostEl = document.getElementById("feedback-host");
+  var nextNavEl = document.getElementById("next-nav");
+  var counterEl = document.getElementById("counter");
+
+  function updateCounter(){
+    counterEl.innerHTML = "Palabras practicadas: <strong>" + practicadas + "</strong> · Aciertos: <strong>" + aciertos + "</strong>";
+  }
+
+  function clearCard(){
+    exampleHostEl.innerHTML = ""; meaningHostEl.innerHTML = ""; pickerHostEl.innerHTML = "";
+    optionListEl.innerHTML = ""; feedbackHostEl.innerHTML = ""; nextNavEl.innerHTML = "";
+  }
+
+  function showExample(word){
+    exampleHostEl.innerHTML = "";
+    var block = document.createElement("div");
+    block.className = "example-block";
+    var label = document.createElement("p"); label.className = "example-label"; label.textContent = "Ya apareció en esta frase";
+    block.appendChild(label);
+    var greekP = document.createElement("p"); greekP.className = "example-greek";
+    if (word.contextGreek && word.contextWord){
+      var re = new RegExp("(" + word.contextWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")");
+      greekP.innerHTML = word.contextGreek.replace(re, "<b>$1</b>");
+    } else {
+      greekP.textContent = word.contextGreek || "(sin frase de origen registrada)";
+    }
+    block.appendChild(greekP);
+    if (word.contextSpanish){
+      var trans = document.createElement("p"); trans.className = "example-trans"; trans.textContent = word.contextSpanish;
+      block.appendChild(trans);
+    }
+    exampleHostEl.appendChild(block);
+  }
+
+  function loadNextItem(){
+    var word = pick(BANK);
+    var type = Math.random() < 0.5 ? "significado" : "forma";
+    current = { word:word, type:type, attempt:1, formState: (word.kind === "nombre" || word.kind === "participio") ? {cases:new Set(), number:null} : {} };
+    clearCard();
+    kindLabelEl.textContent = type === "significado" ? "Significado" : "Forma";
+    wordGreekEl.textContent = word.greek;
+    wordCitationEl.textContent = word.citation || "";
+    if (type === "significado") renderSignificadoAttempt1(); else renderForma();
+  }
+
+  function renderSignificadoAttempt1(){
+    promptEl.textContent = "¿Qué significa esta palabra?";
+    var btn = document.createElement("button");
+    btn.type = "button"; btn.className = "btn"; btn.style.display = "block"; btn.style.margin = "0 auto";
+    btn.textContent = "Comprobar";
+    btn.addEventListener("click", function(){ revealSignificado(1); });
+    optionListEl.appendChild(btn);
+  }
+
+  function revealSignificado(attempt){
+    optionListEl.innerHTML = "";
+    meaningHostEl.innerHTML = "";
+    var m = document.createElement("div"); m.className = "meaning-reveal"; m.textContent = current.word.meaning;
+    meaningHostEl.appendChild(m);
+
+    var opts = attempt === 1 ? ["La sabía", "Dame más contexto"] : ["Ahora sí", "No la sabía"];
+    opts.forEach(function(optText){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "option-btn" + (optText.indexOf("contexto") !== -1 || optText === "No la sabía" ? " ghost" : "");
+      b.textContent = optText;
+      b.addEventListener("click", function(){ handleSignificadoChoice(optText); });
+      optionListEl.appendChild(b);
+    });
+  }
+
+  function handleSignificadoChoice(optText){
+    var w = current.word;
+    if (optText === "La sabía" || optText === "Ahora sí"){
+      submitLog.push({ ejercicio:"Significado (autorreporte)", frase:"", item:w.greek, respuesta:optText, correcta:true });
+      practicadas++; aciertos++; updateCounter();
+      Array.from(optionListEl.children).forEach(function(b){ b.disabled = true; });
+      var chosen = Array.from(optionListEl.children).filter(function(b){ return b.textContent === optText; })[0];
+      if (chosen) chosen.classList.add("g-ok");
+      var fb = document.createElement("p"); fb.className = "feedback-line ok"; fb.textContent = "¡Listo!";
+      feedbackHostEl.appendChild(fb);
+      setTimeout(loadNextItem, 650);
+      return;
+    }
+    if (optText === "Dame más contexto"){
+      submitLog.push({ ejercicio:"Significado (autorreporte)", frase:"", item:w.greek, respuesta:"Pidió contexto", correcta:null });
+      meaningHostEl.innerHTML = "";
+      showExample(w);
+      optionListEl.innerHTML = "";
+      var btn2 = document.createElement("button");
+      btn2.type = "button"; btn2.className = "btn"; btn2.style.display = "block"; btn2.style.margin = "0 auto";
+      btn2.textContent = "Comprobar";
+      btn2.addEventListener("click", function(){ revealSignificado(2); });
+      optionListEl.appendChild(btn2);
+      return;
+    }
+    // "No la sabía" (final, después de haber pedido contexto)
+    submitLog.push({ ejercicio:"Significado (autorreporte)", frase:"", item:w.greek, respuesta:"No la sabía", correcta:false });
+    practicadas++; updateCounter();
+    Array.from(optionListEl.children).forEach(function(b){ b.disabled = true; });
+    var noBtn = Array.from(optionListEl.children).filter(function(b){ return b.textContent === "No la sabía"; })[0];
+    if (noBtn) noBtn.classList.add("g-bad");
+    var fb2 = document.createElement("p"); fb2.className = "feedback-line reveal"; fb2.textContent = "Dale, la próxima seguro.";
+    feedbackHostEl.appendChild(fb2);
+    var nextBtn = document.createElement("button");
+    nextBtn.type = "button"; nextBtn.className = "btn"; nextBtn.textContent = "Siguiente palabra";
+    nextBtn.addEventListener("click", loadNextItem);
+    nextNavEl.appendChild(nextBtn);
+  }
+
+  function renderForma(){
+    var w = current.word;
+    var st = current.formState;
+    promptEl.textContent = w.kind === "infinitivo" ? "¿En qué voz está?" : (w.kind === "verbo" ? "¿En qué persona y número está?" : "¿En qué caso y número está?");
+
+    if (w.kind === "nombre" || w.kind === "participio"){
+      var caseLabel = document.createElement("span"); caseLabel.className = "dim-label"; caseLabel.textContent = "Caso:";
+      pickerHostEl.appendChild(caseLabel);
+      var caseRow = document.createElement("div"); caseRow.className = "picker-row";
+      CASES.forEach(function(c){
+        var chip = document.createElement("button");
+        chip.type = "button"; chip.className = "case-chip"; chip.textContent = c.label;
+        chip.dataset.dim = "case"; chip.dataset.code = c.code;
+        chip.addEventListener("click", function(){
+          if (st.cases.has(c.code)) st.cases.delete(c.code); else st.cases.add(c.code);
+          chip.classList.toggle("on", st.cases.has(c.code));
+        });
+        caseRow.appendChild(chip);
+      });
+      pickerHostEl.appendChild(caseRow);
+
+      var numLabel = document.createElement("span"); numLabel.className = "dim-label"; numLabel.textContent = "Número:";
+      pickerHostEl.appendChild(numLabel);
+      var numRow = document.createElement("div"); numRow.className = "picker-row";
+      NUMBERS.forEach(function(n){
+        var chip = document.createElement("button");
+        chip.type = "button"; chip.className = "case-chip"; chip.textContent = n.label;
+        chip.dataset.dim = "number"; chip.dataset.code = n.code;
+        chip.addEventListener("click", function(){
+          st.number = n.code;
+          numRow.querySelectorAll(".case-chip").forEach(function(c){ c.classList.toggle("on", c.dataset.code === n.code); });
+        });
+        numRow.appendChild(chip);
+      });
+      pickerHostEl.appendChild(numRow);
+    } else if (w.kind === "verbo"){
+      var pLabel = document.createElement("span"); pLabel.className = "dim-label"; pLabel.textContent = "Persona:";
+      pickerHostEl.appendChild(pLabel);
+      var pRow = document.createElement("div"); pRow.className = "picker-row";
+      PERSONS.forEach(function(p){
+        var chip = document.createElement("button");
+        chip.type = "button"; chip.className = "case-chip"; chip.textContent = p.label;
+        chip.dataset.dim = "person"; chip.dataset.code = p.code;
+        chip.addEventListener("click", function(){
+          st.person = p.code;
+          pRow.querySelectorAll(".case-chip").forEach(function(c){ c.classList.toggle("on", c.dataset.code === p.code); });
+        });
+        pRow.appendChild(chip);
+      });
+      pickerHostEl.appendChild(pRow);
+
+      var nLabel = document.createElement("span"); nLabel.className = "dim-label"; nLabel.textContent = "Número:";
+      pickerHostEl.appendChild(nLabel);
+      var nRow = document.createElement("div"); nRow.className = "picker-row";
+      NUMBERS.forEach(function(n){
+        var chip = document.createElement("button");
+        chip.type = "button"; chip.className = "case-chip"; chip.textContent = n.label;
+        chip.dataset.dim = "number"; chip.dataset.code = n.code;
+        chip.addEventListener("click", function(){
+          st.number = n.code;
+          nRow.querySelectorAll(".case-chip").forEach(function(c){ c.classList.toggle("on", c.dataset.code === n.code); });
+        });
+        nRow.appendChild(chip);
+      });
+      pickerHostEl.appendChild(nRow);
+    } else if (w.kind === "infinitivo"){
+      var vLabel = document.createElement("span"); vLabel.className = "dim-label"; vLabel.textContent = "Voz:";
+      pickerHostEl.appendChild(vLabel);
+      var vRow = document.createElement("div"); vRow.className = "picker-row";
+      VOICES.forEach(function(v){
+        var chip = document.createElement("button");
+        chip.type = "button"; chip.className = "case-chip"; chip.textContent = v.label;
+        chip.dataset.dim = "voice"; chip.dataset.code = v.code;
+        chip.addEventListener("click", function(){
+          st.voice = v.code;
+          vRow.querySelectorAll(".case-chip").forEach(function(c){ c.classList.toggle("on", c.dataset.code === v.code); });
+        });
+        vRow.appendChild(chip);
+      });
+      pickerHostEl.appendChild(vRow);
+    }
+
+    var checkBtn = document.createElement("button");
+    checkBtn.type = "button"; checkBtn.className = "btn"; checkBtn.style.display = "block"; checkBtn.style.margin = ".4rem auto 0";
+    checkBtn.textContent = "Comprobar";
+    checkBtn.addEventListener("click", handleFormaCheck);
+    pickerHostEl.appendChild(checkBtn);
+  }
+
+  function handleFormaCheck(){
+    var w = current.word, st = current.formState;
+    var isCorrect = false, correctLabel = "", respuestaTxt = "";
+
+    if (w.kind === "nombre" || w.kind === "participio"){
+      var correctSet = new Set(w.correctCases || []);
+      var casesOk = st.cases.size === correctSet.size && Array.from(st.cases).every(function(c){ return correctSet.has(c); });
+      isCorrect = casesOk && st.number === w.number;
+      correctLabel = (w.correctCases || []).map(function(c){ return CASE_LABEL[c]; }).join(" o ") + " " + NUMBER_LABEL[w.number];
+      respuestaTxt = (st.cases.size ? Array.from(st.cases).map(function(c){return CASE_LABEL[c];}).join(" + ") : "(sin caso)") + " " + (st.number ? NUMBER_LABEL[st.number] : "(sin número)");
+      pickerHostEl.querySelectorAll('.case-chip[data-dim="case"]').forEach(function(c){
+        if (c.classList.contains("on")) c.classList.add(correctSet.has(c.dataset.code) ? "g-ok" : "g-bad");
+      });
+      pickerHostEl.querySelectorAll('.case-chip[data-dim="number"]').forEach(function(c){
+        if (c.classList.contains("on")) c.classList.add(c.dataset.code === w.number ? "g-ok" : "g-bad");
+      });
+    } else if (w.kind === "verbo"){
+      isCorrect = st.person === w.person && st.number === w.number;
+      correctLabel = PERSON_LABEL[w.person] + " " + NUMBER_LABEL[w.number];
+      respuestaTxt = (st.person ? PERSON_LABEL[st.person] : "?") + " " + (st.number ? NUMBER_LABEL[st.number] : "?");
+      pickerHostEl.querySelectorAll('.case-chip[data-dim="person"]').forEach(function(c){
+        if (c.classList.contains("on")) c.classList.add(c.dataset.code === w.person ? "g-ok" : "g-bad");
+      });
+      pickerHostEl.querySelectorAll('.case-chip[data-dim="number"]').forEach(function(c){
+        if (c.classList.contains("on")) c.classList.add(c.dataset.code === w.number ? "g-ok" : "g-bad");
+      });
+    } else if (w.kind === "infinitivo"){
+      isCorrect = st.voice === w.voice;
+      correctLabel = VOICE_LABEL[w.voice];
+      respuestaTxt = st.voice ? VOICE_LABEL[st.voice] : "?";
+      pickerHostEl.querySelectorAll('.case-chip[data-dim="voice"]').forEach(function(c){
+        if (c.classList.contains("on")) c.classList.add(c.dataset.code === w.voice ? "g-ok" : "g-bad");
+      });
+    }
+
+    submitLog.push({ ejercicio:"Forma", frase:"", item:w.greek, respuesta:respuestaTxt, correcta:isCorrect });
+    pickerHostEl.querySelectorAll("button").forEach(function(b){ b.disabled = true; });
+
+    if (isCorrect){
+      practicadas++; aciertos++; updateCounter();
+      var fb = document.createElement("p"); fb.className = "feedback-line ok"; fb.textContent = "¡Correcto!";
+      feedbackHostEl.appendChild(fb);
+      setTimeout(loadNextItem, 650);
+    } else {
+      practicadas++; updateCounter();
+      var fb2 = document.createElement("p"); fb2.className = "feedback-line reveal";
+      fb2.textContent = "La forma correcta era: " + correctLabel;
+      feedbackHostEl.appendChild(fb2);
+      var nextBtn = document.createElement("button");
+      nextBtn.type = "button"; nextBtn.className = "btn"; nextBtn.textContent = "Siguiente palabra";
+      nextBtn.addEventListener("click", loadNextItem);
+      nextNavEl.appendChild(nextBtn);
+    }
+  }
+
+  document.getElementById("btn-listo").addEventListener("click", function(){
+    showView("view-fin");
+  });
+
+  // ---------- Evaluación + envío ----------
+  var DIFF_LABELS = { "muy-facil":"Muy fácil", "facil":"Fácil", "complicado":"Complicado", "imposible":"Imposible" };
+  var evalState = { dificultad:null };
+  Array.from(document.querySelectorAll(".diff-chip")).forEach(function(chip){
+    chip.addEventListener("click", function(){
+      evalState.dificultad = chip.dataset.value;
+      document.querySelectorAll(".diff-chip").forEach(function(c){ c.classList.remove("on"); });
+      chip.classList.add("on");
+    });
+  });
+  var inDiffComment = document.getElementById("in-diff-comment");
+  var inSuggestion = document.getElementById("in-suggestion");
+  var statusEl = document.getElementById("status");
+  var btnSend = document.getElementById("btn-send");
+  var sendInFlight = false, evalPushed = false;
+
+  function checkEvalComplete(){
+    btnSend.disabled = !(inDiffComment.value.trim() && inSuggestion.value.trim());
+  }
+  inDiffComment.addEventListener("input", checkEvalComplete);
+  inSuggestion.addEventListener("input", checkEvalComplete);
+
+  btnSend.addEventListener("click", function(){
+    if (sendInFlight) return;
+    var comentario = inDiffComment.value.trim();
+    var sugerencia = inSuggestion.value.trim();
+    if (!comentario || !sugerencia) return;
+
+    if (!evalPushed){
+      submitLog.push({ ejercicio:"Evaluación", frase:"", item:"Dificultad percibida", respuesta: evalState.dificultad ? DIFF_LABELS[evalState.dificultad] : "(sin responder)", correcta:null });
+      submitLog.push({ ejercicio:"Evaluación", frase:"", item:"Comentario sobre la dificultad", respuesta: comentario, correcta:null });
+      submitLog.push({ ejercicio:"Evaluación", frase:"", item:"Sugerencia", respuesta: "La actividad funcionaría mejor si " + sugerencia, correcta:null });
+      submitLog.push({ ejercicio:"Evaluación", frase:"", item:"Palabras practicadas en la sesión", respuesta: String(practicadas), correcta:null });
+      evalPushed = true;
+    }
+
+    if (!APPS_SCRIPT_URL){
+      statusEl.textContent = "Listo. (No se envió: falta configurar la URL del Apps Script.)";
+      statusEl.className = "status"; return;
+    }
+
+    sendInFlight = true; btnSend.disabled = true;
+    statusEl.textContent = "Enviando…"; statusEl.className = "status";
+    fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ actividad: document.title, nombre: identity.nombre, email: identity.email, respuestas: submitLog })
+    }).then(function(){
+      statusEl.textContent = "Enviado. ¡Gracias!"; statusEl.className = "status ok";
+    }).catch(function(){
+      statusEl.textContent = "No se pudo enviar (revisá tu conexión). Podés reintentar con \"Enviar respuestas\".";
+      statusEl.className = "status err";
+      sendInFlight = false; btnSend.disabled = false;
+    });
+  });
+
+})();
+</script>
+</body>
+</html>

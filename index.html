@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Griego · Puán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#e8e7dd; --surface:#f6f5ef; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c9c4b3; --accent:#3c6e72; --accent-strong:#294b4e; --accent-ink:#f6f5ef;
+    --bg-oblig:#dfe9d8; --text-oblig:#33502a;
+    --bg-opt:#eceae0; --text-opt:#5b5f56;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+    --radius-card: 12px; --radius-chip: 999px;
+    --serif: 'Literata', 'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,'Times New Roman',serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+      --rule:#333a38; --accent:#6fb3ac; --accent-strong:#8fc9c2; --accent-ink:#0f1516;
+      --bg-oblig:#22331d; --text-oblig:#a8caa0;
+      --bg-opt:#282e2a; --text-opt:#9ca39b;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14181a; --surface:#1d2224; --surface-raised:#242a2c; --ink:#e7e4d9; --ink-muted:#9ca39b;
+    --rule:#333a38; --accent:#6fb3ac; --accent-strong:#8fc9c2; --accent-ink:#0f1516;
+    --bg-oblig:#22331d; --text-oblig:#a8caa0;
+    --bg-opt:#282e2a; --text-opt:#9ca39b;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 6px 20px rgba(0,0,0,.35);
+  }
+  :root[data-theme="light"]{
+    --bg:#e8e7dd; --surface:#f6f5ef; --surface-raised:#ffffff; --ink:#1e211d; --ink-muted:#5b5f56;
+    --rule:#c9c4b3; --accent:#3c6e72; --accent-strong:#294b4e; --accent-ink:#f6f5ef;
+    --bg-oblig:#dfe9d8; --text-oblig:#33502a;
+    --bg-opt:#eceae0; --text-opt:#5b5f56;
+    --shadow: 0 1px 2px rgba(30,33,29,.06), 0 6px 16px rgba(30,33,29,.06);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--serif);
+    line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh;
+  }
+  .page{ max-width:560px; margin:0 auto; padding:1.25rem 1rem 4rem; }
+
+  .eyebrow{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-strong); margin:0 0 .3rem; }
+
+  .tools{ display:grid; grid-template-columns:repeat(auto-fit, minmax(0,1fr)); gap:.6rem; margin-bottom:1.5rem; }
+  .tool-btn{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:var(--surface-raised); border:1px solid var(--rule); border-radius:var(--radius-card);
+    color:var(--ink); text-decoration:none; font-size:.92rem; font-weight:500;
+    padding:.85rem .5rem; min-height:44px; box-shadow:var(--shadow);
+  }
+  .tool-btn:hover{ border-color:var(--accent); color:var(--accent-strong); }
+
+  .week-card{
+    background:var(--surface-raised); border:2px solid var(--accent); border-radius:var(--radius-card);
+    padding:1.1rem 1.2rem; box-shadow:var(--shadow); margin-bottom:1.5rem;
+  }
+  .week-card__head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+  .week-card__title{ font-size:1.1rem; font-weight:600; margin:0; }
+  .week-badge{
+    background:var(--accent); color:var(--accent-ink); font-size:.78rem; font-weight:500;
+    padding:.25rem .7rem; border-radius:var(--radius-chip);
+  }
+
+  .block{ margin-bottom:1rem; }
+  .block-label{
+    font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-muted); margin:0 0 .5rem;
+  }
+  .reading-link{
+    display:flex; align-items:baseline; gap:.5rem; text-decoration:none; color:var(--ink);
+    font-size:.96rem; padding:.35rem 0;
+  }
+  .reading-link:hover{ color:var(--accent-strong); }
+  .reading-tag{
+    flex:none; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--accent-strong); background:var(--bg-opt); padding:.15rem .5rem; border-radius:var(--radius-chip);
+  }
+
+  .activity-list{ display:flex; flex-direction:column; gap:.5rem; }
+  .activity-row{
+    display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+    background:var(--surface); text-decoration:none; color:var(--ink);
+    font-size:.94rem; padding:.7rem .85rem; border-radius:var(--radius-card); min-height:44px;
+  }
+  .activity-row:hover{ color:var(--accent-strong); }
+  .badge{
+    flex:none; font-size:.72rem; font-weight:600; padding:.2rem .6rem; border-radius:var(--radius-chip);
+    white-space:nowrap;
+  }
+  .badge-oblig{ background:var(--bg-oblig); color:var(--text-oblig); }
+  .badge-opt{ background:var(--bg-opt); color:var(--text-opt); }
+
+  .archive{ margin-top:1.5rem; }
+  .archive-label{
+    font-size:.8rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--ink-muted); margin:0 0 .75rem;
+  }
+  .archive-empty{ color:var(--ink-muted); font-size:.9rem; }
+  details.archive-week{
+    background:var(--surface); border:1px solid var(--rule); border-radius:var(--radius-card);
+    padding:.75rem 1rem; margin-bottom:.6rem;
+  }
+  details.archive-week > summary{
+    cursor:pointer; font-weight:600; font-size:.98rem; list-style:none;
+  }
+  details.archive-week > summary::-webkit-details-marker{ display:none; }
+  details.archive-week[open] > summary{ margin-bottom:.75rem; }
+
+  .status-msg{ color:var(--ink-muted); font-size:.95rem; padding:1rem 0; }
+  .status-msg--error{ color:#a3402f; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <p class="eyebrow">Griego I / II · Puán</p>
+
+  <nav class="tools">
+    <a class="tool-btn" href="https://santiagosorter-88.github.io/Griego-II-2026/repaso-nonstop.html">Repaso nonstop</a>
+  </nav>
+
+  <main>
+    <section id="semana-actual" class="week-card">
+      <p class="status-msg">Cargando la semana actual…</p>
+    </section>
+
+    <section class="archive">
+      <p class="archive-label">Semanas anteriores</p>
+      <div id="archivo-lista">
+        <p class="archive-empty">Cargando…</p>
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script>
+// Mismo diseño y lógica que la página de entrada de latín (LATIN UNTREF/Página de
+// entrada/index.html) — Santiago la aprobó explícitamente tal cual está, no
+// rediseñar sin que lo pida. Única diferencia real: acá el contenido se lee vía GET
+// al Apps Script compartido (?tipo=indice) en vez de una planilla publicada como CSV,
+// para reusar el mismo backend que ya sirve Vocabulario y las respuestas.
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyMjdVZa0X6Q4nGa60gwy-3GWbJUdbm6W57inTFvrwgpNze3r-ytqK1mOIDo9oTIfKyPQ/exec?tipo=indice";
+
+function escapeHtml(s){
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function groupBySemana(items){
+  var map = {};
+  items.forEach(function(it){
+    var s = it.semana;
+    if (!map[s]) map[s] = [];
+    map[s].push(it);
+  });
+  return map;
+}
+
+function renderWeekBody(items){
+  var lecturas = items.filter(function(i){ return i.tipo === "Lectura fuente" || i.tipo === "Lectura bibliográfica"; });
+  var practicos = items.filter(function(i){ return i.tipo === "Práctico"; });
+  var audios = items.filter(function(i){ return i.tipo === "Audio"; });
+  var actividades = items.filter(function(i){ return i.tipo === "Actividad"; });
+
+  var html = "";
+
+  if (lecturas.length){
+    html += '<div class="block"><p class="block-label">Lecturas</p>';
+    lecturas.forEach(function(l){
+      var tag = l.tipo === "Lectura fuente" ? "Fuente" : "Bibliografía";
+      html += '<a class="reading-link" href="' + escapeHtml(l.link) + '" target="_blank" rel="noopener">' +
+        '<span class="reading-tag">' + tag + '</span><span>' + escapeHtml(l.titulo) + '</span></a>';
+    });
+    html += '</div>';
+  }
+
+  if (practicos.length){
+    html += '<div class="block"><p class="block-label">Prácticos</p>';
+    practicos.forEach(function(p){
+      html += '<a class="reading-link" href="' + escapeHtml(p.link) + '" target="_blank" rel="noopener">' +
+        '<span class="reading-tag">Práctico</span><span>' + escapeHtml(p.titulo) + '</span></a>';
+    });
+    html += '</div>';
+  }
+
+  if (audios.length){
+    html += '<div class="block"><p class="block-label">Audios</p>';
+    audios.forEach(function(a){
+      html += '<a class="reading-link" href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' +
+        '<span class="reading-tag">Audio</span><span>' + escapeHtml(a.titulo) + '</span></a>';
+    });
+    html += '</div>';
+  }
+
+  if (actividades.length){
+    html += '<div class="block"><p class="block-label">Actividades interactivas</p><div class="activity-list">';
+    actividades.forEach(function(a){
+      var estado = (a.estado || "").trim();
+      var esOblig = estado.toLowerCase() === "obligatoria";
+      html += '<a class="activity-row" href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' +
+        '<span>' + escapeHtml(a.titulo) + '</span>' +
+        '<span class="badge ' + (esOblig ? "badge-oblig" : "badge-opt") + '">' + escapeHtml(estado || "—") + '</span></a>';
+    });
+    html += '</div></div>';
+  }
+
+  if (!html){
+    html = '<p class="status-msg">Todavía no hay contenido cargado para esta semana.</p>';
+  }
+
+  return html;
+}
+
+fetch(APPS_SCRIPT_URL)
+  .then(function(r){
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  })
+  .then(function(data){
+    var items = data.items || [];
+    var bySemana = groupBySemana(items);
+    var semanas = Object.keys(bySemana).sort(function(a, b){ return Number(b) - Number(a); });
+
+    var actualEl = document.getElementById("semana-actual");
+    var archivoEl = document.getElementById("archivo-lista");
+
+    var semanaActual = semanas.filter(function(s){
+      return bySemana[s].some(function(it){ return it.semanaActual; });
+    })[0];
+
+    if (!semanaActual){
+      actualEl.innerHTML = '<p class="status-msg">Todavía no hay una semana marcada como actual.</p>';
+    } else {
+      actualEl.innerHTML =
+        '<div class="week-card__head"><p class="week-card__title">Esta semana</p>' +
+        '<span class="week-badge">Semana ' + escapeHtml(semanaActual) + '</span></div>' +
+        renderWeekBody(bySemana[semanaActual]);
+    }
+
+    var anteriores = semanas.filter(function(s){ return s !== semanaActual; });
+    if (!anteriores.length){
+      archivoEl.innerHTML = '<p class="archive-empty">Todavía no hay semanas anteriores.</p>';
+    } else {
+      archivoEl.innerHTML = anteriores.map(function(s){
+        return '<details class="archive-week"><summary>Semana ' + escapeHtml(s) + '</summary>' +
+          renderWeekBody(bySemana[s]) + '</details>';
+      }).join("");
+    }
+  })
+  .catch(function(err){
+    document.getElementById("semana-actual").innerHTML =
+      '<p class="status-msg status-msg--error">No se pudo cargar el contenido de la semana. Probá recargar la página.</p>';
+    document.getElementById("archivo-lista").innerHTML = "";
+  });
+</script>
+</body>
+</html>
