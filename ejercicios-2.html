@@ -239,10 +239,6 @@
   <section class="identity" id="identity">
     <div class="identity-grid">
       <div class="field">
-        <label for="in-nombre">Nombre y apellido</label>
-        <input id="in-nombre" type="text" autocomplete="name" placeholder="Como querés que figure" />
-      </div>
-      <div class="field">
         <label for="in-email">Email</label>
         <input id="in-email" type="email" autocomplete="email" placeholder="tu@email.com" />
       </div>
@@ -615,7 +611,7 @@
   }
 
   // ---------- estado ----------
-  var identity = { nombre:"", email:"" };
+  var identity = { email:"" };
   var match1 = {};          // phraseId -> translationId | null
   var poolOrder = shuffled(PHRASES.map(function(p){ return p.id; }));
   var verbState = {};       // phraseId -> {selected:Set, noVerb:bool, personNum:{idx:{person,number}}}
@@ -627,16 +623,13 @@
   });
 
   // ---------- identidad ----------
-  var inNombre = document.getElementById("in-nombre");
   var inEmail = document.getElementById("in-email");
   var btnStart = document.getElementById("btn-start");
   function checkIdentity(){
-    btnStart.disabled = !(inNombre.value.trim() && inEmail.value.trim().indexOf("@") > 0);
+    btnStart.disabled = !(inEmail.value.trim().indexOf("@") > 0);
   }
-  inNombre.addEventListener("input", checkIdentity);
   inEmail.addEventListener("input", checkIdentity);
   btnStart.addEventListener("click", function(){
-    identity.nombre = inNombre.value.trim();
     identity.email = inEmail.value.trim();
     document.getElementById("identity").style.display = "none";
     document.getElementById("main").classList.add("visible");
@@ -1301,7 +1294,6 @@
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
-        nombre: identity.nombre,
         email: identity.email,
         respuestas: result.log
       })

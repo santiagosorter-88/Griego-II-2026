@@ -56,8 +56,52 @@
     background:var(--surface-raised); border:1px solid var(--rule); border-radius:var(--radius-card);
     color:var(--ink); text-decoration:none; font-size:.92rem; font-weight:500;
     padding:.85rem .5rem; min-height:44px; box-shadow:var(--shadow);
+    font-family:inherit; cursor:pointer;
   }
   .tool-btn:hover{ border-color:var(--accent); color:var(--accent-strong); }
+  .tool-btn--2l{ line-height:1.35; }
+
+  .progreso-panel{
+    background:var(--surface-raised); border:1px solid var(--rule); border-radius:var(--radius-card);
+    padding:1.1rem 1.2rem; box-shadow:var(--shadow); margin-bottom:1.5rem;
+  }
+  .panel-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.85rem; }
+  .panel-head .block-label{ margin:0; }
+  .close-panel{
+    font-family:inherit; cursor:pointer; font-size:.8rem; font-weight:700; text-decoration:none;
+    padding:.4rem .85rem; border-radius:999px; border:1px solid var(--rule); flex:none;
+    background:var(--surface); color:var(--ink-muted);
+  }
+  .close-panel:hover{ background:var(--rule); color:var(--ink); }
+  .progreso-form{ display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.85rem; }
+  .progreso-form input{
+    flex:1 1 200px; font-family:var(--serif); font-size:.95rem; padding:.6rem .75rem;
+    border-radius:8px; border:1px solid var(--rule); background:var(--bg); color:var(--ink);
+  }
+  .progreso-form button{
+    font-family:inherit; cursor:pointer; border:none; border-radius:8px; padding:.6rem 1.1rem;
+    font-size:.92rem; font-weight:600; background:var(--accent); color:var(--accent-ink);
+  }
+  .progreso-form button:hover{ background:var(--accent-strong); }
+  .progreso-form button:disabled{ opacity:.5; cursor:not-allowed; }
+  .progreso-form textarea{
+    flex:1 1 100%; font-family:var(--serif); font-size:.95rem; padding:.6rem .75rem;
+    border-radius:8px; border:1px solid var(--rule); background:var(--bg); color:var(--ink);
+    resize:vertical; min-height:4.5rem;
+  }
+  .progreso-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.4rem; }
+  .progreso-item{
+    display:flex; align-items:center; gap:.6rem; font-size:.94rem; padding:.5rem .65rem;
+    border-radius:8px; background:var(--bg-opt);
+  }
+  .progreso-item.ok{ background:var(--bg-oblig); }
+  .progreso-check{
+    flex:none; width:1.4rem; height:1.4rem; border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:.85rem; font-weight:700;
+    background:var(--surface-raised); color:var(--ink-muted);
+  }
+  .progreso-item.ok .progreso-check{ background:var(--accent); color:var(--accent-ink); }
+  .progreso-summary{ margin:.75rem 0 0; font-size:.9rem; color:var(--ink-muted); }
 
   .week-card{
     background:var(--surface-raised); border:2px solid var(--accent); border-radius:var(--radius-card);
@@ -127,7 +171,34 @@
   <nav class="tools">
     <a class="tool-btn" href="https://santiagosorter-88.github.io/Griego-II-2026/repaso-nonstop.html">Repaso nonstop</a>
     <a class="tool-btn" href="https://santiagosorter-88.github.io/Griego-II-2026/fichas-morfologia.html">Fichas de morfología</a>
+    <button type="button" class="tool-btn" id="btn-progreso">Mi progreso</button>
+    <button type="button" class="tool-btn tool-btn--2l" id="btn-consulta">Preguntas<br>Propuestas</button>
   </nav>
+
+  <section id="progreso-panel" class="progreso-panel" hidden>
+    <div class="panel-head">
+      <p class="block-label">Mi progreso</p>
+      <button type="button" class="close-panel" id="btn-cerrar-progreso">✕ Cerrar</button>
+    </div>
+    <div class="progreso-form">
+      <input type="email" id="progreso-email" placeholder="tu@email.com" autocomplete="email" />
+      <button type="button" id="progreso-consultar">Consultar</button>
+    </div>
+    <div id="progreso-resultado"></div>
+  </section>
+
+  <section id="consulta-panel" class="progreso-panel" hidden>
+    <div class="panel-head">
+      <p class="block-label">Preguntas/Propuestas</p>
+      <button type="button" class="close-panel" id="btn-cerrar-consulta">✕ Cerrar</button>
+    </div>
+    <div class="progreso-form">
+      <input type="email" id="consulta-email" placeholder="tu@email.com" autocomplete="email" />
+      <textarea id="consulta-texto" placeholder="Escribí tu pregunta o propuesta..."></textarea>
+      <button type="button" id="consulta-enviar" disabled>Enviar</button>
+    </div>
+    <div id="consulta-resultado"></div>
+  </section>
 
   <main>
     <section id="semana-actual" class="week-card">
@@ -274,6 +345,117 @@ fetch(APPS_SCRIPT_URL)
       '<p class="status-msg status-msg--error">No se pudo cargar el contenido de la semana. Probá recargar la página.</p>';
     document.getElementById("archivo-lista").innerHTML = "";
   });
+
+// ---------- Mi progreso ----------
+// Consulta al mismo Apps Script que ya usan las actividades para enviar respuestas — con
+// GET ?email=... devuelve solo las actividades de ESE email (no expone al resto de la clase).
+var BACKEND_URL = "https://script.google.com/macros/s/AKfycbyMjdVZa0X6Q4nGa60gwy-3GWbJUdbm6W57inTFvrwgpNze3r-ytqK1mOIDo9oTIfKyPQ/exec";
+
+// Lista fija de actividades conocidas: valor = "Actividad" tal como llega a la planilla
+// (document.title de cada HTML), texto = lo que se muestra. Al sumar una actividad nueva,
+// agregarla acá también. Repaso nonstop queda afuera a propósito: es práctica continua, sin
+// un "hecho/no hecho" real que marcar.
+var ACTIVIDADES_PROGRESO = [
+  { valor: "Ejercicios de griego — Frases 1", texto: "Frases 1" },
+  { valor: "Ejercicios de griego — Frases 2", texto: "Frases 2" }
+];
+
+var btnProgreso = document.getElementById("btn-progreso");
+var progresoPanel = document.getElementById("progreso-panel");
+var progresoEmail = document.getElementById("progreso-email");
+var progresoResultado = document.getElementById("progreso-resultado");
+
+btnProgreso.addEventListener("click", function(){
+  progresoPanel.hidden = !progresoPanel.hidden;
+  if (!progresoPanel.hidden) progresoEmail.focus();
+});
+document.getElementById("btn-cerrar-progreso").addEventListener("click", function(){
+  progresoPanel.hidden = true;
+});
+
+function consultarProgreso(){
+  var email = progresoEmail.value.trim();
+  if (!email || email.indexOf("@") < 1){
+    progresoResultado.innerHTML = '<p class="status-msg status-msg--error">Ingresá un email válido.</p>';
+    return;
+  }
+  progresoResultado.innerHTML = '<p class="status-msg">Consultando…</p>';
+  fetch(BACKEND_URL + "?email=" + encodeURIComponent(email))
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if (!data.ok){
+        progresoResultado.innerHTML = '<p class="status-msg status-msg--error">No se pudo consultar. Probá de nuevo.</p>';
+        return;
+      }
+      var hechas = data.actividades || [];
+      var html = '<ul class="progreso-list">';
+      ACTIVIDADES_PROGRESO.forEach(function(act){
+        var ok = hechas.indexOf(act.valor) > -1;
+        html += '<li class="progreso-item' + (ok ? " ok" : "") + '">' +
+          '<span class="progreso-check">' + (ok ? "✓" : "—") + '</span>' +
+          '<span>' + escapeHtml(act.texto) + '</span></li>';
+      });
+      html += '</ul><p class="progreso-summary">' + hechas.length + ' de ' + ACTIVIDADES_PROGRESO.length + ' actividades hechas.</p>';
+      progresoResultado.innerHTML = html;
+    })
+    .catch(function(){
+      progresoResultado.innerHTML = '<p class="status-msg status-msg--error">No se pudo consultar (revisá tu conexión).</p>';
+    });
+}
+
+document.getElementById("progreso-consultar").addEventListener("click", consultarProgreso);
+progresoEmail.addEventListener("keydown", function(ev){ if (ev.key === "Enter") consultarProgreso(); });
+
+// ---------- Preguntas/Propuestas ----------
+// Envía por POST al mismo Apps Script que usan las actividades — cae en la hoja "Preguntas y
+// sugerencias espontáneas" (no en Feedback, para no mezclar consultas espontáneas con la
+// evaluación de cada actividad puntual).
+var btnConsulta = document.getElementById("btn-consulta");
+var consultaPanel = document.getElementById("consulta-panel");
+var consultaEmail = document.getElementById("consulta-email");
+var consultaTexto = document.getElementById("consulta-texto");
+var consultaEnviar = document.getElementById("consulta-enviar");
+var consultaResultado = document.getElementById("consulta-resultado");
+var consultaSendInFlight = false;
+
+btnConsulta.addEventListener("click", function(){
+  consultaPanel.hidden = !consultaPanel.hidden;
+  if (!consultaPanel.hidden) consultaEmail.focus();
+});
+document.getElementById("btn-cerrar-consulta").addEventListener("click", function(){
+  consultaPanel.hidden = true;
+});
+
+function checkConsultaListo(){
+  var emailOk = consultaEmail.value.trim().indexOf("@") > 0;
+  var textoOk = consultaTexto.value.trim().length > 0;
+  consultaEnviar.disabled = !(emailOk && textoOk);
+}
+consultaEmail.addEventListener("input", checkConsultaListo);
+consultaTexto.addEventListener("input", checkConsultaListo);
+
+consultaEnviar.addEventListener("click", function(){
+  if (consultaSendInFlight) return;
+  var email = consultaEmail.value.trim();
+  var consulta = consultaTexto.value.trim();
+  if (!email || email.indexOf("@") < 1 || !consulta) return;
+
+  consultaSendInFlight = true;
+  consultaEnviar.disabled = true;
+  consultaResultado.innerHTML = '<p class="status-msg">Enviando…</p>';
+  fetch(BACKEND_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ actividad: "Preguntas y sugerencias espontáneas", email: email, consulta: consulta })
+  }).then(function(){
+    consultaResultado.innerHTML = '<p class="status-msg">Enviado. ¡Gracias!</p>';
+    consultaTexto.value = "";
+  }).catch(function(){
+    consultaResultado.innerHTML = '<p class="status-msg status-msg--error">No se pudo enviar (revisá tu conexión). Podés reintentar con "Enviar".</p>';
+    consultaSendInFlight = false;
+    consultaEnviar.disabled = false;
+  });
+});
 </script>
 </body>
 </html>

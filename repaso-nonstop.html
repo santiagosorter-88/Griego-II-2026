@@ -126,10 +126,6 @@
   <section class="identity" id="identity">
     <div class="identity-grid">
       <div class="field">
-        <label for="in-nombre">Nombre y apellido</label>
-        <input id="in-nombre" type="text" autocomplete="name" placeholder="Como querés que figure" />
-      </div>
-      <div class="field">
         <label for="in-email">Email</label>
         <input id="in-email" type="email" autocomplete="email" placeholder="tu@email.com" />
       </div>
@@ -224,19 +220,17 @@
   function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
   var BANK = [];
-  var identity = { nombre:"", email:"" };
+  var identity = { email:"" };
   var submitLog = [];
   var practicadas = 0, aciertos = 0;
 
-  var inNombre = document.getElementById("in-nombre");
   var inEmail = document.getElementById("in-email");
   var btnStart = document.getElementById("btn-start");
   var loadStatus = document.getElementById("load-status");
 
   function checkIdentity(){
-    btnStart.disabled = !(inNombre.value.trim() && inEmail.value.trim().indexOf("@") > 0) || BANK.length === 0;
+    btnStart.disabled = !(inEmail.value.trim().indexOf("@") > 0) || BANK.length === 0;
   }
-  inNombre.addEventListener("input", checkIdentity);
   inEmail.addEventListener("input", checkIdentity);
 
   loadStatus.textContent = "Cargando banco de vocabulario…";
@@ -254,7 +248,6 @@
     });
 
   btnStart.addEventListener("click", function(){
-    identity.nombre = inNombre.value.trim();
     identity.email = inEmail.value.trim();
     document.getElementById("identity").style.display = "none";
     document.getElementById("main").classList.add("visible");
@@ -600,7 +593,7 @@
     fetch(APPS_SCRIPT_URL, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ actividad: document.title, nombre: identity.nombre, email: identity.email, respuestas: submitLog })
+      body: JSON.stringify({ actividad: document.title, email: identity.email, respuestas: submitLog })
     }).then(function(){
       statusEl.textContent = "Enviado. ¡Gracias!"; statusEl.className = "status ok";
     }).catch(function(){

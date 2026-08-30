@@ -25,6 +25,8 @@ function doPost(e) {
   ensureFeedbackHeader_(feedbackSheet);
   const asistenciaSheet = ss.getSheetByName('Asistencia') || ss.insertSheet('Asistencia');
   ensureAsistenciaHeader_(asistenciaSheet);
+  const consultasSheet = ss.getSheetByName('Preguntas y sugerencias espontáneas') || ss.insertSheet('Preguntas y sugerencias espontáneas');
+  ensureConsultasHeader_(consultasSheet);
 
   const data = JSON.parse(e.postData.contents);
   const timestamp = new Date();
@@ -78,9 +80,20 @@ function doPost(e) {
     asistenciaSheet.appendRow([timestamp, actividad, nombre, email, correctas, evaluables, pct + '%']);
   }
 
+  // Consulta espontánea desde el botón "Preguntas/Propuestas" de la página de entrada.
+  if (data.consulta) {
+    consultasSheet.appendRow([timestamp, email, data.consulta]);
+  }
+
   return ContentService
     .createTextOutput(JSON.stringify({ ok: true, filas: rows.length }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function ensureConsultasHeader_(sheet) {
+  if (sheet.getLastRow() > 0) return;
+  sheet.getRange(1, 1, 1, 3).setValues([['Fecha', 'Email', 'Consulta']]);
+  sheet.getRange(1, 1, 1, 3).setFontWeight('bold');
 }
 
 function ensureFeedbackHeader_(sheet) {
@@ -238,14 +251,40 @@ function ensureVocabHeader_(sheet) {
   sheet.setFrozenRows(1);
 }
 
-// doGet rutea por el parámetro ?tipo= — así un solo Apps Script sirve el banco de
-// vocabulario (Repaso nonstop) Y el contenido de la página de entrada (index.html),
-// sin duplicar backend. Sin parámetro, por compatibilidad con lo ya desplegado, sirve
-// vocabulario (repaso_nonstop.html no manda parámetro).
+// doGet rutea por el parámetro ?tipo= (o por ?email=, para "Mi progreso") — así un solo
+// Apps Script sirve el banco de vocabulario (Repaso nonstop), el contenido de la página
+// de entrada (index.html) y la consulta de progreso por email, sin duplicar backend. Sin
+// parámetro, por compatibilidad con lo ya desplegado, sirve vocabulario (repaso_nonstop.html
+// no manda parámetro).
 function doGet(e) {
+  const email = (e && e.parameter && e.parameter.email) || '';
+  if (email) return doGetProgreso_(email);
   const tipo = (e && e.parameter && e.parameter.tipo) || 'vocabulario';
   if (tipo === 'indice') return doGetIndice_();
   return doGetVocabulario_();
+}
+
+// ---------------------------------------------------------------------------
+// GET ?email=... — para el botón "Mi progreso" de la página de entrada. Devuelve
+// qué actividades (valores de "Actividad", i.e. document.title) tienen al menos un
+// envío de ese email en la hoja "Asistencia". No expone nada del resto de la clase:
+// solo lo que coincide con el email pedido.
+// ---------------------------------------------------------------------------
+function doGetProgreso_(email) {
+  const emailNorm = String(email).trim().toLowerCase();
+  const ss = SpreadsheetApp.openById(getOrCreateSheetId());
+  const asistenciaSheet = ss.getSheetByName('Asistencia');
+  const actividades = {};
+  if (asistenciaSheet) {
+    const data = asistenciaSheet.getDataRange().getValues();
+    for (let i = 1; i < data.length; i++) {
+      const rowEmail = String(data[i][3] || '').trim().toLowerCase();
+      if (rowEmail === emailNorm) actividades[data[i][1]] = true; // columna "Actividad"
+    }
+  }
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true, actividades: Object.keys(actividades) }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doGetVocabulario_() {
