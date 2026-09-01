@@ -59,6 +59,14 @@
     font-family:inherit; cursor:pointer;
   }
   .tool-btn:hover{ border-color:var(--accent); color:var(--accent-strong); }
+
+  .frases-btn{
+    display:flex; align-items:center; justify-content:center; gap:.5rem;
+    background:var(--accent); color:var(--accent-ink); text-decoration:none;
+    font-size:.98rem; font-weight:600; padding:.75rem; border-radius:var(--radius-card);
+    margin-bottom:1.5rem; min-height:44px;
+  }
+  .frases-btn:hover{ background:var(--accent-strong); }
   .tool-btn--2l{ line-height:1.35; }
 
   .progreso-panel{
@@ -174,6 +182,8 @@
     <button type="button" class="tool-btn" id="btn-progreso">Mi progreso</button>
     <button type="button" class="tool-btn tool-btn--2l" id="btn-consulta">Preguntas<br>Propuestas</button>
   </nav>
+
+  <a class="frases-btn" href="https://docs.google.com/document/d/1L8S_DRxQIduZ48hBoECnbubit5zo46RXI6yuSbBq6lU/edit?tab=t.0" target="_blank" rel="noopener">Soluciones — Práctica independiente</a>
 
   <section id="progreso-panel" class="progreso-panel" hidden>
     <div class="panel-head">
