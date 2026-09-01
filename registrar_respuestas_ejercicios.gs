@@ -239,7 +239,7 @@ function asistenciaContentKey_(actividad, nombre, email, correctas, evaluables) 
 // publicar el HTML.
 // Columnas esperadas (fila 1 = encabezado, se ignora):
 //   Greek | Meaning | Kind | Number | CorrectCases | Person | Voice | Citation | ContextGreek | ContextWord | ContextSpanish
-// CorrectCases: casos separados por coma (ej. "nom,voc"). Kind: nombre / participio / verbo / infinitivo.
+// CorrectCases: casos separados por coma (ej. "nom,voc"). Kind: nombre / adjetivo / participio / verbo / infinitivo.
 // ---------------------------------------------------------------------------
 const VOCAB_SHEET_NAME = 'Vocabulario';
 
@@ -445,4 +445,177 @@ function poblarVocabularioInicial() {
 
   sheet.getRange(2, 1, out.length, out[0].length).setValues(out);
   Logger.log('Listo: ' + out.length + ' palabras cargadas en "Vocabulario". Planilla: ' + ss.getUrl());
+}
+
+
+// ---------------------------------------------------------------------------
+// Correr UNA sola vez, a mano, para sumar a "Vocabulario" las formas rastreadas
+// desde "Base de frases y formas griegas.xlsx" (pestaña "Frases", filas con
+// Traducción propia ya cargada) — 137 formas nuevas de 36 frases: 7 del Práctico
+// 2 (20.08) que nunca se habían usado en ningún ejercicio, y 29 de material
+// marcado "Griego I" / "cursada anterior" (Nivel: Griego I, o Año 2025) que no
+// pertenecen a esta cursada de Griego II. Pensadas para el nivel "Todo (incluye
+// Griego I)" del selector de dificultad de Repaso nonstop (ver conversación del
+// 2026-08-31) — no se les asignó columna de semana todavía, eso se resuelve en
+// una pasada aparte. Segura para correr una sola vez: no repite nada de
+// poblarVocabularioInicial() (verificado, cero superposición) — si se corre dos
+// veces, sí duplica, porque a diferencia de poblarVocabularioInicial() esta no
+// chequea si la hoja ya tiene datos (para no bloquear la carga incremental
+// normal). Antes de correrla, confirmar a ojo que "λύσω" todavía no aparece en
+// la columna A de "Vocabulario".
+// ---------------------------------------------------------------------------
+function poblarVocabularioAmpliado() {
+  const ss = SpreadsheetApp.openById(getOrCreateSheetId());
+  const sheet = ss.getSheetByName(VOCAB_SHEET_NAME) || ss.insertSheet(VOCAB_SHEET_NAME);
+  ensureVocabHeader_(sheet);
+
+  const existing = sheet.getDataRange().getValues();
+  const yaEsta = existing.some(function (r) { return r[0] === 'λύσω'; });
+  if (yaEsta) {
+    Logger.log('Ya parece estar cargado (se encontró "λύσω") — no se tocó nada.');
+    return;
+  }
+
+  var rows = [
+    ['ἀνήρ', 'hombre, varón', 'nombre', 'sg', 'nom', '', '', 'ἀνήρ, ἀνδρός', 'Ἀνὴρ ὁ φεύγων καὶ πάλιν μαχήσεται', 'Ἀνὴρ', 'El hombre que huye también luchará de nuevo.'],
+    ['φεύγων', 'huir, evitar', 'participio', 'sg', 'nom,voc', '', '', 'φεύγω', 'Ἀνὴρ ὁ φεύγων καὶ πάλιν μαχήσεται', 'φεύγων', 'El hombre que huye también luchará de nuevo.'],
+    ['μαχήσεται', 'luchar, combatir', 'verbo', 'sg', '', '3', '', 'μάχομαι', 'Ἀνὴρ ὁ φεύγων καὶ πάλιν μαχήσεται', 'μαχήσεται', 'El hombre que huye también luchará de nuevo.'],
+    ['ἄνθρωπος', 'hombre, ser humano', 'nombre', 'sg', 'nom', '', '', 'ἄνθρωπος, -ου', 'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν', 'Ἄνθρωπος', 'Siendo humano, aprendé a dominar tu ira.'],
+    ['ὤν', 'ser, estar', 'participio', 'sg', 'nom,voc', '', '', 'εἰμί', 'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν', 'ὢν', 'Siendo humano, aprendé a dominar tu ira.'],
+    ['γίνωσκε', 'conocer', 'verbo', 'sg', '', '2', '', 'γιγνώσκω', 'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν', 'γίνωσκε', 'Siendo humano, aprendé a dominar tu ira.'],
+    ['ὀργῆς', 'ira, cólera', 'nombre', 'sg', 'gen', '', '', 'ὀργή, -ῆς', 'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν', 'ὀργῆς', 'Siendo humano, aprendé a dominar tu ira.'],
+    ['κρατεῖν', 'dominar, tener poder sobre', 'infinitivo', '', '', '', 'act', 'κρατέω', 'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν', 'κρατεῖν', 'Siendo humano, aprendé a dominar tu ira.'],
+    ['πολλοί', 'mucho, numeroso', 'adjetivo', 'pl', 'nom,voc', '', '', 'πολύς, πολλή, πολύ', 'Πολλοὶ κακῶς πράττουσιν οὐκ ὄντες κακοί', 'Πολλοὶ', 'A muchos les va mal sin ser malos.'],
+    ['πράττουσι', 'hacer, actuar', 'verbo', 'pl', '', '3', '', 'πράττω', 'Πολλοὶ κακῶς πράττουσιν οὐκ ὄντες κακοί', 'πράττουσιν', 'A muchos les va mal sin ser malos.'],
+    ['ὄντες', 'ser, estar', 'participio', 'pl', 'nom,voc', '', '', 'εἰμί', 'Πολλοὶ κακῶς πράττουσιν οὐκ ὄντες κακοί', 'ὄντες', 'A muchos les va mal sin ser malos.'],
+    ['κακοί', 'malo, funesto', 'adjetivo', 'pl', 'nom,voc', '', '', 'κακός, -ή, -όν', 'Πολλοὶ κακῶς πράττουσιν οὐκ ὄντες κακοί', 'κακοί', 'A muchos les va mal sin ser malos.'],
+    ['ὄνος', 'burro, asno', 'nombre', 'sg', 'nom', '', '', 'ὄνος, -ου', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'ὄνος', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['ξύλων', 'madera, leña', 'nombre', 'pl', 'gen', '', '', 'ξύλον, -ου', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'ξύλων', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['γόμον', 'carga', 'nombre', 'sg', 'ac', '', '', 'γόμος, -ου', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'γόμον', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['φέρων', 'llevar, cargar', 'participio', 'sg', 'nom,voc', '', '', 'φέρω', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'φέρων', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['λίμνην', 'lago, laguna, pantano', 'nombre', 'sg', 'ac', '', '', 'λίμνη, -ης', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'λίμνην', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['διέβαινεν', 'atravesar, cruzar', 'verbo', 'sg', '', '3', '', 'διαβαίνω', 'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν', 'διέβαινεν', 'Un burro que llevaba una carga de leña, cruzaba un lago.'],
+    ['δελφῖνα', 'delfín', 'nombre', 'sg', 'ac', '', '', 'δελφίς, -ῖνος', 'δελφῖνα νήχεσθαι διδάσκεις', 'δελφῖνα', 'Le enseñas al delfín a nadar.'],
+    ['νήχεσθαι', 'nadar', 'infinitivo', '', '', '', 'med', 'νήχομαι', 'δελφῖνα νήχεσθαι διδάσκεις', 'νήχεσθαι', 'Le enseñas al delfín a nadar.'],
+    ['διδάσκεις', 'enseñar', 'verbo', 'sg', '', '2', '', 'διδάσκω', 'δελφῖνα νήχεσθαι διδάσκεις', 'διδάσκεις', 'Le enseñas al delfín a nadar.'],
+    ['φησί', 'decir, afirmar', 'verbo', 'sg', '', '3', '', 'φημί', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'φησὶ', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['Πρωταγόρας', 'Protágoras (sofista)', 'nombre', 'sg', 'nom', '', '', 'Πρωταγόρας, -ου', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'Πρωταγόρας', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['πάντων', 'todo, cada', 'adjetivo', 'pl', 'gen', '', '', 'πᾶς, πᾶσα, πᾶν', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'πάντων', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['χρημάτων', 'cosa, asunto; (pl.) dinero, bienes', 'nombre', 'pl', 'gen', '', '', 'χρῆμα, -ατος', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'χρημάτων', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['μέτρον', 'medida', 'nombre', 'sg', 'nom,ac,voc', '', '', 'μέτρον, -ου', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'μέτρον', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['ἄνθρωπον', 'hombre, ser humano', 'nombre', 'sg', 'ac', '', '', 'ἄνθρωπος, -ου', 'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι', 'ἄνθρωπον', 'Pues dice, creo, Protágoras, que el hombre es la medida de todas las cosas.'],
+    ['Πέρσαι', 'persa', 'nombre', 'pl', 'nom,voc', '', '', 'Πέρσης, -ου', 'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν', 'Πέρσαι', 'Los persas enseñan a los niños a obedecer a los gobernantes.'],
+    ['διδάσκουσι', 'enseñar', 'verbo', 'pl', '', '3', '', 'διδάσκω', 'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν', 'διδάσκουσι', 'Los persas enseñan a los niños a obedecer a los gobernantes.'],
+    ['παῖδας', 'niño, niña', 'nombre', 'pl', 'ac', '', '', 'παῖς, παιδός', 'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν', 'παῖδας', 'Los persas enseñan a los niños a obedecer a los gobernantes.'],
+    ['πείθεσθαι', 'persuadir; (mediopasivo) obedecer', 'infinitivo', '', '', '', 'med', 'πείθω', 'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν', 'πείθεσθαι', 'Los persas enseñan a los niños a obedecer a los gobernantes.'],
+    ['ἄρχουσιν', 'gobernante, magistrado', 'nombre', 'pl', 'dat', '', '', 'ἄρχων, -οντος', 'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν', 'ἄρχουσιν', 'Los persas enseñan a los niños a obedecer a los gobernantes.'],
+    ['ποταμοί', 'río', 'nombre', 'pl', 'nom,voc', '', '', 'ποταμός, -οῦ', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'ποταμοὶ', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['πηγῶν', 'fuente, manantial', 'nombre', 'pl', 'gen', '', '', 'πηγή, -ῆς', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'πηγῶν', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['ἄκρων', 'extremo, más alto; (subst.) cumbre, altura', 'adjetivo', 'pl', 'gen', '', '', 'ἄκρος, -α, -ον', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'ἄκρων', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['πεδίου', 'llanura', 'nombre', 'sg', 'gen', '', '', 'πεδίον, -ου', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'πεδίου', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['θάλατταν', 'mar', 'nombre', 'sg', 'ac', '', '', 'θάλαττα, -ης', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'θάλατταν', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['ῥέουσι', 'fluir, correr (de un líquido)', 'verbo', 'pl', '', '3', '', 'ῥέω', 'οἱ ποταμοὶ ἐκ τῶν πηγῶν κατὰ τῶν ἄκρων διὰ τοῦ πεδίου εἰς τὴν θάλατταν ῥέουσιν', 'ῥέουσιν', 'Los ríos fluyen desde las fuentes por las alturas a través de la llanura hacia el mar.'],
+    ['δεῖ', 'ser necesario, hacer falta', 'verbo', 'sg', '', '3', '', 'δεῖ', 'δεῖ ἐν τοῖς μὲν ὅπλοις φοβερούς, ἐν δὲ τοῖς δικαστηρίοις φιλανθρώπους εἶναι', 'δεῖ', 'Es necesario ser temibles en las armas, pero benévolos en los tribunales.'],
+    ['ὅπλοις', 'arma', 'nombre', 'pl', 'dat', '', '', 'ὅπλον, -ου', 'δεῖ ἐν τοῖς μὲν ὅπλοις φοβερούς, ἐν δὲ τοῖς δικαστηρίοις φιλανθρώπους εἶναι', 'ὅπλοις', 'Es necesario ser temibles en las armas, pero benévolos en los tribunales.'],
+    ['φοβερούς', 'temible, terrible', 'adjetivo', 'pl', 'ac', '', '', 'φοβερός, -ά, -όν', 'δεῖ ἐν τοῖς μὲν ὅπλοις φοβερούς, ἐν δὲ τοῖς δικαστηρίοις φιλανθρώπους εἶναι', 'φοβερούς', 'Es necesario ser temibles en las armas, pero benévolos en los tribunales.'],
+    ['δικαστηρίοις', 'tribunal', 'nombre', 'pl', 'dat', '', '', 'δικαστήριον, -ου', 'δεῖ ἐν τοῖς μὲν ὅπλοις φοβερούς, ἐν δὲ τοῖς δικαστηρίοις φιλανθρώπους εἶναι', 'δικαστηρίοις', 'Es necesario ser temibles en las armas, pero benévolos en los tribunales.'],
+    ['φιλανθρώπους', 'benévolo, humano', 'adjetivo', 'pl', 'ac', '', '', 'φιλάνθρωπος, -ον', 'δεῖ ἐν τοῖς μὲν ὅπλοις φοβερούς, ἐν δὲ τοῖς δικαστηρίοις φιλανθρώπους εἶναι', 'φιλανθρώπους', 'Es necesario ser temibles en las armas, pero benévolos en los tribunales.'],
+    ['Αἰγύπτιοι', 'egipcio', 'nombre', 'pl', 'nom,voc', '', '', 'Αἰγύπτιος, -α, -ον', 'οἱ Αἰγύπτιοι τὸν ἥλιον καὶ τὴν σελήνην θεοὺς εἶναι νομίζουσιν', 'Αἰγύπτιοι', 'Los egipcios consideran que el sol y la luna son dioses.'],
+    ['ἥλιον', 'sol', 'nombre', 'sg', 'ac', '', '', 'ἥλιος, -ου', 'οἱ Αἰγύπτιοι τὸν ἥλιον καὶ τὴν σελήνην θεοὺς εἶναι νομίζουσιν', 'ἥλιον', 'Los egipcios consideran que el sol y la luna son dioses.'],
+    ['σελήνην', 'luna', 'nombre', 'sg', 'ac', '', '', 'σελήνη, -ης', 'οἱ Αἰγύπτιοι τὸν ἥλιον καὶ τὴν σελήνην θεοὺς εἶναι νομίζουσιν', 'σελήνην', 'Los egipcios consideran que el sol y la luna son dioses.'],
+    ['θεούς', 'dios, diosa', 'nombre', 'pl', 'ac', '', '', 'θεός, -οῦ', 'οἱ Αἰγύπτιοι τὸν ἥλιον καὶ τὴν σελήνην θεοὺς εἶναι νομίζουσιν', 'θεοὺς', 'Los egipcios consideran que el sol y la luna son dioses.'],
+    ['νομίζουσι', 'considerar, creer', 'verbo', 'pl', '', '3', '', 'νομίζω', 'οἱ Αἰγύπτιοι τὸν ἥλιον καὶ τὴν σελήνην θεοὺς εἶναι νομίζουσιν', 'νομίζουσιν', 'Los egipcios consideran que el sol y la luna son dioses.'],
+    ['Εὐριπίδης', 'Eurípides (poeta trágico)', 'nombre', 'sg', 'nom', '', '', 'Εὐριπίδης, -ου', 'ὁ Εὐριπίδης τραγικώτατος γε τῶν ποιητῶν φαίνεται', 'Εὐριπίδης', 'Eurípides parece ser, de los poetas, ciertamente el más trágico.'],
+    ['τραγικώτατος', 'trágico; (superl.) el más trágico', 'adjetivo', 'sg', 'nom', '', '', 'τραγικός, -ή, -όν (superl. τραγικώτατος)', 'ὁ Εὐριπίδης τραγικώτατος γε τῶν ποιητῶν φαίνεται', 'τραγικώτατος', 'Eurípides parece ser, de los poetas, ciertamente el más trágico.'],
+    ['ποιητῶν', 'poeta', 'nombre', 'pl', 'gen', '', '', 'ποιητής, -οῦ', 'ὁ Εὐριπίδης τραγικώτατος γε τῶν ποιητῶν φαίνεται', 'ποιητῶν', 'Eurípides parece ser, de los poetas, ciertamente el más trágico.'],
+    ['φαίνεται', 'parecer, aparecer', 'verbo', 'sg', '', '3', '', 'φαίνομαι', 'ὁ Εὐριπίδης τραγικώτατος γε τῶν ποιητῶν φαίνεται', 'φαίνεται', 'Eurípides parece ser, de los poetas, ciertamente el más trágico.'],
+    ['πάτριοι', 'ancestral, patrio, tradicional', 'adjetivo', 'pl', 'nom,voc', '', '', 'πάτριος, -α, -ον', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'πάτριοι', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['νόμοι', 'ley, costumbre', 'nombre', 'pl', 'nom,voc', '', '', 'νόμος, -ου', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'νόμοι', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['κελεύουσι', 'ordenar, mandar', 'verbo', 'pl', '', '3', '', 'κελεύω', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'κελεύουσι', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['φόνους', 'asesinato, homicidio', 'nombre', 'pl', 'ac', '', '', 'φόνος, -ου', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'φόνους', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['θανάτῳ', 'muerte', 'nombre', 'sg', 'dat', '', '', 'θάνατος, -ου', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'θανάτῳ', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['κολάζεσθαι', 'castigar; (mediopasivo) ser castigado', 'infinitivo', '', '', '', 'med', 'κολάζω', 'οἱ πάτριοι νόμοι κελεύουσι τοὺς φόνους θανάτῳ κολάζεσθαι', 'κολάζεσθαι', 'Las leyes patrias ordenan que los asesinatos sean castigados con la muerte.'],
+    ['ἄγετε', 'llevar, conducir', 'verbo', 'pl', '', '2', '', 'ἄγω', 'ἄγετε τοὺς ταύρους εἰς τὸ πεδίον καὶ θύετε τοῖς θεοῖς', 'ἄγετε', 'Lleven los toros a la llanura y sacrifíquenlos a los dioses.'],
+    ['ταύρους', 'toro', 'nombre', 'pl', 'ac', '', '', 'ταῦρος, -ου', 'ἄγετε τοὺς ταύρους εἰς τὸ πεδίον καὶ θύετε τοῖς θεοῖς', 'ταύρους', 'Lleven los toros a la llanura y sacrifíquenlos a los dioses.'],
+    ['πεδίον', 'llanura', 'nombre', 'sg', 'nom,ac,voc', '', '', 'πεδίον, -ου', 'ἄγετε τοὺς ταύρους εἰς τὸ πεδίον καὶ θύετε τοῖς θεοῖς', 'πεδίον', 'Lleven los toros a la llanura y sacrifíquenlos a los dioses.'],
+    ['θύετε', 'sacrificar', 'verbo', 'pl', '', '2', '', 'θύω', 'ἄγετε τοὺς ταύρους εἰς τὸ πεδίον καὶ θύετε τοῖς θεοῖς', 'θύετε', 'Lleven los toros a la llanura y sacrifíquenlos a los dioses.'],
+    ['θεοῖς', 'dios', 'nombre', 'pl', 'dat', '', '', 'θεός, -οῦ', 'ἄγετε τοὺς ταύρους εἰς τὸ πεδίον καὶ θύετε τοῖς θεοῖς', 'θεοῖς', 'Lleven los toros a la llanura y sacrifíquenlos a los dioses.'],
+    ['ἀγρῶν', 'campo', 'nombre', 'pl', 'gen', '', '', 'ἀγρός, -οῦ', 'ἐκ τῶν ἀγρῶν οἱ πολέμιοι φέρονται τοὺς καλοὺς ἵππους', 'ἀγρῶν', 'Los enemigos se llevan de los campos los bellos caballos.'],
+    ['πολέμιοι', 'enemigo, hostil', 'adjetivo', 'pl', 'nom,voc', '', '', 'πολέμιος, -α, -ον', 'ἐκ τῶν ἀγρῶν οἱ πολέμιοι φέρονται τοὺς καλοὺς ἵππους', 'πολέμιοι', 'Los enemigos se llevan de los campos los bellos caballos.'],
+    ['φέρονται', 'llevar; (mediopasivo) llevarse', 'verbo', 'pl', '', '3', '', 'φέρω', 'ἐκ τῶν ἀγρῶν οἱ πολέμιοι φέρονται τοὺς καλοὺς ἵππους', 'φέρονται', 'Los enemigos se llevan de los campos los bellos caballos.'],
+    ['καλούς', 'bello, bueno', 'adjetivo', 'pl', 'ac', '', '', 'καλός, -ή, -όν', 'ἐκ τῶν ἀγρῶν οἱ πολέμιοι φέρονται τοὺς καλοὺς ἵππους', 'καλοὺς', 'Los enemigos se llevan de los campos los bellos caballos.'],
+    ['ἵππους', 'caballo', 'nombre', 'pl', 'ac', '', '', 'ἵππος, -ου', 'ἐκ τῶν ἀγρῶν οἱ πολέμιοι φέρονται τοὺς καλοὺς ἵππους', 'ἵππους', 'Los enemigos se llevan de los campos los bellos caballos.'],
+    ['χρή', 'ser necesario, convenir', 'verbo', 'sg', '', '3', '', 'χρή', 'χρὴ φιλόσοφον εἶναι φίλον ἀληθείας καὶ δικαιοσύνης', 'χρὴ', 'Es necesario que el filósofo sea amigo de la verdad y la justicia.'],
+    ['φιλόσοφον', 'filósofo', 'nombre', 'sg', 'ac', '', '', 'φιλόσοφος, -ου', 'χρὴ φιλόσοφον εἶναι φίλον ἀληθείας καὶ δικαιοσύνης', 'φιλόσοφον', 'Es necesario que el filósofo sea amigo de la verdad y la justicia.'],
+    ['φίλον', 'amigo', 'nombre', 'sg', 'ac', '', '', 'φίλος, -ου', 'χρὴ φιλόσοφον εἶναι φίλον ἀληθείας καὶ δικαιοσύνης', 'φίλον', 'Es necesario que el filósofo sea amigo de la verdad y la justicia.'],
+    ['ἀληθείας', 'verdad', 'nombre', 'sg', 'gen', '', '', 'ἀλήθεια, -ας', 'χρὴ φιλόσοφον εἶναι φίλον ἀληθείας καὶ δικαιοσύνης', 'ἀληθείας', 'Es necesario que el filósofo sea amigo de la verdad y la justicia.'],
+    ['δικαιοσύνης', 'justicia', 'nombre', 'sg', 'gen', '', '', 'δικαιοσύνη, -ης', 'χρὴ φιλόσοφον εἶναι φίλον ἀληθείας καὶ δικαιοσύνης', 'δικαιοσύνης', 'Es necesario que el filósofo sea amigo de la verdad y la justicia.'],
+    ['πάτταλοι', 'clavo, estaca', 'nombre', 'pl', 'nom,voc', '', '', 'πάτταλος, -ου', 'οἱ πάτταλοι παττάλοις ἐκκρούονται', 'πάτταλοι', 'Los clavos se sacan con clavos.'],
+    ['παττάλοις', 'clavo, estaca', 'nombre', 'pl', 'dat', '', '', 'πάτταλος, -ου', 'οἱ πάτταλοι παττάλοις ἐκκρούονται', 'παττάλοις', 'Los clavos se sacan con clavos.'],
+    ['ἐκκρούονται', 'expulsar, sacar (a golpes)', 'verbo', 'pl', '', '3', '', 'ἐκκρούω', 'οἱ πάτταλοι παττάλοις ἐκκρούονται', 'ἐκκρούονται', 'Los clavos se sacan con clavos.'],
+    ['κακῶν', 'malo', 'adjetivo', 'pl', 'gen', '', '', 'κακός, -ή, -όν', 'τὰς δὲ τῶν κακῶν συνουσίας φεῦγε ἀμεταστρεπτί', 'κακῶν', 'Huí sin vueltas de la compañía de los malos.'],
+    ['συνουσίας', 'compañía, trato, relación', 'nombre', 'pl', 'ac', '', '', 'συνουσία, -ας', 'τὰς δὲ τῶν κακῶν συνουσίας φεῦγε ἀμεταστρεπτί', 'συνουσίας', 'Huí sin vueltas de la compañía de los malos.'],
+    ['φεῦγε', 'huir, evitar', 'verbo', 'sg', '', '2', '', 'φεύγω', 'τὰς δὲ τῶν κακῶν συνουσίας φεῦγε ἀμεταστρεπτί', 'φεῦγε', 'Huí sin vueltas de la compañía de los malos.'],
+    ['λέγετε', 'decir, hablar', 'verbo', 'pl', '', '2', '', 'λέγω', 'οὐκ ὀρθῶς λέγετε, ὦ ἄνθρωποι, ἀλλὰ ψεύδεσθε', 'λέγετε', 'No hablan correctamente, oh, personas, sino que mienten.'],
+    ['ἄνθρωποι', 'hombre, ser humano, persona', 'nombre', 'pl', 'nom,voc', '', '', 'ἄνθρωπος, -ου', 'οὐκ ὀρθῶς λέγετε, ὦ ἄνθρωποι, ἀλλὰ ψεύδεσθε', 'ἄνθρωποι', 'No hablan correctamente, oh, personas, sino que mienten.'],
+    ['ψεύδεσθε', 'mentir', 'verbo', 'pl', '', '2', '', 'ψεύδομαι', 'οὐκ ὀρθῶς λέγετε, ὦ ἄνθρωποι, ἀλλὰ ψεύδεσθε', 'ψεύδεσθε', 'No hablan correctamente, oh, personas, sino que mienten.'],
+    ['κακοῖς', 'malo; (subst. neutro) desgracia, mal', 'adjetivo', 'pl', 'dat', '', '', 'κακός, -ή, -όν', 'ἐν τοῖς κακοῖς δεῖ τοὺς φίλους εὐεργετεῖν', 'κακοῖς', 'En las desgracias hay que hacer bien a los amigos.'],
+    ['φίλους', 'amigo', 'nombre', 'pl', 'ac', '', '', 'φίλος, -ου', 'ἐν τοῖς κακοῖς δεῖ τοὺς φίλους εὐεργετεῖν', 'φίλους', 'En las desgracias hay que hacer bien a los amigos.'],
+    ['εὐεργετεῖν', 'hacer bien a, beneficiar', 'infinitivo', '', '', '', 'act', 'εὐεργετέω', 'ἐν τοῖς κακοῖς δεῖ τοὺς φίλους εὐεργετεῖν', 'εὐεργετεῖν', 'En las desgracias hay que hacer bien a los amigos.'],
+    ['ἀρετή', 'virtud, excelencia', 'nombre', 'sg', 'nom,voc', '', '', 'ἀρετή, -ῆς', 'ἡ δ᾽ ἀρετὴ πάσης τέχνης ἀκριβεστέρα ἐστίν', 'ἀρετὴ', 'Pero la virtud es más exacta que toda técnica.'],
+    ['πάσης', 'todo, cada', 'adjetivo', 'sg', 'gen', '', '', 'πᾶς, πᾶσα, πᾶν', 'ἡ δ᾽ ἀρετὴ πάσης τέχνης ἀκριβεστέρα ἐστίν', 'πάσης', 'Pero la virtud es más exacta que toda técnica.'],
+    ['τέχνης', 'arte, técnica, oficio', 'nombre', 'sg', 'gen', '', '', 'τέχνη, -ης', 'ἡ δ᾽ ἀρετὴ πάσης τέχνης ἀκριβεστέρα ἐστίν', 'τέχνης', 'Pero la virtud es más exacta que toda técnica.'],
+    ['ἀκριβεστέρα', 'preciso, exacto; (comp.) más exacto', 'adjetivo', 'sg', 'nom,voc', '', '', 'ἀκριβής, -ές (comp. ἀκριβέστερος)', 'ἡ δ᾽ ἀρετὴ πάσης τέχνης ἀκριβεστέρα ἐστίν', 'ἀκριβεστέρα', 'Pero la virtud es más exacta que toda técnica.'],
+    ['Πυθαγόρᾳ', 'Pitágoras', 'nombre', 'sg', 'dat', '', '', 'Πυθαγόρας, -ου', 'Πυθαγόρᾳ μὲν μάλιστα ἤρεσκεν ἡ ἐχεμυθία', 'Πυθαγόρᾳ', 'A Pitágoras le agradaba especialmente el silencio.'],
+    ['ἤρεσκεν', 'agradar, complacer', 'verbo', 'sg', '', '3', '', 'ἀρέσκω', 'Πυθαγόρᾳ μὲν μάλιστα ἤρεσκεν ἡ ἐχεμυθία', 'ἤρεσκεν', 'A Pitágoras le agradaba especialmente el silencio.'],
+    ['ἐχεμυθία', 'discreción, silencio (guardar un secreto)', 'nombre', 'sg', 'nom,voc', '', '', 'ἐχεμυθία, -ας', 'Πυθαγόρᾳ μὲν μάλιστα ἤρεσκεν ἡ ἐχεμυθία', 'ἐχεμυθία', 'A Pitágoras le agradaba especialmente el silencio.'],
+    ['θεοί', 'dios', 'nombre', 'pl', 'nom,voc', '', '', 'θεός, -οῦ', 'θεοί τ᾽ εἰσὶν καὶ ἀνθρώπων ἐπιμελοῦνται', 'θεοί', 'Los dioses existen y se preocupan por los seres humanos.'],
+    ['εἰσί', 'ser, estar, existir', 'verbo', 'pl', '', '3', '', 'εἰμί', 'θεοί τ᾽ εἰσὶν καὶ ἀνθρώπων ἐπιμελοῦνται', 'εἰσὶν', 'Los dioses existen y se preocupan por los seres humanos.'],
+    ['ἀνθρώπων', 'hombre, ser humano', 'nombre', 'pl', 'gen', '', '', 'ἄνθρωπος, -ου', 'θεοί τ᾽ εἰσὶν καὶ ἀνθρώπων ἐπιμελοῦνται', 'ἀνθρώπων', 'Los dioses existen y se preocupan por los seres humanos.'],
+    ['ἐπιμελοῦνται', 'preocuparse por, cuidar de', 'verbo', 'pl', '', '3', '', 'ἐπιμελέομαι', 'θεοί τ᾽ εἰσὶν καὶ ἀνθρώπων ἐπιμελοῦνται', 'ἐπιμελοῦνται', 'Los dioses existen y se preocupan por los seres humanos.'],
+    ['λοιπόν', 'restante, que queda; (ac. adverbial) en lo sucesivo', 'adjetivo', 'sg', 'nom,ac,voc', '', '', 'λοιπός, -ή, -όν', 'ἡμεῖς δὲ τὸ λοιπὸν Βακχίῳ δουλεύσομεν', 'λοιπὸν', 'Pero nosotros, de aquí en más, serviremos a Baco.'],
+    ['Βακχίῳ', 'Baco (=Dioniso)', 'nombre', 'sg', 'dat', '', '', 'Βάκχιος, -ου', 'ἡμεῖς δὲ τὸ λοιπὸν Βακχίῳ δουλεύσομεν', 'Βακχίῳ', 'Pero nosotros, de aquí en más, serviremos a Baco.'],
+    ['δουλεύσομεν', 'servir, ser esclavo de', 'verbo', 'pl', '', '1', '', 'δουλεύω', 'ἡμεῖς δὲ τὸ λοιπὸν Βακχίῳ δουλεύσομεν', 'δουλεύσομεν', 'Pero nosotros, de aquí en más, serviremos a Baco.'],
+    ['Σώστρατος', 'Sóstrato (nombre propio)', 'nombre', 'sg', 'nom', '', '', 'Σώστρατος, -ου', 'Σώστρατος ἦν μοι ἐπιτήδειος καὶ φίλος', 'Σώστρατος', 'Sóstrato era para mí cercano y amigo.'],
+    ['ἦν', 'ser, estar', 'verbo', 'sg', '', '3', '', 'εἰμί', 'Σώστρατος ἦν μοι ἐπιτήδειος καὶ φίλος', 'ἦν', 'Sóstrato era para mí cercano y amigo.'],
+    ['ἐπιτήδειος', 'apto, conveniente; cercano, íntimo', 'adjetivo', 'sg', 'nom', '', '', 'ἐπιτήδειος, -α, -ον', 'Σώστρατος ἦν μοι ἐπιτήδειος καὶ φίλος', 'ἐπιτήδειος', 'Sóstrato era para mí cercano y amigo.'],
+    ['φίλος', 'amigo', 'nombre', 'sg', 'nom', '', '', 'φίλος, -ου', 'Σώστρατος ἦν μοι ἐπιτήδειος καὶ φίλος', 'φίλος', 'Sóstrato era para mí cercano y amigo.'],
+    ['νόμιζε', 'considerar, creer', 'verbo', 'sg', '', '2', '', 'νομίζω', 'νόμιζ᾽ ἀδελφοὺς τοὺς ἀληθινούς φίλους', 'νόμιζ᾽', 'Considera hermanos a los verdaderos amigos.'],
+    ['ἀδελφούς', 'hermano', 'nombre', 'pl', 'ac', '', '', 'ἀδελφός, -οῦ', 'νόμιζ᾽ ἀδελφοὺς τοὺς ἀληθινούς φίλους', 'ἀδελφοὺς', 'Considera hermanos a los verdaderos amigos.'],
+    ['ἀληθινούς', 'verdadero, genuino', 'adjetivo', 'pl', 'ac', '', '', 'ἀληθινός, -ή, -όν', 'νόμιζ᾽ ἀδελφοὺς τοὺς ἀληθινούς φίλους', 'ἀληθινούς', 'Considera hermanos a los verdaderos amigos.'],
+    ['βίος', 'vida', 'nombre', 'sg', 'nom', '', '', 'βίος, -ου', 'ὁ μὲν οὖν βίος τοῦ σοφιστοῦ τοιοῦτος', 'βίος', 'Por un lado tal es, entonces, la vida del sofista.'],
+    ['σοφιστοῦ', 'sofista', 'nombre', 'sg', 'gen', '', '', 'σοφιστής, -οῦ', 'ὁ μὲν οὖν βίος τοῦ σοφιστοῦ τοιοῦτος', 'σοφιστοῦ', 'Por un lado tal es, entonces, la vida del sofista.'],
+    ['θεῷ', 'dios', 'nombre', 'sg', 'dat', '', '', 'θεός, -οῦ', 'θεῷ μάχεσθαι δεινόν ἐστι καὶ τύχῃ', 'θεῷ', 'Luchar contra un dios y contra la fortuna es terrible.'],
+    ['μάχεσθαι', 'luchar, combatir', 'infinitivo', '', '', '', 'med', 'μάχομαι', 'θεῷ μάχεσθαι δεινόν ἐστι καὶ τύχῃ', 'μάχεσθαι', 'Luchar contra un dios y contra la fortuna es terrible.'],
+    ['δεινόν', 'terrible, temible; hábil', 'adjetivo', 'sg', 'nom,ac,voc', '', '', 'δεινός, -ή, -όν', 'θεῷ μάχεσθαι δεινόν ἐστι καὶ τύχῃ', 'δεινόν', 'Luchar contra un dios y contra la fortuna es terrible.'],
+    ['τύχῃ', 'fortuna, suerte, azar', 'nombre', 'sg', 'dat', '', '', 'τύχη, -ης', 'θεῷ μάχεσθαι δεινόν ἐστι καὶ τύχῃ', 'τύχῃ', 'Luchar contra un dios y contra la fortuna es terrible.'],
+    ['προνοίας', 'previsión, providencia', 'nombre', 'sg', 'gen', '', '', 'πρόνοια, -ας', 'πάσης προνοίας ἡ τύχη δυνατωτέρα', 'προνοίας', 'La fortuna es más poderosa que toda previsión.'],
+    ['τύχη', 'fortuna, suerte', 'nombre', 'sg', 'nom,voc', '', '', 'τύχη, -ης', 'πάσης προνοίας ἡ τύχη δυνατωτέρα', 'τύχη', 'La fortuna es más poderosa que toda previsión.'],
+    ['δυνατωτέρα', 'poderoso, capaz; (comp.) más poderoso', 'adjetivo', 'sg', 'nom,voc', '', '', 'δυνατός, -ή, -όν (comp. δυνατώτερος)', 'πάσης προνοίας ἡ τύχη δυνατωτέρα', 'δυνατωτέρα', 'La fortuna es más poderosa que toda previsión.'],
+    ['πολλῶν', 'mucho, numeroso', 'adjetivo', 'pl', 'gen', '', '', 'πολύς, πολλή, πολύ', 'πολλῶν ὁ χρόνος γίγνεται ἰατρός', 'πολλῶν', 'El tiempo se vuelve médico de muchas cosas.'],
+    ['γίγνεται', 'llegar a ser, convertirse en; suceder', 'verbo', 'sg', '', '3', '', 'γίγνομαι', 'πολλῶν ὁ χρόνος γίγνεται ἰατρός', 'γίγνεται', 'El tiempo se vuelve médico de muchas cosas.'],
+    ['ἰατρός', 'médico', 'nombre', 'sg', 'nom', '', '', 'ἰατρός, -οῦ', 'πολλῶν ὁ χρόνος γίγνεται ἰατρός', 'ἰατρός', 'El tiempo se vuelve médico de muchas cosas.'],
+    ['ἐρωτικά', 'erótico, relativo al amor; (subst.) las cosas del amor', 'adjetivo', 'pl', 'nom,ac,voc', '', '', 'ἐρωτικός, -ή, -όν', 'ἡ δὲ ἐμὲ τὰ ἐρωτικὰ ἐδίδασκεν', 'ἐρωτικὰ', 'Y ella me enseñaba las cosas del amor.'],
+    ['ἐδίδασκεν', 'enseñar', 'verbo', 'sg', '', '3', '', 'διδάσκω', 'ἡ δὲ ἐμὲ τὰ ἐρωτικὰ ἐδίδασκεν', 'ἐδίδασκεν', 'Y ella me enseñaba las cosas del amor.'],
+    ['ζῷα', 'animal, ser viviente', 'nombre', 'pl', 'nom,ac,voc', '', '', 'ζῷον, -ου', 'τὰ ζῷα πείθεται τῷ ἀνθρώπῳ', 'ζῷα', 'Los animales obedecen al ser humano.'],
+    ['πείθεται', 'persuadir; (mediopasivo) obedecer', 'verbo', 'sg', '', '3', '', 'πείθω', 'τὰ ζῷα πείθεται τῷ ἀνθρώπῳ', 'πείθεται', 'Los animales obedecen al ser humano.'],
+    ['ἀνθρώπῳ', 'hombre, ser humano', 'nombre', 'sg', 'dat', '', '', 'ἄνθρωπος, -ου', 'τὰ ζῷα πείθεται τῷ ἀνθρώπῳ', 'ἀνθρώπῳ', 'Los animales obedecen al ser humano.'],
+    ['μαθητῇ', 'estudiante, discípulo', 'nombre', 'sg', 'dat', '', '', 'μαθητής, -οῦ', 'τῷ μαθητῇ πρέπει σπουδή', 'μαθητῇ', 'Al estudiante le corresponde el esfuerzo.'],
+    ['πρέπει', 'convenir, corresponder, ser apropiado', 'verbo', 'sg', '', '3', '', 'πρέπει', 'τῷ μαθητῇ πρέπει σπουδή', 'πρέπει', 'Al estudiante le corresponde el esfuerzo.'],
+    ['σπουδή', 'esfuerzo, celo, diligencia', 'nombre', 'sg', 'nom,voc', '', '', 'σπουδή, -ῆς', 'τῷ μαθητῇ πρέπει σπουδή', 'σπουδή', 'Al estudiante le corresponde el esfuerzo.'],
+    ['ἔλαφοι', 'ciervo', 'nombre', 'pl', 'nom,voc', '', '', 'ἔλαφος, -ου', 'οἱ ἔλαφοι ἔθνησκον δίψῃ', 'ἔλαφοι', 'Los ciervos morían de sed.'],
+    ['ἔθνησκον', 'morir', 'verbo', 'pl', '', '3', '', 'θνῄσκω', 'οἱ ἔλαφοι ἔθνησκον δίψῃ', 'ἔθνησκον', 'Los ciervos morían de sed.'],
+    ['δίψῃ', 'sed', 'nombre', 'sg', 'dat', '', '', 'δίψα, -ης', 'οἱ ἔλαφοι ἔθνησκον δίψῃ', 'δίψῃ', 'Los ciervos morían de sed.'],
+    ['ὁδόν', 'camino, vía', 'nombre', 'sg', 'ac', '', '', 'ὁδός, -οῦ', 'παρὰ τὴν ὁδὸν κρήνη ἦν', 'ὁδὸν', 'Había una fuente junto al camino.'],
+    ['κρήνη', 'fuente, manantial', 'nombre', 'sg', 'nom,voc', '', '', 'κρήνη, -ης', 'παρὰ τὴν ὁδὸν κρήνη ἦν', 'κρήνη', 'Había una fuente junto al camino.'],
+    ['λύσω', 'liberar, desatar, soltar', 'verbo', 'sg', '', '1', '', 'λύω', 'ἐγὼ δὲ λύσω τόνδε', 'λύσω', 'Yo, por mi parte, lo liberaré.'],
+    ['μῦθος', 'relato, fábula, mito', 'nombre', 'sg', 'nom', '', '', 'μῦθος, -ου', 'Ὁ μῦθος δηλοῖ ὅτι τῶν πονηρῶν αἱ χάριτες φοβεραί εἰσιν', 'μῦθος', 'El relato muestra que los favores de los malvados son temibles.'],
+    ['δηλοῖ', 'mostrar, revelar, indicar', 'verbo', 'sg', '', '3', '', 'δηλόω', 'Ὁ μῦθος δηλοῖ ὅτι τῶν πονηρῶν αἱ χάριτες φοβεραί εἰσιν', 'δηλοῖ', 'El relato muestra que los favores de los malvados son temibles.'],
+    ['πονηρῶν', 'malvado, vil, malo', 'adjetivo', 'pl', 'gen', '', '', 'πονηρός, -ά, -όν', 'Ὁ μῦθος δηλοῖ ὅτι τῶν πονηρῶν αἱ χάριτες φοβεραί εἰσιν', 'πονηρῶν', 'El relato muestra que los favores de los malvados son temibles.'],
+    ['χάριτες', 'favor, gracia', 'nombre', 'pl', 'nom,voc', '', '', 'χάρις, -ιτος', 'Ὁ μῦθος δηλοῖ ὅτι τῶν πονηρῶν αἱ χάριτες φοβεραί εἰσιν', 'χάριτες', 'El relato muestra que los favores de los malvados son temibles.'],
+    ['φοβεραί', 'temible, terrible', 'adjetivo', 'pl', 'nom,voc', '', '', 'φοβερός, -ά, -όν', 'Ὁ μῦθος δηλοῖ ὅτι τῶν πονηρῶν αἱ χάριτες φοβεραί εἰσιν', 'φοβεραί', 'El relato muestra que los favores de los malvados son temibles.'],
+  ];
+
+  sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+  Logger.log('Listo: ' + rows.length + ' formas nuevas agregadas a "Vocabulario". Planilla: ' + ss.getUrl());
 }

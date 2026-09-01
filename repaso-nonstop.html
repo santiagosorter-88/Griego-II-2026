@@ -404,7 +404,7 @@
     var st = current.formState;
     promptEl.textContent = w.kind === "infinitivo" ? "¿En qué voz está?" : (w.kind === "verbo" ? "¿En qué persona y número está?" : "¿En qué caso y número está?");
 
-    if (w.kind === "nombre" || w.kind === "participio"){
+    if (w.kind === "nombre" || w.kind === "participio" || w.kind === "adjetivo"){
       var caseLabel = document.createElement("span"); caseLabel.className = "dim-label"; caseLabel.textContent = "Caso:";
       pickerHostEl.appendChild(caseLabel);
       var caseRow = document.createElement("div"); caseRow.className = "picker-row";
@@ -492,7 +492,7 @@
     var w = current.word, st = current.formState;
     var isCorrect = false, correctLabel = "", respuestaTxt = "";
 
-    if (w.kind === "nombre" || w.kind === "participio"){
+    if (w.kind === "nombre" || w.kind === "participio" || w.kind === "adjetivo"){
       var correctSet = new Set(w.correctCases || []);
       var casesOk = st.cases.size === correctSet.size && Array.from(st.cases).every(function(c){ return correctSet.has(c); });
       isCorrect = casesOk && st.number === w.number;
