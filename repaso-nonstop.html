@@ -526,16 +526,22 @@
     submitLog.push({ ejercicio:"Forma", frase:"", item:w.greek, respuesta:respuestaTxt, correcta:isCorrect });
     pickerHostEl.querySelectorAll("button").forEach(function(b){ b.disabled = true; });
 
+    var meaningLine = document.createElement("p");
+    meaningLine.className = "feedback-line";
+    meaningLine.textContent = w.greek + ": " + w.meaning;
+
     if (isCorrect){
       practicadas++; aciertos++; updateCounter();
       var fb = document.createElement("p"); fb.className = "feedback-line ok"; fb.textContent = "¡Correcto!";
       feedbackHostEl.appendChild(fb);
+      feedbackHostEl.appendChild(meaningLine);
       setTimeout(loadNextItem, 650);
     } else {
       practicadas++; updateCounter();
       var fb2 = document.createElement("p"); fb2.className = "feedback-line reveal";
       fb2.textContent = "La forma correcta era: " + correctLabel;
       feedbackHostEl.appendChild(fb2);
+      feedbackHostEl.appendChild(meaningLine);
       var nextBtn = document.createElement("button");
       nextBtn.type = "button"; nextBtn.className = "btn"; nextBtn.textContent = "Siguiente palabra";
       nextBtn.addEventListener("click", loadNextItem);
