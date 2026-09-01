@@ -124,6 +124,13 @@
   <p class="lede">Repaso mecánico de todo el vocabulario visto hasta ahora. Es un loop sin fin — practicá lo que quieras y apretá "LISTO" cuando decidas terminar por hoy.</p>
 
   <section class="identity" id="identity">
+    <div class="picker-row" id="level-row" style="justify-content:flex-start; margin-bottom:1rem;">
+      <span class="dim-label">Nivel:</span>
+      <button type="button" class="case-chip" data-level="1">Semana 1</button>
+      <button type="button" class="case-chip" data-level="2">Semana 2</button>
+      <button type="button" class="case-chip" data-level="3">Semana 3</button>
+      <button type="button" class="case-chip on" data-level="todo">Todo (incluye Griego I)</button>
+    </div>
     <div class="identity-grid">
       <div class="field">
         <label for="in-email">Email</label>
@@ -223,6 +230,30 @@
   var identity = { email:"" };
   var submitLog = [];
   var practicadas = 0, aciertos = 0;
+
+  // ---------- Nivel de dificultad ----------
+  // "1"/"2"/"3": vocabulario acumulado hasta esa semana (semana <= N). "todo": todo el
+  // banco, incluidas las palabras sin semana asignada (material de Griego I / cursadas
+  // anteriores). Si el filtro da 0 palabras (p. ej. Semana 3 todavía sin cargar), se usa
+  // el banco completo en su lugar en vez de trabar la práctica.
+  var nivelSeleccionado = "todo";
+  var levelRowEl = document.getElementById("level-row");
+  Array.from(levelRowEl.querySelectorAll(".case-chip")).forEach(function(chip){
+    chip.addEventListener("click", function(){
+      nivelSeleccionado = chip.dataset.level;
+      levelRowEl.querySelectorAll(".case-chip").forEach(function(c){ c.classList.toggle("on", c === chip); });
+    });
+  });
+
+  function activePool(){
+    if (nivelSeleccionado === "todo") return BANK;
+    var maxSemana = Number(nivelSeleccionado);
+    var pool = BANK.filter(function(w){
+      var s = Number(w.semana);
+      return s && s <= maxSemana;
+    });
+    return pool.length ? pool : BANK;
+  }
 
   var inEmail = document.getElementById("in-email");
   var btnStart = document.getElementById("btn-start");
@@ -325,7 +356,7 @@
   }
 
   function loadNextItem(){
-    var word = pick(BANK);
+    var word = pick(activePool());
     var type = Math.random() < 0.5 ? "significado" : "forma";
     current = { word:word, type:type, attempt:1, formState: (word.kind === "nombre" || word.kind === "participio") ? {cases:new Set(), number:null} : {} };
     clearCard();

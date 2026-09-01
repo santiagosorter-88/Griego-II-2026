@@ -245,7 +245,7 @@ const VOCAB_SHEET_NAME = 'Vocabulario';
 
 function ensureVocabHeader_(sheet) {
   if (sheet.getLastRow() > 0) return;
-  var header = ['Greek', 'Meaning', 'Kind', 'Number', 'CorrectCases', 'Person', 'Voice', 'Citation', 'ContextGreek', 'ContextWord', 'ContextSpanish'];
+  var header = ['Greek', 'Meaning', 'Kind', 'Number', 'CorrectCases', 'Person', 'Voice', 'Citation', 'ContextGreek', 'ContextWord', 'ContextSpanish', 'Semana'];
   sheet.getRange(1, 1, 1, header.length).setValues([header]);
   sheet.getRange(1, 1, 1, header.length).setFontWeight('bold');
   sheet.setFrozenRows(1);
@@ -310,6 +310,7 @@ function doGetVocabulario_() {
     if (row[4]) entry.correctCases = String(row[4]).split(',').map(function (c) { return c.trim(); }).filter(Boolean);
     if (row[5]) entry.person = String(row[5]);
     if (row[6]) entry.voice = row[6];
+    if (row[11]) entry.semana = String(row[11]);
     bank.push(entry);
   }
 
@@ -618,4 +619,64 @@ function poblarVocabularioAmpliado() {
 
   sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
   Logger.log('Listo: ' + rows.length + ' formas nuevas agregadas a "Vocabulario". Planilla: ' + ss.getUrl());
+}
+
+// ---------------------------------------------------------------------------
+// Correr UNA sola vez, a mano, DESPUÉS de poblarVocabularioAmpliado(). Agrega la
+// columna "Semana" (si no existe) y le pone valor a cada fila de "Vocabulario"
+// según de qué frase salió (comparando por ContextGreek, columna I) — así el
+// selector de nivel de Repaso nonstop puede filtrar por "Semana 1/2/3" o "Todo".
+// Las frases que no están en el mapa (material de Griego I / cursada 2025) quedan
+// con Semana vacío a propósito: solo aparecen en el nivel "Todo". Segura para
+// correr más de una vez: vuelve a calcular todo desde cero cada vez, no acumula.
+// ---------------------------------------------------------------------------
+function migrarColumnaSemana() {
+  const ss = SpreadsheetApp.openById(getOrCreateSheetId());
+  const sheet = ss.getSheetByName(VOCAB_SHEET_NAME);
+  if (!sheet) { Logger.log('No existe la hoja "Vocabulario".'); return; }
+
+  const header = sheet.getRange(1, 1, 1, 12).getValues()[0];
+  if (header[11] !== 'Semana') {
+    sheet.getRange(1, 12).setValue('Semana');
+    sheet.getRange(1, 12).setFontWeight('bold');
+  }
+
+  // Semana 1 = Frases 1 completo + Frases 2 (ítems 1-7). Semana 2 = Frases 2 (ítem 8)
+  // + las 7 frases del Práctico 2 (20.08) sumadas el 2026-08-31. Todo lo demás (Griego I
+  // general, cursada 2025) queda sin semana. Confirmado con Santiago el 2026-08-31.
+  const SEMANA_POR_FRASE = {
+    'λόγος ἐστὶ φωνὴ σημαντική': '1',
+    'ἐκ καρποῦ δένδρον γιγνώσκετε': '1',
+    'ὁ ὕπνος τοῦ θανάτου ἀδελφός ἐστιν': '1',
+    'φασὶ γὰρ τὴν τοῦ ἀνθρώπου ψυχὴν εἶναι ἀθάνατον': '1',
+    'Πίνδαρος ὁ ποιητὴς τὸν οἶνον καλέει δρόσον τῆς ἀμπέλου': '1',
+    'λόγος κάτοπτρον τοῦ θυμοῦ': '1',
+    'ἡ ψυχὴ καὶ αὐτή, Ἔρως σχέτλιε, ἔχει πτέρυγας': '1',
+    'τῷ ἀνθρώπῳ σῶμα μὲν θνητόν, ψυχὴ δὲ ἀθάνατος': '1',
+    'τὰ χαλεπὰ τῶν πραγμάτων ὁ χρόνος διαλύει': '1',
+    'κακὴ ἡ δελφῖνος ἐν χέρσῳ βία': '1',
+    'ἐξ ὀνύχων τὸν λέοντα γιγνώσκειν ἔξεστι': '1',
+    'δὶς παῖδες οἱ γέροντες': '1',
+    'ἡ Δίκη γὰρ πάντα βλέπει': '1',
+    'Ἔνιοι κακῶς φρονοῦσι πράττοντες καλῶς': '2',
+    'Ἀνὴρ ὁ φεύγων καὶ πάλιν μαχήσεται': '2',
+    'Ἄνθρωπος ὢν γίνωσκε τῆς ὀργῆς κρατεῖν': '2',
+    'Πολλοὶ κακῶς πράττουσιν οὐκ ὄντες κακοί': '2',
+    'ὄνος ξύλων γόμον φέρων λίμνην διέβαινεν': '2',
+    'δελφῖνα νήχεσθαι διδάσκεις': '2',
+    'φησὶ γάρ που Πρωταγόρας πάντων χρημάτων μέτρον ἄνθρωπον εἶναι': '2',
+    'οἱ Πέρσαι διδάσκουσι τοὺς παῖδας πείθεσθαι τοῖς ἄρχουσιν': '2'
+  };
+
+  const data = sheet.getDataRange().getValues();
+  let updated = 0;
+  for (let i = 1; i < data.length; i++) {
+    const contextGreek = data[i][8]; // columna I
+    const semana = SEMANA_POR_FRASE.hasOwnProperty(contextGreek) ? SEMANA_POR_FRASE[contextGreek] : '';
+    if (data[i][11] !== semana) {
+      sheet.getRange(i + 1, 12).setValue(semana);
+      updated++;
+    }
+  }
+  Logger.log('Semana actualizada en ' + updated + ' filas.');
 }
