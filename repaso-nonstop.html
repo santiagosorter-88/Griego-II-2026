@@ -358,7 +358,7 @@
   function loadNextItem(){
     var word = pick(activePool());
     var type = Math.random() < 0.5 ? "significado" : "forma";
-    current = { word:word, type:type, attempt:1, formState: (word.kind === "nombre" || word.kind === "participio") ? {cases:new Set(), number:null} : {} };
+    current = { word:word, type:type, attempt:1, formState: (word.kind === "nombre" || word.kind === "participio" || word.kind === "adjetivo") ? {cases:new Set(), number:null} : {} };
     clearCard();
     kindLabelEl.textContent = type === "significado" ? "Significado" : "Forma";
     wordGreekEl.textContent = word.greek;
@@ -566,7 +566,10 @@
       var fb = document.createElement("p"); fb.className = "feedback-line ok"; fb.textContent = "¡Correcto!";
       feedbackHostEl.appendChild(fb);
       feedbackHostEl.appendChild(meaningLine);
-      setTimeout(loadNextItem, 650);
+      var nextBtnOk = document.createElement("button");
+      nextBtnOk.type = "button"; nextBtnOk.className = "btn"; nextBtnOk.textContent = "Siguiente palabra";
+      nextBtnOk.addEventListener("click", loadNextItem);
+      nextNavEl.appendChild(nextBtnOk);
     } else {
       practicadas++; updateCounter();
       var fb2 = document.createElement("p"); fb2.className = "feedback-line reveal";
