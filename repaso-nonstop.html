@@ -559,7 +559,7 @@
 
     var meaningLine = document.createElement("p");
     meaningLine.className = "feedback-line";
-    meaningLine.textContent = w.greek + ": " + w.meaning;
+    meaningLine.textContent = (w.citation || w.greek) + ": " + w.meaning;
 
     if (isCorrect){
       practicadas++; aciertos++; updateCounter();
