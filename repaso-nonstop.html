@@ -270,10 +270,23 @@
   // con o sin género) en una lista de {case, number, form}.
   function flattenNombreParadigma(entry){
     var slots = [];
+    // Dentro de un mismo género y número, dos o más casos pueden compartir grafía
+    // exacta (neutro: nom=ac=voc siempre; 1ra declinación fem: nom=voc singular,
+    // etc.). Cuando eso pasa, el estudiante no puede distinguirlos a partir de la
+    // forma sola, así que TODOS esos casos cuentan como respuesta correcta —mismo
+    // criterio que la Regla A del resto de la práctica, no solo para neutros.
     function addFlat(obj){
-      Object.keys(obj).forEach(function(k){
-        var m = k.match(/^(nom|gen|dat|ac|voc)_(sg|pl)$/);
-        if (m && obj[k]) slots.push({ caso:m[1], numero:m[2], forma:obj[k] });
+      ["sg","pl"].forEach(function(numero){
+        var porCaso = {};
+        CASES.forEach(function(c){
+          var v = obj[c.code + "_" + numero];
+          if (v) porCaso[c.code] = v;
+        });
+        Object.keys(porCaso).forEach(function(caso){
+          var forma = porCaso[caso];
+          var compartidos = Object.keys(porCaso).filter(function(c){ return porCaso[c] === forma; });
+          slots.push({ caso:caso, numero:numero, forma:forma, correctCases:compartidos });
+        });
       });
     }
     var esPlano = Object.keys(entry).some(function(k){ return /^(nom|gen|dat|ac|voc)_(sg|pl)$/.test(k); });
@@ -316,7 +329,7 @@
       var slotsN = flattenNombreParadigma(PARADIGMAS_NOMBRE[word.citation]);
       if (!slotsN.length) return null;
       var sN = pick(slotsN);
-      return Object.assign({}, word, { greek: sN.forma, correctCases: [sN.caso], number: sN.numero });
+      return Object.assign({}, word, { greek: sN.forma, correctCases: sN.correctCases, number: sN.numero });
     }
     if (word.kind === "verbo" && PARADIGMAS_VERBO[word.citation]){
       var slotsV = flattenVerboParadigma(PARADIGMAS_VERBO[word.citation]);
