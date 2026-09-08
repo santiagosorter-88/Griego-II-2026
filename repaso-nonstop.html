@@ -430,8 +430,10 @@
 
   function loadNextItem(){
     var word = pick(activePool());
-    var type = Math.random() < 0.5 ? "significado" : "forma";
-    if (nivelSeleccionado === "max" && type === "forma"){
+    // "Todo el vocabulario, todas las formas" es pura práctica de reconocimiento
+    // morfológico: nunca sortea tarjetas de significado, solo de forma.
+    var type = nivelSeleccionado === "max" ? "forma" : (Math.random() < 0.5 ? "significado" : "forma");
+    if (nivelSeleccionado === "max"){
       word = expandirSiCorresponde(word) || word;
     }
     current = { word:word, type:type, attempt:1, formState: (word.kind === "nombre" || word.kind === "participio" || word.kind === "adjetivo") ? {cases:new Set(), number:null} : {} };
