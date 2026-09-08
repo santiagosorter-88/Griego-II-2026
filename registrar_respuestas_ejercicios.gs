@@ -622,6 +622,96 @@ function poblarVocabularioAmpliado() {
 }
 
 // ---------------------------------------------------------------------------
+// Vocabulario de PI Semana 3 (27.08) y Semana 4 (03.09) — F0363 a F0379 de la
+// base de frases griegas (2026-09-08). A diferencia de poblarVocabularioInicial()
+// y poblarVocabularioAmpliado(), estas filas ya incluyen la columna Semana
+// (12 columnas, no 11) — no hace falta pasar por migrarColumnaSemana() para
+// estas. Fuente de cada frase+traducción: "PI Griego II 2026 - Soluciones".
+// Solo se cargaron las palabras que efectivamente figuran en el glosario de
+// cada frase en ese Doc, y solo las de categoría declinable/conjugable
+// (nombre/adjetivo/participio/verbo/infinitivo) — pronombres personales,
+// partículas, preposiciones y adverbios quedan afuera del pool, igual que en
+// las cargas anteriores. Segura para correr una sola vez: si se corre dos
+// veces, duplica (no chequea si la hoja ya tiene datos, mismo criterio que
+// poblarVocabularioAmpliado()). Antes de correrla, confirmar a ojo que
+// "εἰκὼν" todavía no aparece en la columna A de "Vocabulario".
+// ---------------------------------------------------------------------------
+function poblarVocabularioPISemana3y4() {
+  const ss = SpreadsheetApp.openById(getOrCreateSheetId());
+  const sheet = ss.getSheetByName(VOCAB_SHEET_NAME) || ss.insertSheet(VOCAB_SHEET_NAME);
+  ensureVocabHeader_(sheet);
+
+  const existing = sheet.getDataRange().getValues();
+  const yaEsta = existing.some(function (r) { return r[0] === 'εἰκὼν'; });
+  if (yaEsta) {
+    Logger.log('Ya parece estar cargado (se encontró "εἰκὼν") — no se tocó nada.');
+    return;
+  }
+
+  var rows = [
+    ["εἰκὼν", "imagen", "nombre", "sg", "nom", "", "", "εἰκών, -όνος", "ὕπνος εἰκὼν τοῦ θανάτου ἔστ᾽ ἀληθινή", "εἰκὼν", "El sueño es una imagen verdadera de la muerte.", "3"],
+    ["ἀληθινή", "verdadero, real", "adjetivo", "sg", "nom,voc", "", "", "ἀληθινός, -ή, -όν", "ὕπνος εἰκὼν τοῦ θανάτου ἔστ᾽ ἀληθινή", "ἀληθινή", "El sueño es una imagen verdadera de la muerte.", "3"],
+    ["ἡγεμόνας", "jefe, líder, potencia hegemónica", "nombre", "pl", "ac", "", "", "ἡγεμών, -όνος", "χρὴ γὰρ τοὺς ἡγεμόνας τὰ κοινὰ προσκοπεῖν", "ἡγεμόνας", "Pues es necesario que los que dirigen velen por los intereses comunes.", "3"],
+    ["κοινὰ", "común", "adjetivo", "pl", "nom,ac,voc", "", "", "κοινός, -ή, -όν", "χρὴ γὰρ τοὺς ἡγεμόνας τὰ κοινὰ προσκοπεῖν", "κοινὰ", "Pues es necesario que los que dirigen velen por los intereses comunes.", "3"],
+    ["προσκοπεῖν", "velar por, atender de antemano", "infinitivo", "", "", "", "act", "προσκοπέω", "χρὴ γὰρ τοὺς ἡγεμόνας τὰ κοινὰ προσκοπεῖν", "προσκοπεῖν", "Pues es necesario que los que dirigen velen por los intereses comunes.", "3"],
+    ["δημοκρατία", "democracia", "nombre", "sg", "nom,voc", "", "", "δημοκρατία, -ας", "δημοκρατία κρεῖττον τυραννίδος.", "δημοκρατία", "La democracia es mejor que la tiranía.", "3"],
+    ["κρεῖττον", "mejor, superior", "adjetivo", "sg", "nom,ac,voc", "", "", "κρείττων, -ον", "δημοκρατία κρεῖττον τυραννίδος.", "κρεῖττον", "La democracia es mejor que la tiranía.", "3"],
+    ["τυραννίδος", "tiranía", "nombre", "sg", "gen", "", "", "τυραννίς, -ίδος", "δημοκρατία κρεῖττον τυραννίδος.", "τυραννίδος", "La democracia es mejor que la tiranía.", "3"],
+    ["ἐσσι", "ser (2ª sg., forma épica)", "verbo", "sg", "", "2", "", "εἰμί", "τίς δὲ σύ ἐσσι, φέριστε;", "ἐσσι", "¿Y vos, valentísimo, quién sos?", "3"],
+    ["φέριστε", "el más fuerte, el más valiente (superl. de ἀγαθός)", "adjetivo", "sg", "voc", "", "", "φέριστος, -η, -ον", "τίς δὲ σύ ἐσσι, φέριστε;", "φέριστε", "¿Y vos, valentísimo, quién sos?", "3"],
+    ["θύραν", "puerta", "nombre", "sg", "ac", "", "", "θύρα, -ας", "τὴν θύραν τις ἔκρουεν", "θύραν", "Alguien golpeaba la puerta.", "3"],
+    ["ἔκρουεν", "golpear, llamar (a la puerta)", "verbo", "sg", "", "3", "", "κρούω", "τὴν θύραν τις ἔκρουεν", "ἔκρουεν", "Alguien golpeaba la puerta.", "3"],
+    ["πατὴρ", "padre", "nombre", "sg", "nom", "", "", "πατήρ, -τρός", "ὁ πατὴρ τὴν θυγατέρα ἔκρυπτε τὸν θάνατον τοῦ ἀνδρός", "πατὴρ", "El padre ocultaba a la hija la muerte del hombre.", "3"],
+    ["θυγατέρα", "hija", "nombre", "sg", "ac", "", "", "θυγάτηρ, -τρός", "ὁ πατὴρ τὴν θυγατέρα ἔκρυπτε τὸν θάνατον τοῦ ἀνδρός", "θυγατέρα", "El padre ocultaba a la hija la muerte del hombre.", "3"],
+    ["ἔκρυπτε", "ocultar", "verbo", "sg", "", "3", "", "κρύπτω", "ὁ πατὴρ τὴν θυγατέρα ἔκρυπτε τὸν θάνατον τοῦ ἀνδρός", "ἔκρυπτε", "El padre ocultaba a la hija la muerte del hombre.", "3"],
+    ["θάνατον", "muerte", "nombre", "sg", "ac", "", "", "θάνατος, -ου", "ὁ πατὴρ τὴν θυγατέρα ἔκρυπτε τὸν θάνατον τοῦ ἀνδρός", "θάνατον", "El padre ocultaba a la hija la muerte del hombre.", "3"],
+    ["ἀνδρός", "hombre, marido", "nombre", "sg", "gen", "", "", "ἀνήρ, ἀνδρός", "ὁ πατὴρ τὴν θυγατέρα ἔκρυπτε τὸν θάνατον τοῦ ἀνδρός", "ἀνδρός", "El padre ocultaba a la hija la muerte del hombre.", "3"],
+    ["γεραιὰ", "anciano, venerable", "adjetivo", "sg", "nom,voc", "", "", "γεραιός, -ά, -όν", "σὺ δ᾽, ὦ γεραιὰ μῆτερ Ξέρξου, ὑπαντίαζε παιδί", "γεραιὰ", "Y vos, oh anciana madre de Jerjes, salí al encuentro de tu hijo.", "3"],
+    ["μῆτερ", "madre", "nombre", "sg", "voc", "", "", "μήτηρ, -τρός", "σὺ δ᾽, ὦ γεραιὰ μῆτερ Ξέρξου, ὑπαντίαζε παιδί", "μῆτερ", "Y vos, oh anciana madre de Jerjes, salí al encuentro de tu hijo.", "3"],
+    ["Ξέρξου", "Jerjes", "nombre", "sg", "gen", "", "", "Ξέρξης, -ου", "σὺ δ᾽, ὦ γεραιὰ μῆτερ Ξέρξου, ὑπαντίαζε παιδί", "Ξέρξου", "Y vos, oh anciana madre de Jerjes, salí al encuentro de tu hijo.", "3"],
+    ["ὑπαντίαζε", "salir al encuentro de, recibir", "verbo", "sg", "", "2", "", "ὑπαντιάζω", "σὺ δ᾽, ὦ γεραιὰ μῆτερ Ξέρξου, ὑπαντίαζε παιδί", "ὑπαντίαζε", "Y vos, oh anciana madre de Jerjes, salí al encuentro de tu hijo.", "3"],
+    ["παιδί", "hijo, niño", "nombre", "sg", "dat", "", "", "παῖς, παιδός", "σὺ δ᾽, ὦ γεραιὰ μῆτερ Ξέρξου, ὑπαντίαζε παιδί", "παιδί", "Y vos, oh anciana madre de Jerjes, salí al encuentro de tu hijo.", "3"],
+    ["σοφιστὴν", "sofista", "nombre", "sg", "ac", "", "", "σοφιστής, -οῦ", "σοφιστὴν ὀνομάζουσι τὸν ἄνδρα εἶναι", "σοφιστὴν", "Afirman que el hombre es sofista.", "3"],
+    ["ὀνομάζουσι", "llamar, afirmar (Inf+ac)", "verbo", "pl", "", "3", "", "ὀνομάζω", "σοφιστὴν ὀνομάζουσι τὸν ἄνδρα εἶναι", "ὀνομάζουσι", "Afirman que el hombre es sofista.", "3"],
+    ["ἄνδρα", "hombre", "nombre", "sg", "ac", "", "", "ἀνήρ, ἀνδρός", "σοφιστὴν ὀνομάζουσι τὸν ἄνδρα εἶναι", "ἄνδρα", "Afirman que el hombre es sofista.", "3"],
+    ["νομίζω", "considerar", "verbo", "sg", "", "1", "", "νομίζω", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "νομίζω", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["κοινὸν", "común", "adjetivo", "sg", "nom,ac,voc", "", "", "κοινός, -ή, -όν", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "κοινὸν", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["ἐχθρὸν", "enemigo, hostil", "adjetivo", "sg", "nom,ac,voc", "", "", "ἐχθρός, -ά, -όν", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "ἐχθρὸν", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["ἁπάντων", "todo, todo entero", "adjetivo", "pl", "gen", "", "", "ἅπας, ἅπασα, ἅπαν", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "ἁπάντων", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["Ἑλλήνων", "griego", "nombre", "pl", "gen", "", "", "Ἕλλην, -ηνος", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "Ἑλλήνων", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["βασιλέα", "rey (por antonomasia, el Gran Rey de Persia)", "nombre", "sg", "ac", "", "", "βασιλεύς, -έως", "νομίζω κοινὸν ἐχθρὸν ἁπάντων τῶν Ἑλλήνων εἶναι βασιλέα", "βασιλέα", "Considero que el rey es un enemigo común de todos los griegos.", "4"],
+    ["οὐδένα", "nadie, ninguno", "adjetivo", "sg", "ac", "", "", "οὐδείς, οὐδεμία, οὐδέν", "οὐδένα γὰρ οἴμαι δαιμόνων εἶναι κακόν", "οὐδένα", "Pues no creo que ninguno de los dioses sea malo.", "4"],
+    ["οἴμαι", "creer, pensar", "verbo", "sg", "", "1", "", "οἴομαι", "οὐδένα γὰρ οἴμαι δαιμόνων εἶναι κακόν", "οἴμαι", "Pues no creo que ninguno de los dioses sea malo.", "4"],
+    ["δαιμόνων", "dios, divinidad", "nombre", "pl", "gen", "", "", "δαίμων, -ονος", "οὐδένα γὰρ οἴμαι δαιμόνων εἶναι κακόν", "δαιμόνων", "Pues no creo que ninguno de los dioses sea malo.", "4"],
+    ["κακόν", "malo", "adjetivo", "sg", "nom,ac,voc", "", "", "κακός, -ή, -όν", "οὐδένα γὰρ οἴμαι δαιμόνων εἶναι κακόν", "κακόν", "Pues no creo que ninguno de los dioses sea malo.", "4"],
+    ["αὐτῷ", "él, ella, ello; mismo", "nombre", "sg", "dat", "", "", "αὐτός, -ή, -ό", "μολόντι δ᾽ αὐτῷ μαλθακοὺς λέξω λόγους", "αὐτῷ", "Al llegar (él) le hablaré con palabras suaves.", "4"],
+    ["λέξω", "decir, hablar", "verbo", "sg", "", "1", "", "λέγω", "μολόντι δ᾽ αὐτῷ μαλθακοὺς λέξω λόγους", "λέξω", "Al llegar (él) le hablaré con palabras suaves.", "4"],
+    ["λόγους", "palabra, discurso", "nombre", "pl", "ac", "", "", "λόγος, -ου", "μολόντι δ᾽ αὐτῷ μαλθακοὺς λέξω λόγους", "λόγους", "Al llegar (él) le hablaré con palabras suaves.", "4"],
+    ["μαλθακοὺς", "blando, suave", "adjetivo", "pl", "ac", "", "", "μαλθακός, -ή, -όν", "μολόντι δ᾽ αὐτῷ μαλθακοὺς λέξω λόγους", "μαλθακοὺς", "Al llegar (él) le hablaré con palabras suaves.", "4"],
+    ["θέμις", "lo lícito, lo permitido", "nombre", "sg", "nom", "", "", "θέμις, -ιτος", "οὖ θέμις λέγειν τι περὶ τῶν θεῶν", "θέμις", "No es lícito decir nada acerca de los dioses.", "4"],
+    ["λέγειν", "decir", "infinitivo", "", "", "", "act", "λέγω", "οὖ θέμις λέγειν τι περὶ τῶν θεῶν", "λέγειν", "No es lícito decir nada acerca de los dioses.", "4"],
+    ["θεῶν", "dios", "nombre", "pl", "gen", "", "", "θεός, -οῦ", "οὖ θέμις λέγειν τι περὶ τῶν θεῶν", "θεῶν", "No es lícito decir nada acerca de los dioses.", "4"],
+    ["λέγεις", "decir", "verbo", "sg", "", "2", "", "λέγω", "λέγεις σὺ ὡς καρτερώτερον δεῖ τὸν ἄρχοντα τῶν ἀρχομένων εἶναι", "λέγεις", "Vos decís que el gobernante debe ser más fuerte que los gobernados.", "4"],
+    ["ἄρχοντα", "gobernante, magistrado", "nombre", "sg", "ac", "", "", "ἄρχων, -οντος", "λέγεις σὺ ὡς καρτερώτερον δεῖ τὸν ἄρχοντα τῶν ἀρχομένων εἶναι", "ἄρχοντα", "Vos decís que el gobernante debe ser más fuerte que los gobernados.", "4"],
+    ["ἀρχομένων", "ser gobernado", "participio", "pl", "gen", "", "", "ἄρχομαι", "λέγεις σὺ ὡς καρτερώτερον δεῖ τὸν ἄρχοντα τῶν ἀρχομένων εἶναι", "ἀρχομένων", "Vos decís que el gobernante debe ser más fuerte que los gobernados.", "4"],
+    ["καρτερώτερον", "fuerte, resistente", "adjetivo", "sg", "nom,ac,voc", "", "", "καρτερός, -ά, -όν", "λέγεις σὺ ὡς καρτερώτερον δεῖ τὸν ἄρχοντα τῶν ἀρχομένων εἶναι", "καρτερώτερον", "Vos decís que el gobernante debe ser más fuerte que los gobernados.", "4"],
+    ["διώκωμεν", "perseguir", "verbo", "pl", "", "1", "", "διώκω", "μὴ διώκωμεν ἄνδρας φεύγοντας", "διώκωμεν", "No persigamos a hombres que huyen.", "4"],
+    ["ἄνδρας", "hombre", "nombre", "pl", "ac", "", "", "ἀνήρ, ἀνδρός", "μὴ διώκωμεν ἄνδρας φεύγοντας", "ἄνδρας", "No persigamos a hombres que huyen.", "4"],
+    ["φεύγοντας", "huir", "participio", "pl", "ac", "", "", "φεύγω", "μὴ διώκωμεν ἄνδρας φεύγοντας", "φεύγοντας", "No persigamos a hombres que huyen.", "4"],
+    ["γέρον", "anciano", "nombre", "sg", "voc", "", "", "γέρων, -οντος", "οὐκ ἄξι᾽ ἀνδρός, ὦ γέρον, σοφοῦ λέγεις", "γέρον", "No decís cosas dignas de un hombre sabio, anciano.", "4"],
+    ["σοφοῦ", "sabio", "adjetivo", "sg", "gen", "", "", "σοφός, -ή, -όν", "οὐκ ἄξι᾽ ἀνδρός, ὦ γέρον, σοφοῦ λέγεις", "σοφοῦ", "No decís cosas dignas de un hombre sabio, anciano.", "4"],
+    ["ἀρίστου", "el mejor", "adjetivo", "sg", "gen", "", "", "ἄριστος, -η, -ον", "πότερον συμφέρει μᾶλλον ὑπὸ τοῦ ἀρίστου ἀνδρὸς ἄρχεσθαι ἢ ὑπὸ τῶν ἀρίστων νόμων;", "ἀρίστου", "¿Qué conviene más, ser gobernado por el mejor hombre o por las mejores leyes?", "4"],
+    ["ἀρίστων", "el mejor", "adjetivo", "pl", "gen", "", "", "ἄριστος, -η, -ον", "πότερον συμφέρει μᾶλλον ὑπὸ τοῦ ἀρίστου ἀνδρὸς ἄρχεσθαι ἢ ὑπὸ τῶν ἀρίστων νόμων;", "ἀρίστων", "¿Qué conviene más, ser gobernado por el mejor hombre o por las mejores leyes?", "4"],
+    ["ἄρχεσθαι", "ser gobernado", "infinitivo", "", "", "", "med", "ἄρχομαι", "πότερον συμφέρει μᾶλλον ὑπὸ τοῦ ἀρίστου ἀνδρὸς ἄρχεσθαι ἢ ὑπὸ τῶν ἀρίστων νόμων;", "ἄρχεσθαι", "¿Qué conviene más, ser gobernado por el mejor hombre o por las mejores leyes?", "4"],
+    ["νόμων", "ley", "nombre", "pl", "gen", "", "", "νόμος, -ου", "πότερον συμφέρει μᾶλλον ὑπὸ τοῦ ἀρίστου ἀνδρὸς ἄρχεσθαι ἢ ὑπὸ τῶν ἀρίστων νόμων;", "νόμων", "¿Qué conviene más, ser gobernado por el mejor hombre o por las mejores leyes?", "4"],
+    ["συμφέρει", "convenir", "verbo", "sg", "", "3", "", "συμφέρω", "πότερον συμφέρει μᾶλλον ὑπὸ τοῦ ἀρίστου ἀνδρὸς ἄρχεσθαι ἢ ὑπὸ τῶν ἀρίστων νόμων;", "συμφέρει", "¿Qué conviene más, ser gobernado por el mejor hombre o por las mejores leyes?", "4"]
+  ];
+
+  sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, rows[0].length).setValues(rows);
+  Logger.log('Listo: ' + rows.length + ' formas nuevas agregadas a "Vocabulario" (con Semana). Planilla: ' + ss.getUrl());
+}
+
+// ---------------------------------------------------------------------------
 // Correr UNA sola vez, a mano, DESPUÉS de poblarVocabularioAmpliado(). Agrega la
 // columna "Semana" (si no existe) y le pone valor a cada fila de "Vocabulario"
 // según de qué frase salió (comparando por ContextGreek, columna I) — así el
