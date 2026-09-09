@@ -132,6 +132,8 @@ header .subtitle {
   background: var(--paper-deep);
   border-radius: 8px;
 }
+body:not(.quiz-active) .controls { margin: 0 0 2rem; }
+body.quiz-active .controls { margin: 2rem 0 0; }
 .quiz-status {
   display: flex;
   align-items: center;
@@ -690,7 +692,11 @@ let totalItems = 0;
 
 function setMode(m) {
   mode = m;
+  document.body.classList.toggle('quiz-active', m === 'quiz');
   document.querySelector('header').hidden = m === 'quiz';
+  const controls = document.getElementById('controls');
+  const main = document.getElementById('main');
+  if (m === 'quiz') main.after(controls); else main.before(controls);
   document.getElementById('btn-study').classList.toggle('active', m === 'study');
   document.getElementById('btn-quiz').classList.toggle('active', m === 'quiz');
   document.getElementById('btn-reset').hidden = m === 'study';
@@ -973,7 +979,7 @@ function renderQuiz(main) {
   main.innerHTML = html;
 }
 
-render();
+setMode('study');
 </script>
 </body>
 </html>
