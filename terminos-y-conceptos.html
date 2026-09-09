@@ -1,0 +1,957 @@
+<title>Glosario Griego II</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bitter:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap">
+<style>
+:root {
+  --ink: #2A2016;
+  --ink-soft: #5C4F3B;
+  --paper: #FDFBF6;
+  --paper-deep: #FBF7EF;
+  --terracotta: #CF3A3A;
+  --terracotta-light: #E56A5D;
+  --olive: #629749;
+  --olive-light: #82B567;
+  --blue: #1E4DC7;
+  --blue-dark: #16359C;
+  --gold: #FACE53;
+  --gold-light: #FFE49A;
+  --stone: #E4D9C4;
+  --stone-light: #F1EBDD;
+  --card-bg: #FFFFFF;
+  --card-border: #E4D9C4;
+  --shadow: rgba(42,32,22,0.1);
+  --concept-bg: #FBF7EF;
+  --def-bg: #FDFBF6;
+  --correct: #629749;
+  --incorrect: #CF3A3A;
+  --font-body: 'Bitter', Georgia, serif;
+  --font-ui: 'Archivo Black', Impact, sans-serif;
+  --font-title: 'Noto Sans', 'Helvetica Neue', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="dark"] {
+    --ink: #E8E0D2;
+    --ink-soft: #A89A88;
+    --paper: #1A1612;
+    --paper-deep: #231E18;
+    --terracotta: #D4763F;
+    --terracotta-light: #E89460;
+    --olive: #8FA870;
+    --olive-light: #A6BC8A;
+    --gold: #E2C36A;
+    --gold-light: #F0D88A;
+    --stone: #3A332A;
+    --stone-light: #2E2820;
+    --card-bg: #252018;
+    --card-border: #3A332A;
+    --shadow: rgba(0,0,0,0.25);
+    --concept-bg: #2A2318;
+    --def-bg: #222A1E;
+    --correct: #6AAA5A;
+    --incorrect: #D4564A;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: #E8E0D2;
+  --ink-soft: #A89A88;
+  --paper: #1A1612;
+  --paper-deep: #231E18;
+  --terracotta: #D4763F;
+  --terracotta-light: #E89460;
+  --olive: #8FA870;
+  --olive-light: #A6BC8A;
+  --gold: #E2C36A;
+  --gold-light: #F0D88A;
+  --stone: #3A332A;
+  --stone-light: #2E2820;
+  --card-bg: #252018;
+  --card-border: #3A332A;
+  --shadow: rgba(0,0,0,0.25);
+  --concept-bg: #2A2318;
+  --def-bg: #222A1E;
+  --correct: #6AAA5A;
+  --incorrect: #D4564A;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+h1, h2, h3 { font-family: var(--font-title); text-wrap: balance; }
+
+header {
+  text-align: center;
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 2px solid var(--stone);
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--blue);
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.01em;
+}
+header p {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  margin: 0.25rem 0 0;
+  letter-spacing: 0.02em;
+}
+header .subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--olive);
+  margin: 0.5rem 0 0;
+}
+
+/* Controls bar */
+.controls {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 20;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--paper-deep);
+  border-radius: 8px;
+}
+.controls button {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--card-border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  letter-spacing: 0.02em;
+}
+.controls button:hover { border-color: var(--gold); color: var(--terracotta); }
+.controls button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.controls button.active {
+  background: var(--terracotta);
+  color: #fff;
+  border-color: var(--terracotta);
+}
+.controls .score {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+  margin-left: auto;
+}
+.controls .score strong { color: var(--gold); font-weight: 600; }
+.controls .finish-button { margin-left: auto; }
+.quiz-help {
+  flex-basis: 100%;
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+/* Category sections */
+.category {
+  margin-bottom: 2.5rem;
+}
+.category-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--paper);
+  padding: 0.75rem 0 0.5rem;
+  border-bottom: 1.5px solid var(--stone);
+  margin-bottom: 1rem;
+}
+.category-header h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+  margin: 0;
+}
+.category-header .count {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+/* Glossary pairs */
+.glossary-list { display: flex; flex-direction: column; gap: 0.625rem; }
+
+.glossary-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 2fr;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease;
+}
+.glossary-item:hover { box-shadow: 0 2px 8px var(--shadow); }
+
+.concept-cell {
+  background: var(--concept-bg);
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 2px solid var(--stone);
+}
+.concept-cell .term {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--terracotta);
+}
+.concept-cell .greek-example {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+  margin-top: 0.25rem;
+}
+
+.def-cell {
+  background: var(--def-bg);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* Quiz mode */
+.quiz-round {
+  max-width: 720px;
+  margin: 0 auto 2.5rem;
+}
+.quiz-round-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-ui);
+  color: var(--ink-soft);
+  font-size: 0.8125rem;
+}
+.quiz-round-header strong {
+  color: var(--olive);
+  font-weight: 600;
+}
+.quiz-definition {
+  background: var(--def-bg);
+  border: 1px solid var(--card-border);
+  border-left: 4px solid var(--terracotta);
+  border-radius: 6px;
+  padding: 1.25rem 1.35rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.quiz-prompt {
+  margin: 1.5rem 0 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.quiz-option {
+  min-height: 7rem;
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  background: var(--concept-bg);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+.quiz-option:focus-visible,
+.quiz-next:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+.quiz-option .term {
+  display: block;
+  color: var(--terracotta);
+  font-family: var(--font-title);
+  font-weight: 700;
+}
+.quiz-option .greek-example {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+.quiz-option.correct {
+  background: rgba(74,122,62,0.14);
+  border: 2px solid var(--correct);
+  padding: calc(0.9rem - 1px) calc(1rem - 1px);
+}
+.quiz-option.incorrect {
+  background: rgba(181,58,42,0.12);
+  border: 2px solid var(--incorrect);
+  padding: calc(0.9rem - 1px) calc(1rem - 1px);
+}
+.quiz-option:disabled { cursor: default; }
+.quiz-feedback {
+  min-height: 1.5rem;
+  margin: 1rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.quiz-feedback.correct { color: var(--correct); }
+.quiz-feedback.incorrect { color: var(--incorrect); }
+.quiz-explanation {
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--incorrect);
+  background: rgba(181,58,42,0.08);
+  color: var(--ink);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+.quiz-explanation strong { color: var(--terracotta); }
+.quiz-next {
+  display: block;
+  margin: 0.75rem 0 0 auto;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid var(--terracotta);
+  border-radius: 6px;
+  background: var(--terracotta);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  cursor: pointer;
+}
+.quiz-finished {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--stone);
+  border-bottom: 1px solid var(--stone);
+}
+.quiz-finished h2 {
+  color: var(--terracotta);
+  font-size: 1.25rem;
+}
+.feedback-panel {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  box-shadow: 0 1px 2px var(--shadow), 0 6px 16px var(--shadow);
+}
+.feedback-panel h2 {
+  margin: 0 0 0.35rem;
+  color: var(--blue);
+  font-size: 1.35rem;
+}
+.feedback-panel > p {
+  margin: 0 0 1.25rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.feedback-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+.feedback-field label {
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+.feedback-field textarea {
+  width: 100%;
+  min-height: 5rem;
+  resize: vertical;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+.feedback-field textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.feedback-field input {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+.feedback-field input:focus-visible { outline: 2px solid var(--blue); outline-offset: 1px; }
+.feedback-difficulty {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.feedback-difficulty button {
+  border: 1.5px solid var(--card-border);
+  border-radius: 999px;
+  padding: 0.45rem 0.8rem;
+  background: var(--card-bg);
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: pointer;
+}
+.feedback-difficulty button.selected {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+.feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+}
+.feedback-actions .quiz-next { margin: 0; }
+.feedback-success {
+  margin: 1rem 0 0;
+  color: var(--correct);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+.feedback-error {
+  margin: 1rem 0 0;
+  color: var(--incorrect);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+}
+.quiz-finished-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.quiz-finished-actions .quiz-next { margin: 0; }
+
+.result-badge {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.125rem 0.5rem;
+  border-radius: 3px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.result-badge.correct-badge { background: var(--correct); color: #fff; }
+.result-badge.incorrect-badge { background: var(--incorrect); color: #fff; }
+
+/* Source tag */
+.source-tag {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--ink-soft);
+  background: var(--stone-light);
+  padding: 0.125rem 0.375rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+/* Footer */
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1.5px solid var(--stone);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 600px) {
+  body { padding: 1rem 0.75rem 3rem; font-size: 15px; }
+  header h1 { font-size: 1.375rem; }
+  .glossary-item { grid-template-columns: 1fr; }
+  .concept-cell { border-right: none; border-bottom: 2px solid var(--stone); }
+  .controls { flex-direction: column; align-items: stretch; }
+  .controls .score { margin-left: 0; text-align: center; }
+  .controls .finish-button { margin-left: 0; }
+  .quiz-round-header { align-items: flex-start; }
+  .quiz-definition { padding: 1rem; font-size: 0.98rem; }
+  .quiz-options { grid-template-columns: 1fr; gap: 0.625rem; }
+  .quiz-option { min-height: 0; padding: 0.85rem 1rem; }
+  .controls { top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<header>
+  <h1>Recuperación metalingüística</h1>
+  <p>Griego II (Fernández Divenosa)<br>Comisión Sorter · 2026</p>
+  <p class="subtitle">Algunos conceptos y categorías que vimos hasta ahora, con sus definiciones</p>
+</header>
+
+<div class="controls" id="controls">
+  <button id="btn-study" class="active" onclick="setMode('study')">Estudio</button>
+  <button id="btn-quiz" onclick="setMode('quiz')">Asociar</button>
+  <button id="btn-reset" onclick="resetQuiz()" hidden>Reiniciar</button>
+  <button id="btn-finish" class="finish-button" onclick="finishQuiz()" hidden>Terminar</button>
+  <span class="score" id="score" hidden></span>
+  <span class="quiz-help" id="quiz-help" hidden>Leé la definición y elegí uno de los cuatro conceptos.</span>
+</div>
+
+<main id="main"></main>
+
+<footer>
+  Fuentes: desgrabados de clases, planificación del 2.° parcial y práctica independiente · Griego II — Fernández / Divenosa
+</footer>
+
+<script>
+const DATA = [
+  {
+    category: "Fonología y cambios sonoros",
+    items: [
+      { term: "Apofonía vocálica (Ablaut)", greek: "λόγος / λέγω", def: "Alternancia de vocales en una misma raíz sin cambiar su significado básico. Puede ser cualitativa (e/o, como en λόγος / λέγω) o cuantitativa (grado largo, breve o cero).", source: "Prácticos 3–4" },
+      { term: "Apofonía cualitativa", greek: "e/o", def: "Alternancia entre los timbres vocálicos e y o dentro de una misma raíz (p. ej. λέγω con grado e, λόγος con grado o).", source: "Práctico 3" },
+      { term: "Apofonía cuantitativa", greek: "πατήρ / πατρός / πατέρα", def: "Alternancia entre grado largo (η en πατήρ), grado breve (ε en πατέρα) y grado cero (πατρός, sin vocal) dentro de la misma raíz.", source: "Práctico 4" },
+      { term: "Metátesis cuantitativa", greek: "πόλεως < *πόληος", def: "Inversión de la cantidad vocálica entre dos vocales contiguas: una vocal larga seguida de breve se convierte en breve seguida de larga (p. ej. -ηος > -εως en el genitivo de πόλις).", source: "Práctico 3" },
+      { term: "Alargamiento compensatorio", greek: "*γεροντ-ς > γέρων", def: "Cuando un grupo consonántico se simplifica (p. ej. caída de -ντ- ante -σ), la vocal precedente se alarga para compensar la pérdida de la consonante.", source: "Prácticos 3–4" },
+      { term: "Epéntesis", greek: "ἀνδρός (de ἀνήρ)", def: "Inserción de un sonido entre otros sonidos para resolver articulaciones difíciles. En ἀνήρ, aparece una δ epentética en los casos de grado cero (ἀνδρός). Análogo en castellano: el sonido b en \"hombre\" < *hom-re < *hom-ne < *hom-i-ne.", source: "Práctico 4" },
+      { term: "Vocal protética (prótesis)", greek: "español: e-studiantes", def: "Adición de una vocal al inicio de una palabra para resolver un grupo consonántico inicial que la lengua no tolera. E.g. el castellano agrega e- ante s+consonante (e-spañol, e-studiante).", source: "Práctico 4" },
+      { term: "Elisión", greek: "σ' = σε / δ' = δέ", def: "Caída de una vocal breve final ante otra vocal al inicio de la palabra siguiente. Se marca con apóstrofo (p. ej. σ᾽ por σε, δ᾽ por δέ).", source: "Práctico 1" },
+      { term: "Vocal temática", greek: "ε / ο (breve) · η / ω (largo)", def: "Vocal que se interpone entre la raíz verbal y las desinencias. Aparece en grado breve (ε, ο) o largo (η, ω). En subjuntivo la vocal temática se alarga.", source: "Práctico 4" },
+      { term: "Digamma (ϝ / wau)", greek: "βασιληϝ-", def: "Fonema del griego antiguo que se perdió históricamente, dejando rastros en la morfología. Ante consonante, abrevia la vocal anterior y vocaliza en υ; entre vocales, abrevia la vocal anterior y cae, produciendo metátesis cuantitativa. Entre vocales cae, pero bloquea la contracción.", source: "Prácticos 3–4" },
+      { term: "Yod", greek: "πόλις < *πολι̯-", def: "Semiconsonante (aproximante palatal) que existió en griego y cuya pérdida o transformación explica muchas formas verbales y nominales (e.g. temas en -ι). Genera formas como πρᾶξις (de πραγ- + yod).", source: "Práctico 3" }
+    ]
+  },
+  {
+    category: "Morfología nominal: tercera declinación",
+    items: [
+      { term: "Tercera declinación", greek: "gen. sg. en -ος", def: "Declinación que se reconoce por el genitivo singular en -ος (a diferencia de -ας/-ης de la primera y -ου de la segunda). No presenta vocal temática: las desinencias se unen directamente al tema. Nota bene: el genitivo en ος puede verse alterado por contracciones (e.g. Σωκράτους) o metátesis (e.g. πόλεως)", source: "Prácticos 1–4" },
+      { term: "Tema en dental", greek: "χάρις, -ιτος · παῖς, παιδός", def: "Sustantivos de tercera cuyo tema termina en dental (τ, δ, θ). La dental cae ante la sigma del nominativo singular (*χαριτ-ς > χάρις). La tau no puede ser final de palabra.", source: "Práctico 2" },
+      { term: "Tema en gutural", greek: "πτέρυξ, -υγος · ὄνυξ, -υχος", def: "Sustantivos de tercera cuyo tema termina en gutural (κ, γ, χ). La gutural + sigma del nominativo produce ξ (p. ej. *πτερυγ-ς > πτέρυξ).", source: "Práctico 2" },
+      { term: "Tema en nasal", greek: "χελιδών, -όνος · δαίμων, -ονος", def: "Sustantivos de tercera cuyo tema termina en nasal (ν). Suelen tener alargamiento del tema en el nominativo singular (χελιδών frente a χελιδόν-ος en el genitivo).", source: "Práctico 4" },
+      { term: "Tema en líquida", greek: "ἔαρ, ἔαρος", def: "Sustantivos de tercera cuyo tema termina en líquida (λ o ρ).", source: "Práctico 4" },
+      { term: "Temas en -ντ", greek: "λέων, -οντος · γέρων, -οντος", def: "Sustantivos y participios de tercera con tema en -ντ. El grupo -ντ desaparece ante sigma, la tau no puede ser final de palabra, y la caída produce alargamiento compensatorio de la vocal precedente.", source: "Prácticos 2–3" },
+      { term: "Temas en ρ con Ablaut", greek: "πατήρ, μήτηρ, θυγάτηρ", def: "Sustantivos que presentan apofonía cuantitativa: grado largo en nominativo (πατήρ), grado breve en acusativo y plurales (πατέρα, πατέρες), grado cero en genitivo y dativos (πατρός, πατρί, πατράσι).", source: "Práctico 4" },
+      { term: "Tema en digamma", greek: "βασιλεύς, -έως · ἱερεύς, -έως", def: "Sustantivos de tercera (generalmente oficios y funciones: rey, sacerdote, herrero) cuyo tema original contenía una digamma que cayó, dejando las alternancias vocálicas del paradigma -εύς/-έως.", source: "Práctico 4" },
+      { term: "Tema en yod", greek: "πόλις, -εως", def: "Sustantivos de tercera cuyo tema original contenía una yod. Su caída explica las formas del paradigma: el genitivo πόλεως resulta de metátesis cuantitativa (*πόληος > πόλεως).", source: "Práctico 3" },
+      { term: "Desinencia cero (nominativo)", greek: "πατήρ, γέρων", def: "En la tercera declinación, el nominativo singular puede formarse sin agregar -ς: aparece el tema puro o alargado (p. ej. πατήρ con alargamiento, frente al tema πατερ-/πατρ-).", source: "Práctico 2" }
+    ]
+  },
+  {
+    category: "Morfología nominal: otras categorías",
+    items: [
+      { term: "Lema", greek: "nom. sg. (sust.) · 1.ª sg. pres. ind. act. (verbo)", def: "La forma de entrada en el diccionario. Para sustantivos: nominativo singular; para adjetivos: nominativo singular masculino; para verbos: primera persona singular del presente de indicativo activo.", source: "Práctico 4" },
+      { term: "Enunciado del sustantivo", greek: "πτέρυξ, -υγος: ἡ.", def: "Forma completa del diccionario: nominativo singular + genitivo singular (que revela el tema y la declinación) + artículo (que indica el género).", source: "Práctico 2" },
+      { term: "Enunciado del adjetivo", greek: "σοφός, -ή, -όν", def: "Forma del diccionario que presenta todas las terminaciones de género posibles en nominativo singular (tres terminaciones: M, F, N; dos terminaciones: M/F, N; o terminación única).", source: "Práctico 2" },
+      { term: "Adjetivos verbales en -τέος", greek: "νομιστέος, -α, -ον", def: "Adjetivos derivados del verbo que expresan un matiz de obligación o necesidad: \"algo que debe ser hecho\". El femenino es en α pura.", source: "Práctico 4" },
+      { term: "Adjetivos de dos terminaciones", greek: "ἀθάνατος, -ον · εὐδαίμων, -ον", def: "Adjetivos que comparten la misma forma para masculino y femenino, con una forma distinta solo para el neutro.", source: "Prácticos 1, 4" },
+      { term: "Alternancia η/α en la primera declinación", def: "En la primera declinación, después de ε, ι o ρ, la vocal es α a lo largo de todo el paradigma (α pura); en los casos de α impura tenemos η en genitivo y dativo singular. El paradigma plural es con α para todos los sustantivos (α pura, α impura, y tema en η).", source: "Práctico 4" },
+      { term: "Masculinos de la primera declinación", greek: "ποιητής, νεανίας", def: "Sustantivos masculinos que declinan por la primera declinación. Se distinguen por formar el nominativo singular con sigma (ποιητή-ς, νεανία-ς).", source: "Práctico 2" },
+      { term: "πᾶς, πᾶσα, πᾶν", greek: "< παντ- + ς / παντ- + γα", def: "Adjetivo de tres terminaciones con tema en -ντ. El femenino πᾶσα viene de παντ-yα (la y es una vocalización del infijo yod) con simplificación del grupo consonántico y alargamiento compensatorio. Misma formación que ἑκών, ἑκοῦσα, ἑκόν.", source: "Práctico 3" },
+      { term: "εἷς, μία, ἕν / οὐδείς, μηδείς", def: "Numeral «uno» y sus compuestos negativos: οὐδείς (nadie, con οὐ objetivo) y μηδείς (nadie, con μή volitivo). μηδέν aparece cuando hay un elemento volitivo (bajada de línea sobre la conducta); οὐδέν cuando se describe una situación.", source: "Práctico 4" }
+    ]
+  },
+  {
+    category: "Morfología verbal",
+    items: [
+      { term: "Aumento (ἐ-)", greek: "ἔκρουε, ἔκρυπτε", def: "Prefijo ε- que marca los tiempos secundarios (pasados) del indicativo. Es marca de tiempo, y combinado con las desinencias secundarias indica imperfecto, aoristo, etc.", source: "Práctico 4" },
+      { term: "Verbo deponente", greek: "μάχομαι, αἰσθάνομαι, πείθομαι", def: "Verbo que tiene desinencias mediopasivas pero significado y traducción activos. A menudo no existe una forma activa para estos verbos.", source: "Prácticos 3–4" },
+      { term: "Futuro sigmático", greek: "μαχήσεται", def: "Formación del futuro mediante la adición de una sigma (σ) al tema verbal, seguida de las desinencias correspondientes.", source: "Práctico 3" },
+      { term: "Verbo transitivo", greek: "κρούω, κρύπτω, ποιέω", def: "Verbo que necesita un complemento de objeto directo en caso acusativo para completar su significado.", source: "Práctico 4" },
+      { term: "Verbo intransitivo", def: "Verbo que completa su significado sin tomar un complemento en acusativo. Puede funcionar sin complementos (e.g. «venir»: no se puede decir *«vengo algo») o exigir otro tipo de complemento (e.g. «depender» exige un complemento preposicional: depender de algo).", source: "Práctico 4" },
+      { term: "Régimen verbal", greek: "κρατέω + gen. · πείθομαι + dat.", def: "El caso que un verbo exige para su complemento. Algunos verbos rigen genitivo (κρατέω τινός, gobernar), otros dativo (πείθομαι + τινί. = obedecer), otros doble acusativo (κρύπτω τί τινά,ocultar algo a alguien; διδάσκω τί τινά, enseñar).", source: "Prácticos 2–4" },
+      { term: "Doble acusativo", greek: "ἔκρυπτε τὴν θυγατέρα τὸν θάνατον", def: "Construcción en la que el verbo rige dos acusativos: uno para la persona y otro para la cosa (p. ej. κρύπτω: ocultaba a la hija [pers.] la muerte [cosa]; διδάσκω: enseñar a alguien algo).", source: "Práctico 4" },
+      { term: "Infinitivos: activo y mediopasivo", greek: "-ειν (act.) / -σθαι (med.-pas.)", def: "Formas no finitas del verbo. En el sistema de presente, el infinitivo activo termina en -ειν, el mediopasivo en -σθαι (p. ej. πείθειν / πείθεσθαι).", source: "Práctico 3" },
+      { term: "εἰμί existencial vs. copulativo", greek: "ἔστιν (acentuado) = hay", def: "εἰμί como copulativo (= ser) es enclítico y puede elidirse. Cuando es existencial (= hay, existe) lleva acento propio (ἔστιν) y no puede omitirse.", source: "Prácticos 1, 4" }
+    ]
+  },
+  {
+    category: "Participio",
+    items: [
+      { term: "Participio (ἡ μετοχή)", greek: "de μετέχω, «participar»", def: "Forma no finita del verbo que «participa» de la flexión verbal y nominal: no tiene persona, pero sí caso, género y número. Declina según paradigmas nominales.", source: "Práctico 2" },
+      { term: "Participio presente activo", greek: "formante -ντ (cf. latín -nt-)", def: "Se forma con el infijo -ντ (análogo al -nt- del latín y castellano: estudiante, cantante, pudiente). Masculino y neutro declinan por la tercera; femenino por la primera. Misma formación que ἑκών, ἑκοῦσα, ἑκόν.", source: "Práctico 2" },
+      { term: "Participio con valor circunstancial", greek: "πράττοντες (concesivo), ὤν (causal)", def: "Participio que funciona como modificador del sujeto con valor circunstancial. Puede ser concesivo (\"aunque\"), causal (\"porque\") o temporal (\"cuando/mientras\"). El matiz depende del contexto.", source: "Prácticos 2–3" },
+      { term: "Participio como predicativo objetivo", greek: "verbos de percepción + participio", def: "Con verbos de percepción (ver, oír), el participio funciona como predicativo del objeto directo: «te veo viniendo» = «te veo venir»", source: "Práctico 4" },
+      { term: "Participio atributivo", greek: "τὴν παροῦσαν συμφοράν", def: "Participio que modifica a un sustantivo desde la posición atributiva (entre artículo y sustantivo, o con artículo propio): «la desgracia presente».", source: "Práctico 1" }
+    ]
+  },
+  {
+    category: "Sintaxis",
+    items: [
+      { term: "Proposición de infinitivo + acusativo", greek: "φασὶ τὴν ψυχὴν εἶναι ἀθάνατον", def: "Proposición sustantiva con función de objeto directo: el sujeto del infinitivo va en acusativo. \"Dicen que el alma es inmortal\" = φασὶ τὴν ψυχὴν εἶναι ἀθάνατον.", source: "Prácticos 1, 4" },
+      { term: "Genitivo especificativo", greek: "τὸν θάνατον τοῦ ἀνδρός", def: "Genitivo que restringe o especifica un sustantivo: «la muerte del marido» no es cualquier muerte, sino una específica. Equivale al \"de\" posesivo o determinativo del castellano.", source: "Prácticos 1, 4" },
+      { term: "Genitivo partitivo", greek: "θνητῶν οὐδεὶς ἀνήρ", def: "Genitivo que indica el todo del cual se extrae una parte: «ninguno entre los mortales». Indica pertenencia a un grupo (cf. \"uno entre los hombres\").", source: "Práctico 4" },
+      { term: "Genitivo régimen", greek: "τῆς ὀργῆς κρατεῖν", def: "Genitivo exigido por el régimen de un verbo particular (como κρατέω, que rige genitivo)", source: "Práctico 3" },
+      { term: "Genitivo agente (ὑπό + gen.)", greek: "ὑπὸ τοῦ ἀρίστου ἀνδρός", def: "Complemento agente en voz pasiva: indica quién realiza la acción, introducido por la preposición ὑπό seguida de genitivo.", source: "Práctico 4" },
+      { term: "Dativo posesivo", greek: "τῷ ἀνθρώπῳ σῶμα θνητόν", def: "Dativo que indica posesión: «para el ser humano, el cuerpo es mortal» = «el ser humano tiene un cuerpo mortal».", source: "Práctico 1" },
+      { term: "Dativo régimen", greek: "ὑπαντιάζω + dat. · πείθομαι + dat.", def: "Dativo exigido por el verbo, no por función general. E.g. πείθομαι + dat. (obedecer a), ὑπαντιάζω + dat. (salir al encuentro de).", source: "Prácticos 3–4" },
+      { term: "Predicativo objetivo", greek: "καλέει δρόσον = llama rocío", def: "Predicación sobre el objeto directo. «Píndaro llama rocío al vino»: «rocío» predica sobre «el vino» (OD). Aparece con verbos como καλέω, λέγω, νομίζω.", source: "Prácticos 1, 4" },
+      { term: "Sustantivación del adjetivo", greek: "οἱ πολλοί = la mayoría, el vulgo", def: "Un adjetivo con artículo funciona como sustantivo: οἱ πολλοί (los muchos = la mayoría), τὰ χαλεπά (las cosas difíciles), θνητῶν (entre los mortales).", source: "Prácticos 1–4" },
+      { term: "Construcción cuasi-impersonal (δεῖ, ἔξεστι, θέμις)", greek: "δεῖ τὸν παῖδα ἐσθίειν", def: "Verbos o expresiones que sólo pueden tomar por sujeto un infinitivo, o una construcción de infinitivo + acusativo: δεῖ (es necesario), ἔξεστι (es posible), θέμις (es lícito).", source: "Prácticos 3–4" },
+      { term: "Sintagma preposicional", greek: "ἐκ καρποῦ, ἐν χέρσῳ, περὶ τῶν θεῶν", def: "Preposición + término en el caso que rige. Puede funcionar como adjunto del predicado (circunstancial) o como atributo dentro de un sintagma nominal.", source: "Prácticos 1, 3" },
+      { term: "Acusativo de extensión temporal", greek: "πολὺν χρόνον = mucho tiempo", def: "Acusativo sin preposición que indica la extensión o duración de la acción en el tiempo.", source: "Práctico 1" }
+    ]
+  },
+  {
+    category: "Acentuación y prosodia",
+    items: [
+      { term: "Ley de limitación del acento", greek: "ἐλέφας / ἐλέφαντος", def: "Si la sílaba final es larga, el acento no puede recular más allá de la penúltima; si es breve, puede llegar hasta la antepenúltima.", source: "Práctico 3" },
+      { term: "Retracción del acento en vocativo", greek: "σῶτερ (voc.) < σωτήρ (nom.)", def: "En el vocativo, el acento tiende a retroceder hacia el inicio de la palabra. Es un fenómeno frecuente pero no obligatorio.", source: "Práctico 4" },
+      { term: "Monosílabos de 3.ª: genitivos y dativos oxítonos", greek: "nom, σάρξ, gen. σαρκός, dat. σαρκί", def: "Tendencia de los sustantivos monosílabos de la tercera declinación a formar genitivos y dativos oxítonos (con acento en la última sílaba), tanto en singular como en plural.", source: "Práctico 4" },
+      { term: "Clíticos y enclíticos", greek: "τις (sin acento) = indefinido", def: "Palabras sin acento propio que se apoyan en la palabra anterior. τις sin acento es pronombre indefinido («alguien»); τίς con acento es interrogativo («¿quién?»).", source: "Prácticos 2, 4" },
+      { term: "Partícula pospositiva", greek: "γάρ, δέ, μήν", def: "Partículas que nunca ocupan la primera posición en la frase: siempre van en segundo lugar. γάρ (pues), δέ (y/pero), μήν (en efecto) son algunas de las más frecuentes.", source: "Prácticos 1–4" }
+    ]
+  },
+  {
+    category: "Léxico y uso",
+    items: [
+      { term: "Τόποι (tipos de lugar)", greek: "πόθεν, ποῦ, πῇ, ποῖ", def: "Clasificación de los adverbios y preposiciones de lugar según la pregunta que responden: πόθεν (¿de dónde?), ποῦ (¿dónde?), πῇ (¿por dónde?), ποῖ (¿adonde?).", source: "Práctico 1" },
+      { term: "Alfa privativa", greek: "ἀ-θάνατος = in-mortal", def: "Prefijo α- (ante consonante) o ἀν- (ante vocal) que niega el significado del adjetivo o sustantivo al que se une. Equivalente del prefijo latín in- (inmortal).", source: "Práctico 1" },
+      { term: "οὐ vs. μή", greek: "οὐδείς (objetivo) / μηδείς (volitivo)", def: "οὐ niega hechos, descripciones, afirmaciones objetivas. μή niega deseos, órdenes, posibilidades, todo lo que implica voluntad o intención.", source: "Práctico 4" },
+      { term: "Bustrofedón", greek: "de βοῦς (buey)", def: "Sistema de escritura arcaico en que las líneas alternan de izquierda a derecha y de derecha a izquierda, como el buey que recorre el arado.", source: "Práctico 2" },
+      { term: "Paremiógrafos", greek: "Zenobio, Gregorio de Chipre", def: "Compiladores de proverbios (παροιμίαι). Recogen y transmiten refranes griegos; Erasmo continuó la tradición con sus Adagia.", source: "Práctico 4" },
+      { term: "Ἐπιμύθιον (τὸ ἐπιμύθιον)", def: "La moraleja de una fábula. Término técnico para la sentencia final que extrae la lección del relato.", source: "Práctico 2" }
+    ]
+  }
+];
+
+let mode = 'study';
+let quizItems = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let quizRound = null;
+let quizErrors = [];
+let reviewMode = false;
+let feedbackDifficulty = '';
+let feedbackEmail = '';
+let feedbackComment = '';
+let feedbackSuggestion = '';
+let submitLog = [];
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMjdVZa0X6Q4nGa60gwy-3GWbJUdbm6W57inTFvrwgpNze3r-ytqK1mOIDo9oTIfKyPQ/exec';
+let totalItems = 0;
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('btn-study').classList.toggle('active', m === 'study');
+  document.getElementById('btn-quiz').classList.toggle('active', m === 'quiz');
+  document.getElementById('btn-reset').hidden = m === 'study';
+  document.getElementById('btn-finish').hidden = m === 'study';
+  document.getElementById('score').hidden = m === 'study';
+  document.getElementById('quiz-help').hidden = m === 'study';
+  if (m === 'quiz') {
+    resetQuiz();
+    return;
+  }
+  render();
+}
+
+function shuffle(items) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function prepareQuiz() {
+  quizItems = DATA.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.category })));
+  quizItems = shuffle(quizItems);
+  quizIndex = 0;
+  quizCorrect = 0;
+  quizErrors = [];
+  reviewMode = false;
+  prepareQuestion();
+}
+
+function prepareQuestion() {
+  if (quizIndex >= quizItems.length) {
+    quizRound = null;
+    return;
+  }
+  const target = quizItems[quizIndex];
+  const sameCategory = quizItems.filter(item => item !== target && item.category === target.category);
+  const otherCategory = quizItems.filter(item => item.category !== target.category);
+  const distractors = [
+    ...shuffle(sameCategory).slice(0, 2),
+    ...shuffle(otherCategory).slice(0, 1)
+  ];
+  quizRound = {
+    target,
+    options: shuffle([target, ...distractors]),
+    answered: false,
+    incorrectIndices: [],
+    correct: false
+  };
+}
+
+function resetQuiz() {
+  reviewMode = false;
+  feedbackDifficulty = '';
+  feedbackEmail = '';
+  feedbackComment = '';
+  feedbackSuggestion = '';
+  submitLog = [];
+  document.getElementById('btn-finish').hidden = false;
+  document.getElementById('quiz-help').hidden = false;
+  prepareQuiz();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function finishQuiz() {
+  if (mode !== 'quiz') return;
+  renderFeedback(document.getElementById('main'));
+  document.getElementById('btn-finish').hidden = true;
+  document.getElementById('quiz-help').hidden = true;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function chooseDifficulty(value) {
+  feedbackDifficulty = value;
+  renderFeedback(document.getElementById('main'));
+}
+
+function saveFeedback() {
+  const email = document.getElementById('feedback-email').value.trim();
+  const comment = document.getElementById('feedback-comment').value.trim();
+  const suggestion = document.getElementById('feedback-suggestion').value.trim();
+  feedbackEmail = email;
+  feedbackComment = comment;
+  feedbackSuggestion = suggestion;
+  if (!email || !email.includes('@') || !feedbackDifficulty || !comment || !suggestion) {
+    renderFeedback(document.getElementById('main'), false, 'Completá el email, la dificultad, el comentario y la sugerencia.');
+    return;
+  }
+  const evaluationRows = [
+    { ejercicio: 'Evaluación', frase: '', item: 'Dificultad percibida', respuesta: feedbackDifficulty, correcta: null },
+    { ejercicio: 'Evaluación', frase: '', item: 'Comentario sobre la dificultad', respuesta: comment, correcta: null },
+    { ejercicio: 'Evaluación', frase: '', item: 'Sugerencia', respuesta: 'La actividad funcionaría mejor si ' + suggestion, correcta: null }
+  ];
+  localStorage.setItem('griego-feedback', JSON.stringify({
+    difficulty: feedbackDifficulty,
+    comment,
+    suggestion,
+    email,
+    score: quizCorrect,
+    total: quizIndex
+  }));
+  const payload = {
+    actividad: document.title,
+    email,
+    respuestas: submitLog.concat(evaluationRows)
+  };
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    renderFeedback(document.getElementById('main'), true);
+  }).catch(() => {
+    renderFeedback(document.getElementById('main'), false, 'No se pudo enviar. El feedback quedó guardado localmente; podés reintentar.');
+  });
+}
+
+function startErrorReview() {
+  if (!quizErrors.length) return;
+  quizItems = shuffle(quizErrors);
+  quizIndex = 0;
+  quizCorrect = 0;
+  reviewMode = true;
+  quizErrors = [];
+  document.getElementById('btn-finish').hidden = false;
+  document.getElementById('quiz-help').hidden = false;
+  prepareQuestion();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleOptionClick(optionIndex) {
+  if (mode !== 'quiz') return;
+  if (!quizRound || quizRound.answered) return;
+  if (quizRound.incorrectIndices.includes(optionIndex)) return;
+  if (quizRound.options[optionIndex] === quizRound.target) {
+    quizRound.answered = true;
+    quizRound.correct = true;
+    quizCorrect++;
+  } else {
+    quizRound.incorrectIndices.push(optionIndex);
+    if (!quizErrors.includes(quizRound.target)) quizErrors.push(quizRound.target);
+  }
+  submitLog.push({
+    ejercicio: 'Asociar',
+    frase: quizRound.target.def,
+    item: quizRound.options[optionIndex].term,
+    respuesta: quizRound.options[optionIndex].term,
+    correcta: quizRound.options[optionIndex] === quizRound.target
+  });
+  render();
+}
+
+function nextQuestion() {
+  if (mode !== 'quiz') return;
+  quizIndex++;
+  prepareQuestion();
+  render();
+}
+
+function render() {
+  const main = document.getElementById('main');
+  if (mode === 'quiz') {
+    renderQuiz(main);
+    return;
+  }
+
+  let html = '';
+  DATA.forEach(cat => {
+    const count = cat.items.length;
+    html += `<section class="category">`;
+    html += `<div class="category-header"><h2>${cat.category} <span class="count">(${count})</span></h2></div>`;
+    html += `<div class="glossary-list">`;
+    cat.items.forEach(item => {
+      html += `<div class="glossary-item"><div class="concept-cell">`;
+      html += `<span class="term">${item.term}</span>`;
+      if (item.greek) html += `<span class="greek-example">${item.greek}</span>`;
+      if (item.source) html += `<span class="source-tag">${item.source}</span>`;
+      html += `</div><div class="def-cell"><span>${item.def}</span></div></div>`;
+    });
+    html += `</div></section>`;
+  });
+  main.innerHTML = html;
+}
+
+function renderFeedback(main, saved, errorMessage = '') {
+  const existingEmail = document.getElementById('feedback-email');
+  const existingComment = document.getElementById('feedback-comment');
+  const existingSuggestion = document.getElementById('feedback-suggestion');
+  if (existingEmail) feedbackEmail = existingEmail.value;
+  if (existingComment) feedbackComment = existingComment.value;
+  if (existingSuggestion) feedbackSuggestion = existingSuggestion.value;
+  const difficultyLabels = ['Muy fácil', 'Fácil', 'Complicada', 'Muy complicada'];
+  const difficulties = difficultyLabels.map(label => {
+    const selected = feedbackDifficulty === label;
+    return `<button type="button" class="${selected ? 'selected' : ''}" onclick="chooseDifficulty('${label}')">${label}</button>`;
+  }).join('');
+  const reviewButton = quizErrors.length && !reviewMode
+    ? '<button class="quiz-next" onclick="startErrorReview()">Repasar errores (' + quizErrors.length + ')</button>'
+    : '';
+  main.innerHTML = `<section class="feedback-panel">
+    <h2>¿Cómo te resultó la actividad?</h2>
+    <p>Tu respuesta sirve para ajustar el material. Podés volver a estudiar o iniciar otra ronda cuando quieras.</p>
+    <div class="feedback-field">
+      <label for="feedback-email">Email</label>
+      <input id="feedback-email" type="email" autocomplete="email" placeholder="tu@email.com">
+    </div>
+    <div class="feedback-field">
+      <label>¿Qué dificultad te resultó?</label>
+      <div class="feedback-difficulty">${difficulties}</div>
+    </div>
+    <div class="feedback-field">
+      <label for="feedback-comment">Comentario</label>
+      <textarea id="feedback-comment" placeholder="¿Cómo te fue?"></textarea>
+    </div>
+    <div class="feedback-field">
+      <label for="feedback-suggestion">La actividad funcionaría mejor si...</label>
+      <textarea id="feedback-suggestion" placeholder="Completá la idea"></textarea>
+    </div>
+    <div class="feedback-actions">
+      <button class="quiz-next" onclick="saveFeedback()">Guardar feedback</button>
+      ${reviewButton}
+      <button class="quiz-next" onclick="setMode('study')">Ir a Estudio</button>
+      <button class="quiz-next" onclick="resetQuiz()">Empezar otra ronda</button>
+    </div>
+    ${saved ? '<p class="feedback-success" role="status">Feedback enviado. ¡Gracias!</p>' : ''}
+    ${errorMessage ? `<p class="feedback-error" role="status">${errorMessage}</p>` : ''}
+  </section>`;
+  document.getElementById('feedback-email').value = feedbackEmail;
+  document.getElementById('feedback-comment').value = feedbackComment;
+  document.getElementById('feedback-suggestion').value = feedbackSuggestion;
+}
+
+function renderQuiz(main) {
+  totalItems = quizItems.length;
+  const scoreEl = document.getElementById('score');
+  scoreEl.hidden = false;
+  scoreEl.innerHTML = `<strong>${quizCorrect}</strong> / ${totalItems} correctas`;
+
+  if (!quizRound) {
+    const review = quizErrors.length && !reviewMode
+      ? `<button class="quiz-next" onclick="startErrorReview()">Repasar errores (${quizErrors.length})</button>`
+      : '';
+    main.innerHTML = `<div class="quiz-finished"><h2>${reviewMode ? 'Repaso terminado' : 'Ronda terminada'}</h2><p>Resultado: <strong>${quizCorrect} / ${totalItems}</strong>.</p><div class="quiz-finished-actions">${review}<button class="quiz-next" onclick="resetQuiz()">Jugar de nuevo</button><button class="quiz-next" onclick="setMode('study')">Estudiar</button></div></div>`;
+    return;
+  }
+
+  const roundNumber = quizIndex + 1;
+  let html = `<section class="quiz-round" aria-live="polite">`;
+  html += `<div class="quiz-round-header"><strong>${reviewMode ? 'Repaso' : 'Ronda'} ${roundNumber} de ${totalItems}</strong><span>${quizRound.target.category}</span></div>`;
+  html += `<div class="quiz-definition">${quizRound.target.def}</div>`;
+  html += `<p class="quiz-prompt">¿Qué concepto corresponde a esta definición?</p>`;
+  html += `<div class="quiz-options">`;
+  quizRound.options.forEach((option, index) => {
+    let state = '';
+    if (quizRound.answered && option === quizRound.target) state = ' correct';
+    if (quizRound.incorrectIndices.includes(index)) state = ' incorrect';
+    const disabled = quizRound.answered || quizRound.incorrectIndices.includes(index);
+    html += `<button class="quiz-option${state}" onclick="handleOptionClick(${index})" ${disabled ? 'disabled' : ''}>`;
+    html += `<span class="term">${option.term}</span>`;
+    if (option.greek) html += `<span class="greek-example">${option.greek}</span>`;
+    html += `</button>`;
+  });
+  html += `</div>`;
+  if (quizRound.answered) {
+    const feedback = '¡Correcto!';
+    const feedbackClass = 'correct';
+    html += `<p class="quiz-feedback ${feedbackClass}" role="status">${feedback}</p>`;
+    html += `<button class="quiz-next" onclick="nextQuestion()">Siguiente</button>`;
+  } else if (quizRound.incorrectIndices.length > 0) {
+    html += `<p class="quiz-feedback incorrect" role="status">Todavía no. Probá con otra opción.</p>`;
+    const lastWrongIndex = quizRound.incorrectIndices[quizRound.incorrectIndices.length - 1];
+    const wrongOption = quizRound.options[lastWrongIndex];
+    html += `<p class="quiz-explanation"><strong>${wrongOption.term}:</strong> ${wrongOption.def}</p>`;
+  }
+  html += `</section>`;
+  main.innerHTML = html;
+}
+
+render();
+</script>
