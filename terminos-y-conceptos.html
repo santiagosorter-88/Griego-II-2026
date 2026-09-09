@@ -122,18 +122,28 @@ header .subtitle {
 
 /* Controls bar */
 .controls {
-  position: sticky;
-  top: 0.5rem;
-  z-index: 20;
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin: 2rem 0 0;
   padding: 1rem;
   background: var(--paper-deep);
   border-radius: 8px;
+}
+.quiz-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0 0 1.5rem;
+  min-height: 1.5rem;
+}
+.quiz-status .quiz-help {
+  flex: 1 1 auto;
+  text-align: left;
 }
 .controls button {
   font-family: var(--font-ui);
@@ -519,7 +529,6 @@ footer {
   .quiz-definition { padding: 1rem; font-size: 0.98rem; }
   .quiz-options { grid-template-columns: 1fr; gap: 0.625rem; }
   .quiz-option { min-height: 0; padding: 0.85rem 1rem; }
-  .controls { top: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -535,16 +544,19 @@ footer {
   <p class="subtitle">Algunos conceptos y categorías que vimos hasta ahora, con sus definiciones</p>
 </header>
 
-<div class="controls" id="controls">
-  <button id="btn-study" class="active" onclick="setMode('study')">Estudio</button>
-  <button id="btn-quiz" onclick="setMode('quiz')">Asociar</button>
-  <button id="btn-reset" onclick="resetQuiz()" hidden>Reiniciar</button>
-  <button id="btn-finish" class="finish-button" onclick="finishQuiz()" hidden>Terminar</button>
+<div class="quiz-status" id="quiz-status">
   <span class="score" id="score" hidden></span>
   <span class="quiz-help" id="quiz-help" hidden>Leé la definición y elegí uno de los cuatro conceptos.</span>
 </div>
 
 <main id="main"></main>
+
+<nav class="controls" id="controls" aria-label="Navegación de la actividad">
+  <button id="btn-study" class="active" onclick="setMode('study')">Estudio</button>
+  <button id="btn-quiz" onclick="setMode('quiz')">Asociar</button>
+  <button id="btn-reset" onclick="resetQuiz()" hidden>Reiniciar</button>
+  <button id="btn-finish" class="finish-button" onclick="finishQuiz()" hidden>Terminar</button>
+</nav>
 
 <footer>
   Fuentes: desgrabados de clases, planificación del 2.° parcial y práctica independiente · Griego II — Fernández / Divenosa
@@ -743,7 +755,7 @@ function resetQuiz() {
   document.getElementById('quiz-help').hidden = false;
   prepareQuiz();
   render();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 function finishQuiz() {
