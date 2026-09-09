@@ -678,6 +678,7 @@ let totalItems = 0;
 
 function setMode(m) {
   mode = m;
+  document.querySelector('header').hidden = m === 'quiz';
   document.getElementById('btn-study').classList.toggle('active', m === 'study');
   document.getElementById('btn-quiz').classList.toggle('active', m === 'quiz');
   document.getElementById('btn-reset').hidden = m === 'study';
