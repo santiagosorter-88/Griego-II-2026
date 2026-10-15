@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Griego II · Práctico 10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap">
+<style>
+  :root{--f-body:'Noto Serif','GFS Didot',Georgia,serif; --f-lat:'Noto Serif','GFS Didot',Georgia,serif; --f-label:'Noto Serif','GFS Didot',Georgia,serif; --label-w:600;}
+  *{box-sizing:border-box;} [hidden]{display:none!important;}
+  html,body{margin:0;} body{font-family:var(--f-body);}
+  button,select{font:inherit;}
+  .rlive{color:var(--rsoft);}
+  .l{display:flex; gap:.5em; align-items:baseline;}
+  .vn{font-style:normal; font-family:var(--f-label); font-weight:var(--label-w); font-size:.5em; color:var(--soft); width:2.4em; flex:none; text-align:right; letter-spacing:.03em; font-variant-numeric:tabular-nums;}
+  .lt{flex:1; min-width:0;}
+  .w{border-radius:.15em; padding:0 .06em; margin:0 -.06em;}
+  body.brush .w{cursor:pointer;}
+  body.brush .w:hover{outline:2px dashed var(--line); outline-offset:1px;}
+  .c-y{background:var(--mk-y); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-y-e);}
+  .c-r{background:var(--mk-r); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-r-e);}
+  .c-b{background:var(--mk-b); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-b-e);}
+  .c-g{background:var(--mk-g); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-g-e);}
+  mark{border-radius:.15em; padding:0 .05em;}
+  .body a,.w.lk{color:inherit; text-decoration-line:underline; text-decoration-color:var(--accent); text-decoration-thickness:.09em; text-underline-offset:.16em; cursor:pointer;}
+  .body s,.body strike,.body del,.w.fs{text-decoration-line:line-through; text-decoration-thickness:.07em;}
+  .w.lk.fs{text-decoration-line:underline line-through;}
+  .body u,.w.u{text-decoration-line:underline; text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .w.u.fs{text-decoration-line:underline line-through;}
+  .u-y{text-decoration-color:var(--ul-y)!important;} .u-r{text-decoration-color:var(--ul-r)!important;} .u-b{text-decoration-color:var(--ul-b)!important;}
+  .u-g{text-decoration-color:var(--ul-g)!important;} .u-k{text-decoration-color:var(--ul-k)!important;}
+  .us-double{text-decoration-style:double; text-decoration-thickness:.07em;} .us-wavy{text-decoration-style:wavy; text-decoration-thickness:.06em;} .us-dotted{text-decoration-style:dotted; text-decoration-thickness:.12em;}
+  .body b,.body strong,.w.fb{font-weight:700;}
+
+  body.lector{
+    --rbg:#FFFEFB; --rsurface:#F4EFE5; --rink:#2A2016; --rsoft:#5C4F3B; --rline:#DDD3C0; --raccent:#B32F2F; --raccent-ink:#FFFFFF;
+    --rlive:#2E7D32; --rfree:#A15C00; --roff:#7A6E5C;
+    --mk-y:#FFC000; --mk-r:#FF5E4D; --mk-b:#4F8DFF; --mk-g:#2FBF4F; --mk-ink:#2A2016;
+    --mk-y-e:#B07F00; --mk-r-e:#B8231A; --mk-b-e:#1A4FC4; --mk-g-e:#137A2E;
+    --ul-y:#E0A800; --ul-r:#E0342A; --ul-b:#1F5FE0; --ul-g:#1E9E3A; --ul-k:#2A2016; --accent:#B32F2F;
+    background:var(--rbg); color:var(--rink); color-scheme:light;
+  }
+  body.lector[data-rtheme="dark"]{
+    --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+    --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+    --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+    --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+    --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme:dark){
+    body.lector:not([data-rtheme="light"]){
+      --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+      --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+      --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+      --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+      --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+      color-scheme:dark;
+    }
+  }
+  #lector{min-height:100dvh; display:flex; flex-direction:column; background:var(--rbg); color:var(--rink); font-family:var(--f-body); -webkit-text-size-adjust:100%;}
+  #lector button{font-family:var(--f-body); cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  #lector button:focus-visible,#lector select:focus-visible{outline:3px solid var(--raccent); outline-offset:2px;}
+  .rtop{position:sticky; top:0; z-index:5; background:var(--rbg); border-bottom:1px solid var(--rline); padding:8px 16px 8px;}
+  .rrow{display:flex; align-items:center; gap:10px; min-width:0;}
+  .rclase{flex:1; min-width:0; font-weight:600; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rref{flex:none; font-weight:600; font-size:17px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:20px; padding:6px 14px; min-height:42px; font-variant-numeric:tabular-nums;}
+  .rsub{margin-top:6px; font-size:13px; color:var(--rsoft);}
+  .rlive{display:flex; align-items:center; gap:7px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rlive i{width:9px; height:9px; border-radius:50%; background:var(--roff); flex:none;}
+  .rlive[data-s="live"] i{background:var(--rlive); box-shadow:0 0 0 3px color-mix(in srgb, var(--rlive) 28%, transparent);}
+  .rlive[data-s="free"] i{background:var(--rfree);}
+  .rpos{font-variant-numeric:tabular-nums; flex:none;}
+  .rtools{display:flex; gap:4px; flex:none;}
+  .rtools button{font-weight:600; font-size:14px; min-width:40px; height:36px; padding:0 8px; border-radius:18px; border:1px solid var(--rline); background:transparent; color:var(--rink);}
+  .rnote{display:flex; align-items:center; gap:10px; margin-top:8px; padding:8px 10px; background:var(--rsurface); border-left:3px solid var(--rfree); font-size:14px; line-height:1.35;}
+  .rnote button{margin-left:auto; flex:none; font-weight:600; font-size:14px; min-height:40px; padding:0 14px; border-radius:20px; border:none; background:var(--raccent); color:var(--raccent-ink);}
+  .rmain{flex:1; width:100%; max-width:1100px; margin:0 auto; padding:18px 16px calc(100px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:22px;}
+  .rlat{font-size:var(--rfs,21px); line-height:1.55; max-width:calc(21em + 2.6em); overflow-wrap:break-word;}
+  .rlat .l{gap:.45em;}
+  .rlat .vn{font-family:var(--f-body); font-weight:600; font-size:.55em; width:2.3em; color:var(--rsoft); letter-spacing:0;}
+  .rlat .lt{padding-left:1.2em; text-indent:-1.2em;}
+  .rpanel{border-top:1px solid var(--rline);}
+  .rtabs{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;}
+  .rtabs::-webkit-scrollbar{display:none;}
+  .rtabs button{flex:none; font-weight:600; font-size:15px; background:none; border:none; border-bottom:3px solid transparent; color:var(--rsoft); padding:10px 12px; min-height:46px; max-width:75vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rtabs button[aria-selected="true"]{color:var(--rink); border-bottom-color:var(--raccent);}
+  .rtab{font-size:17px; line-height:1.55; padding:12px 2px; overflow-wrap:break-word;}
+  .rtab ul,.rtab ol{margin:0; padding-left:1.2em;} .rtab li{margin:.3em 0;} .rtab li::marker{color:var(--raccent);}
+  .rtab p,.rtab div{margin:0;}
+  .rtab .rg{padding:.4em 0; border-bottom:1px solid var(--rline);} .rtab .rg:last-child{border-bottom:none;}
+  .rtab b,.rtab strong{font-weight:700;}
+  .rtab a{color:inherit; text-decoration-line:underline; text-decoration-color:var(--raccent); text-underline-offset:.16em;}
+  .rtab u{text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .rtab s,.rtab strike,.rtab del{text-decoration-thickness:.07em;}
+  .rmsg{padding:56px 16px; text-align:center; font-size:17px; line-height:1.5; color:var(--rsoft); max-width:460px; margin:0 auto;}
+  .rnav{position:fixed; left:0; right:0; bottom:0; z-index:5; display:flex; gap:10px; padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px)); background:var(--rbg); border-top:1px solid var(--rline);}
+  .rnav button{flex:1; min-height:52px; font-weight:600; font-size:17px; border-radius:26px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
+  .rnav #rNext{background:var(--raccent); color:var(--raccent-ink); border-color:var(--raccent);}
+  .rnav button:disabled{opacity:.4; cursor:default;}
+  .rsheet{position:fixed; inset:0; z-index:10; background:rgba(0,0,0,.45); display:flex; align-items:flex-end; justify-content:center;}
+  .rsheet-in{background:var(--rbg); color:var(--rink); width:100%; max-width:640px; max-height:82dvh; overflow:auto; border-radius:16px 16px 0 0; padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+  .rsheet-head{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
+  .rsheet-head .rlbl{margin:0; font-size:13px; color:var(--rsoft); width:100%;}
+  .rsheet-head select{flex:1; min-width:0; font:16px var(--f-body); padding:8px; min-height:44px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:8px;}
+  .rsheet-head button{font-weight:600; font-size:15px; min-height:44px; padding:0 16px; border-radius:22px; border:1px solid var(--rline); background:transparent; color:var(--rink); margin-left:auto;}
+  #rList{list-style:none; margin:0; padding:0;}
+  #rList button{width:100%; text-align:left; display:flex; gap:10px; align-items:baseline; padding:12px 10px; min-height:50px; background:none; border:none; border-left:4px solid transparent; color:var(--rink); font-size:16px;}
+  #rList button .rr{font-weight:600; flex:none; font-variant-numeric:tabular-nums;}
+  #rList button .rw{color:var(--rsoft); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; min-width:0;}
+  #rList button[aria-current="true"]{border-left-color:var(--raccent); background:var(--rsurface);}
+  @media (min-width:701px){
+    .rmain{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); align-items:start; gap:36px; padding-top:24px;}
+    .rpanel{border-top:none; border-left:1px solid var(--rline); padding-left:24px; position:sticky; top:110px; max-height:calc(100dvh - 210px); overflow:auto;}
+    .rnav{justify-content:center;} .rnav button{flex:0 1 260px;}
+  }
+</style></head>
+<body class="lector">
+<div id="lector">
+  <header class="rtop">
+    <div class="rrow">
+      <span class="rclase" id="rClase">Cargando…</span>
+      <button class="rref" id="rRef" aria-haspopup="dialog">—</button>
+    </div>
+    <div class="rrow rsub">
+      <span class="rlive" id="rLive"></span>
+      <span class="rpos" id="rPos"></span>
+      <span class="rtools">
+        <button id="rMinus" aria-label="Letra más chica">A−</button>
+        <button id="rPlus" aria-label="Letra más grande">A+</button>
+        <button id="rThemeBtn" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+      </span>
+    </div>
+    <div class="rnote" id="rNote" hidden></div>
+  </header>
+  <main class="rmain" id="rMain">
+    <section class="rlat" id="rLat" lang="grc" aria-label="Texto griego"></section>
+    <section class="rpanel" id="rPanel" hidden>
+      <div class="rtabs" role="tablist" id="rTabs"></div>
+      <div class="rtab" id="rTab" role="tabpanel"></div>
+    </section>
+  </main>
+  <p class="rmsg" id="rMsg" hidden></p>
+  <nav class="rnav" aria-label="Pasajes">
+    <button id="rPrev">◀ Anterior</button>
+    <button id="rNext">Siguiente ▶</button>
+  </nav>
+  <div class="rsheet" id="rSheet" hidden role="dialog" aria-label="Pasajes de la clase">
+    <div class="rsheet-in">
+      <div class="rsheet-head">
+        <p class="rlbl" id="rSheetLbl">Clase</p>
+        <select id="rSel" aria-label="Elegir clase"></select>
+        <button id="rSheetClose">Cerrar</button>
+      </div>
+      <ol id="rList"></ol>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"clase": "Práctico 10 (15.10)", "pasajes": [{"id": "aPlat-n-Banquete-201c", "ref": "Platón, Banquete 201c", "lines": ["εἰ ἄρα ὁ Ἔρως τῶν καλῶν ἐνδεής ἐστιν, τὰ δὲ ἀγαθὰ καλά, καὶ τῶν ἀγαθῶν ἐνδεής ἐστιν."], "trans": "<mark class=\"c-y\">Entonces<\/mark>, si Eros carece de las cosas bellas, y las cosas buenas son bellas, también carece de las cosas buenas.", "gloss": "<div><b>ἀγαθός, -ή, -όν:<\/b> bueno<\/div><div><b>ἄρα:<\/b> entonces, por consiguiente<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>εἰ:<\/b> si<\/div><div><b>εἰμί:<\/b> ser, haber<\/div><div><b>ἐνδεής, -ές (+ gen.):<\/b> carente de, necesitado de<\/div><div><b><mark class=\"c-y\">Ἔρως<\/mark>, -ωτος: ὁ.<\/b> Eros, Amor<\/div><div><b>καί:<\/b> también<\/div><div><b>καλός, -ή, -όν:<\/b> bello, hermoso<\/div>", "notes": "<ul><li>proposición condicional (εἰ + indicativo) Prótasis (Adverbial?)<\/li><li>usos del genitivo<\/li><li>adjetivos de 2ª clase (ἐνδεής)<\/li><\/ul>", "ctx": "Vamos a la marcha aunque <mark class=\"c-g\">llueva<\/mark> (eventual)<br>Vamos a la marcha aunque <mark class=\"c-r\">llueve<\/mark> (real)<br>Hubiera ido a la marcha aunque <mark class=\"c-y\">hubiera<\/mark> llovido (irreal)<br><br><br>Sócrates refuta a Agatón, que acaba de elogiar a Eros como el más bello de los dioses. Si Eros desea lo bello, carece de lo bello; y como lo bueno es bello, también carece de lo bueno. Agatón termina admitiendo que no sabía lo que decía.", "hl": {"9": "y"}, "fx": {}, "ul": {"0": "k-wavy", "1": "k-wavy", "2": "k-wavy", "3": "k-wavy", "4": "k-wavy", "5": "k-wavy", "6": "k-wavy", "7": "k-wavy", "8": "k-wavy", "9": "k-wavy", "10": "k-wavy", "11": "k-wavy"}, "lk": {}}, {"id": "aPlat-n-Prot-goras-310a", "ref": "Platón, Protágoras 310a", "lines": ["τί οὖν οὐ διηγήσω ἡμῖν τὴν ξυνουσίαν, εἰ μή σέ τι κωλύει;"], "trans": "¿Por qué no nos contás, <mark class=\"c-y\">entonces<\/mark>, la reunión, si nada te (lo impide?", "gloss": "<div><b>διηγέομαι, -οῦμαι:<\/b> narrar, contar<\/div><div><b>ἐγώ (dat. pl. ἡμῖν):<\/b> yo; nosotros<\/div><div><b>εἰ:<\/b> si<\/div><div><b>κωλύω:<\/b> impedir<\/div><div><b>μή:<\/b> no<\/div><div><b>ξυνουσία (= συνουσία), -ας: ἡ.<\/b> reunión, conversación<\/div><div><b>οὐ:<\/b> no<\/div><div><b>οὖν:<\/b> entonces, pues<\/div><div><b>σύ (acus. σε):<\/b> tú<\/div><div><b>τις, τι:<\/b> alguien, algo<\/div><div><b>τίς, τί:<\/b> quién, qué; (τί adv.) por qué<\/div>", "notes": "<ul><li>aoristo medio (2ª sg. -ω &lt; -σο)<\/li><li>τί οὐ + aoristo (invitación<br><br>EL formante sigma deschava un aoristo (descartamos futuro porque el verbo es deponente)<br>El aumento está maquillado por la η del comienzo del verbo ἡγέομαι<\/li><li>μαι σαι ται  (desinencias primarias)<\/li><li>μην σο το<\/li><\/ul><div><br><\/div><div>διηγήσασο<\/div><div>διηγήσαο (caída de sigma intervocálica)<\/div><div>διηγήσω<\/div><div><br><\/div><div>2da sg mediopasiva de aoristo sigmático<\/div><div><br>TODO ESTÁ COMANDADO POR EL VERBO: El objeto indirecto aparece cuando el régimen del verbo en cuestión permite un objeto indirecto, es decir, una meta o beneficiario para la acción transitiva del verbo.&nbsp;<br><br><\/div><div><br><\/div>", "ctx": "<div>Al comienzo del diálogo, un amigo se cruza con Sócrates, que viene de estar con Protágoras, y le pide que cuente la conversación. Atención a la grafía antigua ξυνουσίαν en lugar de συνουσίαν.<\/div>", "hl": {"1": "y"}, "fx": {}, "ul": {"3": "y-double", "7": "g-double", "8": "g-double", "9": "g-double", "10": "g-double", "11": "g-double"}, "lk": {}}, {"id": "aJenofonte-An-basis-3-1-7", "ref": "Jenofonte, Anábasis 3.1.7", "lines": ["ἐπεὶ μέντοι οὕτως ἤρου, ταῦτα χρὴ ποιεῖν ὅσα ὁ θεὸς ἐκέλευσεν."], "trans": "<mark class=\"c-y\">Entonces,<\/mark>&nbsp;ya que preguntaste así, hay que hacer eso que el dios ordenó.", "gloss": "<div><b>ἐπεί:<\/b> cuando, después que; ya que<\/div><div><b>ἔρομαι (aor. ἠρόμην, 2ª sg. ἤρου):<\/b> preguntar<\/div><div><b>θεός, -οῦ: ὁ.<\/b> dios<\/div><div><b>κελεύω:<\/b> ordenar<\/div><div><b>μέντοι:<\/b> sin embargo, por cierto<\/div><div><b>ὅσος, -η, -ον:<\/b> cuanto; (n. pl.) todo lo que<\/div><div><b>οὗτος, αὕτη, τοῦτο:<\/b> este<\/div><div><b>οὕτως:<\/b> así<\/div><div><b>ποιέω, -ῶ:<\/b> hacer<\/div><div><b>χρή:<\/b> es necesario, hay que<\/div>", "notes": "<ul><li>proposición adjetiva de ὅσος<\/li><li>aoristo sigmático<\/li><li>χρή (construcción CUASI impersonal) + infinitivo<\/li><li>ἐπεί temporal-causal<\/li><li>aoristo temático (MAL LLAMADO aoristo segundo) de ἔρομαι (ἤρου)<br>ἤρε-σο<br>ἤρεο<br>ἤρου<br><br><br><\/li><\/ul>", "ctx": "Jenofonte le consulta a Sócrates si debe sumarse a la expedición de Ciro, y Sócrates lo manda a Delfos. Pero Jenofonte no le pregunta al dios si debe ir, sino a qué dioses sacrificar para que el viaje salga bien. Sócrates se lo reprocha.", "hl": {"1": "y"}, "fx": {}, "ul": {"0": "r-dotted", "1": "r-dotted", "2": "r-dotted", "3": "r-dotted", "7": "b-double", "8": "b-double", "9": "b-double", "10": "b-double"}, "lk": {}}, {"id": "aGorgias-Encomio-de-Helena-8-DK-82-B-11-", "ref": "Gorgias, Encomio de Helena 8 (DK 82 B 11)", "lines": ["λόγος δυνάστης μέγας ἐστίν, ὃς μικροτάτῳ καὶ ἀφανεστάτῳ σώματι θειότατα ἔργα ἀποτελεῖ."], "trans": "La palabra es un gran soberano, que con un cuerpo pequeñísimo e invisibilísimo lleva a cabo obras divinísimas.", "gloss": "<div><b>ἀποτελέω, -ῶ:<\/b> llevar a cabo, realizar<\/div><div><b>ἀφανής, -ές:<\/b> invisible (superl. ἀφανέστατος)<\/div><div><b>δυνάστης, -ου: ὁ.<\/b> soberano, señor poderoso<\/div><div><b>εἰμί:<\/b> ser, haber<\/div><div><b>ἔργον, -ου: τό.<\/b> obra, hecho<\/div><div><b>θεῖος, -α, -ον:<\/b> divino (superl. θειότατος)<\/div><div><b>καί:<\/b> y<\/div><div><b>λόγος, -ου: ὁ.<\/b> palabra, discurso<\/div><div><b>μέγας, μεγάλη, μέγα:<\/b> grande<\/div><div><b>μικρός, -ά, -όν:<\/b> pequeño (superl. μικρότατος)<\/div><div><b>ὅς, ἥ, ὅ:<\/b> que, el cual<\/div><div><b>σῶμα, -ατος: τό.<\/b> cuerpo<\/div>", "notes": "<ul><li>proposición relativa<\/li><li>superlativo en -τατος<\/li><li>dativo instrumental<\/li><li>contracto en -έω (ἀποτελεῖ)<\/li><\/ul>", "ctx": "Gorgias defiende a Helena con cuatro hipótesis. La tercera es que la haya persuadido la palabra, y la introduce con una condicional: εἰ δὲ λόγος ὁ πείσας καὶ τὴν ψυχὴν ἀπατήσας, οὐδὲ πρὸς τοῦτο χαλεπὸν ἀπολογήσασθαι («y si fue la palabra la que la persuadió y le engañó el alma, tampoco es difícil defenderla de esto»). Sigue la frase.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aTeodectes-Edipo-TrGF-72-F-4-en-Ateneo-10-451f", "ref": "Teodectes, Edipo (TrGF 72 F 4), en Ateneo 10.451f", "lines": ["εἰσὶ κασίγνηται δισσαί, ὧν ἡ μία τίκτει τὴν ἑτέραν […]."], "trans": "Hay dos hermanas, de las cuales una engendra a la otra.", "gloss": "<div><b>δισσός, -ή, -όν:<\/b> doble; (pl.) dos<\/div><div><b>εἰμί:<\/b> ser; haber<\/div><div><b>εἷς, μία, ἕν:<\/b> uno<\/div><div><b>ἕτερος, -α, -ον:<\/b> el otro (de dos)<\/div><div><b>κασιγνήτη, -ης: ἡ.<\/b> hermana<\/div><div><b>ὅς, ἥ, ὅ:<\/b> que, el cual<\/div><div><b>τίκτω:<\/b> engendrar, dar a luz<\/div>", "notes": "<ul><li>relativo en genitivo partitivo<\/li><li>numerales (εἷς, μία, ἕν)<\/li><li>ἕτερος<\/li><li>enigma<\/li><\/ul>", "ctx": "En el libro X de Ateneo hay una colección de enigmas. Este es el que Teodectes puso en su tragedia Edipo; la respuesta es «la noche y el día».", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aPlat-n-Teeteto-161c-d", "ref": "Platón, Teeteto 161c-d", "lines": ["ἡμεῖς μὲν αὐτὸν ὥσπερ θεὸν ἐθαυμάζομεν ἐπὶ σοφίᾳ, ὁ δ᾽ ἄρα ἐτύγχανεν ὢν / ἦν / ἐγίγνετο εἰς φρόνησιν οὐδὲν βελτίων βατράχου γυρίνου."], "trans": "Nosotros lo admirábamos como a un dios por su sabiduría, pero en inteligencia no era mejor en nada que un renacuajo.", "gloss": "<div><b>ἄρα:<\/b> entonces, según resulta<\/div><div><b>αὐτός, -ή, -ό (acus. αὐτόν):<\/b> él; lo, a él<\/div><div><b>βάτραχος, -ου: ὁ.<\/b> rana<\/div><div><b>βελτίων, -ον (+ gen.):<\/b> mejor (que)<\/div><div><b>γυρῖνος, -ου: ὁ.<\/b> renacuajo<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>εἰμί (part. ὤν):<\/b> ser, haber<\/div><div><b>εἰς (+ acus.):<\/b> a, hacia; en cuanto a<\/div><div><b>ἐπί (+ dat.):<\/b> por, a causa de<\/div><div><b>ἡμεῖς:<\/b> nosotros<\/div><div><b>θαυμάζω:<\/b> admirar<\/div><div><b>θεός, -οῦ: ὁ.<\/b> dios<\/div><div><b>μέν:<\/b> por un lado (correlativo de δέ)<\/div><div><b>ὁ, ἡ, τό (valor pronominal):<\/b> él, ella<\/div><div><b>οὐδείς, οὐδεμία, οὐδέν:<\/b> nadie, ninguno; (οὐδέν adv.) en nada<\/div><div><b>σοφία, -ας: ἡ.<\/b> sabiduría<\/div><div><b>τυγχάνω (+ part.):<\/b> resultar, estar justamente<\/div><div><b>φρόνησις, -εως: ἡ.<\/b> inteligencia, sensatez<\/div><div><b>ὥσπερ:<\/b> como, igual que<\/div>", "notes": "<ul><li>imperfecto<\/li><li>ἐπί + dativo para C. de causa<\/li><li>μέν … δέ<\/li><li>ὁ δέ con valor pronominal<\/li><li>Acusativo de relación<\/li><li>comparativo (βελτίων) + genitivo de comparación<\/li><\/ul>", "ctx": "Sócrates se burla de la tesis de Protágoras («el hombre es la medida de todas las cosas»): si cada uno es medida de lo que percibe, ¿por qué no un cerdo o un cinocéfalo?", "hl": {"0": "r", "1": "r", "8": "r", "9": "r", "11": "h", "12": "h", "13": "h", "15": "h", "16": "h"}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aEsquilo-Agamen-n-267", "ref": "Esquilo, Agamenón 267", "lines": ["Πριάμου γὰρ ᾑρήκασιν Ἀργεῖοι πόλιν."], "trans": "Pues los argivos han tomado la ciudad de Príamo.", "gloss": "<div><b>αἱρέω, -ῶ (perf. ᾕρηκα):<\/b> tomar, capturar<\/div><div><b>Ἀργεῖος, -α, -ον:<\/b> argivo<\/div><div><b>γάρ:<\/b> pues<\/div><div><b>πόλις, -εως: ἡ.<\/b> ciudad<\/div><div><b>Πρίαμος, -ου: ὁ.<\/b> Príamo<\/div>", "notes": "<ul><li>perfecto activo (ᾕρηκα, de αἱρέω)<\/li><li>genitivo posesivo en hipérbaton<br>παιδεύω <u>πεπάι<\/u>δευ<u>κα<\/u><br>Si el verbo comienza en vocal, en lugar de reduplicación tenemos aumento (el aumento es por alargamiento)<\/li><\/ul>", "ctx": "Clitemnestra le anuncia al coro, al amanecer, la noticia que trajo la cadena de fogatas: πεύσῃ δὲ χάρμα μεῖζον ἐλπίδος κλύειν («vas a oír una alegría mayor que tu esperanza»). Sigue esta frase.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aEsquilo-Persas-913", "ref": "Esquilo, Persas 913", "lines": ["λέλυται γὰρ ἐμοὶ γυίων ῥώμη."], "trans": "Pues se me ha desatado la fuerza de los miembros.", "gloss": "<div><b>γάρ:<\/b> pues<\/div><div><b>γυῖον, -ου: τό.<\/b> miembro<\/div><div><b>ἐγώ (dat. ἐμοί):<\/b> yo; (dat.) me, a mí<\/div><div><b>λύω (perf. m.-p. λέλυμαι):<\/b> desatar, aflojar<\/div><div><b>ῥώμη, -ης: ἡ.<\/b> fuerza, vigor<\/div>", "notes": "<ul><li>perfecto medio-pasivo (λέλυται) NO TIENE FORMANTE KAPPÁTICO Y NO TIENE VOCAL TEMÁTICA<br>λύ<u><b>ε<\/b><\/u>ται<\/li><li>dativo de interés (ἐμοί)<\/li><li>genitivo<\/li><\/ul>", "ctx": "Jerjes vuelve derrotado, con las ropas desgarradas, y se lamenta ante los ancianos persas. El verso sigue: τήνδ᾽ ἡλικίαν ἐσιδόντ᾽ ἀστῶν («al ver a estos ancianos de la ciudad»).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aRepaso-Aoristo-sigm-tico", "ref": "Repaso · Aoristo sigmático", "lines": ["@\tActiva\tMedia", "@1ª sg.\tἔλυσα\tἐλυσάμην", "@2ª sg.\tἔλυσας\tἐλύσω", "@3ª sg.\tἔλυσε(ν)\tἐλύσατο", "@1ª pl.\tἐλύσαμεν\tἐλυσάμεθα", "@2ª pl.\tἐλύσατε\tἐλύσασθε", "@3ª pl.\tἔλυσαν\tἐλύσαντο"], "trans": "λύω «desatar»: desaté, desataste, desató, desatamos, desatasteis, desataron.<br>λύομαι «rescatar»: rescaté, rescataste, rescató, rescatamos, rescatasteis, rescataron.", "gloss": "<div><b>1ª sg.:<\/b> -α / -άμην<\/div><div><b>2ª sg.:<\/b> -ας / -ω<\/div><div><b>3ª sg.:<\/b> -ε(ν) / -ατο<\/div><div><b>1ª pl.:<\/b> -αμεν / -άμεθα<\/div><div><b>2ª pl.:<\/b> -ατε / -ασθε<\/div><div><b>3ª pl.:<\/b> -αν / -αντο<\/div>", "notes": "<ul><li>aumento ἐ- en el indicativo (tiempo secundario)<\/li><li>marca -σ- + vocal -α- en todo el paradigma<\/li><li>3ª sg. activa -ε(ν), con ν efelcística<\/li><li>2ª sg. media -ω (&lt; -σο: cae la σ intervocálica y se contrae)<\/li><li>3ª pl. activa -αν<\/li><\/ul>", "ctx": "Indicativo de λύω: aumento ἐ- + tema + σ + -α- + desinencias secundarias. Tiene activa y media; el aoristo pasivo se forma aparte (-θη-). En las frases de hoy: ἐκέλευσεν (Anábasis 3.1.7) y διηγήσω (Protágoras 310a).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aRepaso-Perfecto", "ref": "Repaso · Perfecto", "lines": ["@\tActiva\tMedio-pasiva", "@1ª sg.\tλέλυκα\tλέλυμαι", "@2ª sg.\tλέλυκας\tλέλυσαι", "@3ª sg.\tλέλυκε(ν)\tλέλυται", "@1ª pl.\tλελύκαμεν\tλελύμεθα", "@2ª pl.\tλελύκατε\tλέλυσθε", "@3ª pl.\tλελύκασι(ν)\tλέλυνται"], "trans": "Activa: he desatado, has desatado, ha desatado, hemos desatado, habéis desatado, han desatado.<br>Medio-pasiva: he sido desatado, has sido desatado, ha sido desatado, hemos sido desatados, habéis sido desatados, han sido desatados.", "gloss": "<div><b>1ª sg.:<\/b> -κα / -μαι<\/div><div><b>2ª sg.:<\/b> -κας / -σαι<\/div><div><b>3ª sg.:<\/b> -κε(ν) / -ται<\/div><div><b>1ª pl.:<\/b> -καμεν / -μεθα<\/div><div><b>2ª pl.:<\/b> -κατε / -σθε<\/div><div><b>3ª pl.:<\/b> -κασι(ν) / -νται<\/div>", "notes": "<ul><li>reduplicación (consonante inicial + ε: λε-λυ-) en las dos voces<\/li><li>-κ- solo en la activa<\/li><li>el perfecto medio-pasivo sirve para la voz media y para la pasiva<\/li><li>activa: 3ª pl. -ασι(ν)<\/li><\/ul>", "ctx": "De λύω: reduplicación λε- + tema + desinencias primarias. La activa lleva -κ-; la medio-pasiva une las desinencias directo al tema. En las frases de hoy: ᾑρήκασιν (Agamenón 267) y λέλυται (Persas 913).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}]};
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rq = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('practico-10-15-10-' + k); return v == null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('practico-10-15-10-' + k, v); } catch(e){} }
+};
+/* saneado (igual que la mesa) */
+const OK = new Set(['B','I','U','EM','STRONG','BR','DIV','P','UL','OL','LI','MARK','S','STRIKE','DEL','A']);
+function safeUrl(u){ u = String(u || '').trim(); if(!u) return ''; if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u; return /^(https?:|mailto:)/i.test(u) ? u : ''; }
+function clean(h){
+  if(!h) return '';
+  const root = new DOMParser().parseFromString('<div>' + h + '</div>', 'text/html').body.firstElementChild;
+  (function walk(node){
+    [...node.childNodes].forEach(ch => {
+      if(ch.nodeType === 1){
+        if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(ch.tagName)){ ch.remove(); return; }
+        walk(ch);
+        if(!OK.has(ch.tagName)){ ch.replaceWith(...ch.childNodes); return; }
+        const cls = ch.tagName === 'MARK' && /^c-[yrbg]$/.test(ch.className) ? ch.className : '';
+        const ulCls = ch.tagName === 'U' && /^u-[yrbgk]( us-(double|wavy|dotted))?$/.test(ch.className) ? ch.className : '';
+        const href = ch.tagName === 'A' ? safeUrl(ch.getAttribute('href')) : '';
+        [...ch.attributes].forEach(a => ch.removeAttribute(a.name));
+        if(cls) ch.className = cls; if(ulCls) ch.className = ulCls;
+        if(ch.tagName === 'A'){ if(href) ch.setAttribute('href', href); else ch.replaceWith(...ch.childNodes); }
+      } else if(ch.nodeType !== 3) ch.remove();
+    });
+  })(root);
+  return root.innerHTML;
+}
+const hasText = h => !!(h && h.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim());
+/* latín con marcas (igual que la mesa) */
+function startLine(ref){ const m = String(ref).match(/^\s*\d+\s*[.,]\s*(\d+)/); return m ? +m[1] : null; }
+function wClass(i, n){
+  const f = n.fx[i] || '', u = n.ul[i];
+  const uc = u ? ' u u-' + u.split('-')[0] + (u.split('-')[1] ? ' us-' + u.split('-')[1] : '') : '';
+  return 'w' + (n.hl[i] ? ' c-' + n.hl[i] : '') + (f.includes('b') ? ' fb' : '') + (f.includes('s') ? ' fs' : '') + (n.lk[i] ? ' lk' : '') + uc;
+}
+function latHtml(t){
+  const s = startLine(t.ref); let wi = 0;
+  return t.lines.map((line, li) => {
+    const num = s != null ? s + li : null, showN = num != null && (li === 0 || num % 5 === 0);
+    const words = line.split(/(\s+)/).map(tok => {
+      if(!tok) return ''; if(/^\s+$/.test(tok)) return tok;
+      const i = wi++; return `<span class="${wClass(i, t)}" data-i="${i}">${esc(tok)}</span>`;
+    }).join('');
+    return `<div class="l"><span class="vn">${showN ? num : ''}</span><span class="lt">${words}</span></div>`;
+  }).join('');
+}
+const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+function sortGloss(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const key = el => fold(el.textContent);
+  const kids = [...d.children];
+  if(kids.length === 1 && /^(UL|OL)$/.test(kids[0].tagName)){
+    const ul = kids[0]; [...ul.children].sort((a, b) => key(a).localeCompare(key(b), 'es')).forEach(li => ul.appendChild(li)); return d.innerHTML;
+  }
+  const lines = []; let cur = document.createElement('div');
+  [...d.childNodes].forEach(nd => {
+    if(nd.nodeName === 'BR'){ lines.push(cur); cur = document.createElement('div'); }
+    else if(/^(DIV|P)$/.test(nd.nodeName)){ if(cur.childNodes.length){ lines.push(cur); cur = document.createElement('div'); } const x = document.createElement('div'); x.append(...nd.childNodes); lines.push(x); }
+    else cur.appendChild(nd);
+  });
+  if(cur.childNodes.length) lines.push(cur);
+  const ok = lines.filter(l => key(l));
+  if(ok.length < 2 || ok.some(l => l.querySelector('ul,ol,li'))) return h;
+  ok.sort((a, b) => key(a).localeCompare(key(b), 'es'));
+  return ok.map(l => `<div class="rg">${l.innerHTML}</div>`).join('');
+}
+function qLabel(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const first = d.firstElementChild, el = first && /^(UL|OL)$/.test(first.tagName) ? first.querySelector('li') : first;
+  const s = (el ? el.textContent : d.textContent).trim();
+  const qs = s.match(/¿[^?]*\?/g) || [];
+  if(qs.length > 1) return 'Preguntas';
+  const q = qs[0] || (/\?$/.test(s) ? s : '');
+  if(!q) return 'Para pensar';
+  return q.length > 40 ? q.slice(0, 38) + '…?' : q;
+}
+/* datos */
+const P = DATA.pasajes.map(t => Object.assign({}, t, {trans: clean(t.trans), gloss: clean(t.gloss), notes: clean(t.notes), ctx: clean(t.ctx),
+  hl: t.hl || {}, fx: t.fx || {}, ul: t.ul || {}, lk: Object.fromEntries(Object.entries(t.lk || {}).map(([k, v]) => [k, safeUrl(v)]).filter(x => x[1]))}));
+let idx = Math.max(0, P.findIndex(t => t.id === store.get('pid', '')));
+let fs = Math.max(16, Math.min(30, +store.get('fs', 21) || 21));
+let tabSel = store.get('tab', 'gloss');
+function applyPrefs(){
+  const th = store.get('theme', '');
+  if(th) document.body.dataset.rtheme = th; else delete document.body.dataset.rtheme;
+  rq('rLat').style.setProperty('--rfs', fs + 'px');
+}
+function render(){
+  const t = P[idx];
+  rq('rClase').textContent = DATA.clase;
+  rq('rRef').textContent = t.ref + ' ▾';
+  rq('rRef').setAttribute('aria-label', `Pasaje ${t.ref}. Ver la lista de pasajes`);
+  rq('rPos').textContent = (idx + 1) + '/' + P.length;
+  rq('rPrev').disabled = idx === 0; rq('rNext').disabled = idx === P.length - 1;
+  rq('rLat').innerHTML = latHtml(t);
+  const tabs = [];
+  if(hasText(t.ctx)) tabs.push(['ctx', 'Contexto']);
+  if(hasText(t.gloss)) tabs.push(['gloss', 'Glosario']);
+  if(hasText(t.trans)) tabs.push(['trans', 'Traducción']);
+  if(hasText(t.notes)) tabs.push(['notes', qLabel(t.notes)]);
+  rq('rPanel').hidden = !tabs.length;
+  const k = tabs.some(x => x[0] === tabSel) ? tabSel : (tabs[0] || [])[0];
+  rq('rTabs').innerHTML = tabs.map(([key, lbl]) => `<button role="tab" data-k="${key}" aria-selected="${key === k}" title="${esc(lbl)}">${esc(lbl)}</button>`).join('');
+  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : t[k];
+}
+function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
+function openSheet(){
+  rq('rSheetLbl').textContent = DATA.clase + ' · ' + P.length + ' pasajes';
+  rq('rList').innerHTML = P.map((t, j) => `<li><button data-j="${j}"${j === idx ? ' aria-current="true"' : ''}><span class="rr">${esc(t.ref)}</span><span class="rw" lang="grc">${esc((t.lines[0] || '').split(/\s+/).slice(0, 6).join(' '))}</span></button></li>`).join('');
+  rq('rSheet').hidden = false;
+  const c = rq('rList').querySelector('[aria-current]'); if(c) c.scrollIntoView({block:'center'});
+}
+rq('rSel').remove();
+rq('rPrev').onclick = () => go(idx - 1);
+rq('rNext').onclick = () => go(idx + 1);
+rq('rRef').onclick = openSheet;
+rq('rSheetClose').onclick = () => { rq('rSheet').hidden = true; };
+rq('rSheet').addEventListener('click', e => {
+  if(e.target === e.currentTarget){ rq('rSheet').hidden = true; return; }
+  const b = e.target.closest('[data-j]'); if(b){ rq('rSheet').hidden = true; go(+b.dataset.j); }
+});
+rq('rTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(!b) return; tabSel = b.dataset.k; store.set('tab', tabSel); render(); });
+rq('rMinus').onclick = () => { fs = Math.max(16, fs - 2); store.set('fs', fs); applyPrefs(); };
+rq('rPlus').onclick = () => { fs = Math.min(30, fs + 2); store.set('fs', fs); applyPrefs(); };
+rq('rThemeBtn').onclick = () => { const dark = getComputedStyle(document.body).colorScheme.includes('dark'); store.set('theme', dark ? 'light' : 'dark'); applyPrefs(); };
+const openUrl = u => { u = safeUrl(u); if(u){ try { window.open(u, '_blank', 'noopener'); } catch(e){} } };
+rq('rTab').addEventListener('click', e => { const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
+rq('rLat').addEventListener('click', e => { const w = e.target.closest('.w.lk'); if(w && getSelection().isCollapsed) openUrl(P[idx].lk[w.dataset.i]); });
+let sw = null;
+rq('rLat').addEventListener('touchstart', e => { if(e.touches.length === 1) sw = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()}; }, {passive:true});
+rq('rLat').addEventListener('touchend', e => {
+  if(!sw) return; const s = sw; sw = null; const p = e.changedTouches[0], dx = p.clientX - s.x, dy = p.clientY - s.y;
+  if(Date.now() - s.t > 700 || Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) / 2 || !getSelection().isCollapsed) return;
+  go(idx + (dx < 0 ? 1 : -1));
+}, {passive:true});
+window.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ rq('rSheet').hidden = true; return; }
+  if(!rq('rSheet').hidden) return;
+  if(e.key === 'ArrowRight') go(idx + 1); else if(e.key === 'ArrowLeft') go(idx - 1);
+});
+applyPrefs(); render();
+</script>
+</body></html>

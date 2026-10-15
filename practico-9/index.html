@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Griego II · Práctico 9</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap">
+<style>
+  :root{--f-body:'Noto Serif','GFS Didot',Georgia,serif; --f-lat:'Noto Serif','GFS Didot',Georgia,serif; --f-label:'Noto Serif','GFS Didot',Georgia,serif; --label-w:600;}
+  *{box-sizing:border-box;} [hidden]{display:none!important;}
+  html,body{margin:0;} body{font-family:var(--f-body);}
+  button,select{font:inherit;}
+  .rlive{color:var(--rsoft);}
+  .l{display:flex; gap:.5em; align-items:baseline;}
+  .vn{font-style:normal; font-family:var(--f-label); font-weight:var(--label-w); font-size:.5em; color:var(--soft); width:2.4em; flex:none; text-align:right; letter-spacing:.03em; font-variant-numeric:tabular-nums;}
+  .lt{flex:1; min-width:0;}
+  .w{border-radius:.15em; padding:0 .06em; margin:0 -.06em;}
+  body.brush .w{cursor:pointer;}
+  body.brush .w:hover{outline:2px dashed var(--line); outline-offset:1px;}
+  .c-y{background:var(--mk-y); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-y-e);}
+  .c-r{background:var(--mk-r); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-r-e);}
+  .c-b{background:var(--mk-b); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-b-e);}
+  .c-g{background:var(--mk-g); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-g-e);}
+  mark{border-radius:.15em; padding:0 .05em;}
+  .body a,.w.lk{color:inherit; text-decoration-line:underline; text-decoration-color:var(--accent); text-decoration-thickness:.09em; text-underline-offset:.16em; cursor:pointer;}
+  .body s,.body strike,.body del,.w.fs{text-decoration-line:line-through; text-decoration-thickness:.07em;}
+  .w.lk.fs{text-decoration-line:underline line-through;}
+  .body u,.w.u{text-decoration-line:underline; text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .w.u.fs{text-decoration-line:underline line-through;}
+  .u-y{text-decoration-color:var(--ul-y)!important;} .u-r{text-decoration-color:var(--ul-r)!important;} .u-b{text-decoration-color:var(--ul-b)!important;}
+  .u-g{text-decoration-color:var(--ul-g)!important;} .u-k{text-decoration-color:var(--ul-k)!important;}
+  .us-double{text-decoration-style:double; text-decoration-thickness:.07em;} .us-wavy{text-decoration-style:wavy; text-decoration-thickness:.06em;} .us-dotted{text-decoration-style:dotted; text-decoration-thickness:.12em;}
+  .body b,.body strong,.w.fb{font-weight:700;}
+
+  body.lector{
+    --rbg:#FFFEFB; --rsurface:#F4EFE5; --rink:#2A2016; --rsoft:#5C4F3B; --rline:#DDD3C0; --raccent:#B32F2F; --raccent-ink:#FFFFFF;
+    --rlive:#2E7D32; --rfree:#A15C00; --roff:#7A6E5C;
+    --mk-y:#FFC000; --mk-r:#FF5E4D; --mk-b:#4F8DFF; --mk-g:#2FBF4F; --mk-ink:#2A2016;
+    --mk-y-e:#B07F00; --mk-r-e:#B8231A; --mk-b-e:#1A4FC4; --mk-g-e:#137A2E;
+    --ul-y:#E0A800; --ul-r:#E0342A; --ul-b:#1F5FE0; --ul-g:#1E9E3A; --ul-k:#2A2016; --accent:#B32F2F;
+    background:var(--rbg); color:var(--rink); color-scheme:light;
+  }
+  body.lector[data-rtheme="dark"]{
+    --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+    --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+    --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+    --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+    --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme:dark){
+    body.lector:not([data-rtheme="light"]){
+      --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+      --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+      --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+      --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+      --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+      color-scheme:dark;
+    }
+  }
+  #lector{min-height:100dvh; display:flex; flex-direction:column; background:var(--rbg); color:var(--rink); font-family:var(--f-body); -webkit-text-size-adjust:100%;}
+  #lector button{font-family:var(--f-body); cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  #lector button:focus-visible,#lector select:focus-visible{outline:3px solid var(--raccent); outline-offset:2px;}
+  .rtop{position:sticky; top:0; z-index:5; background:var(--rbg); border-bottom:1px solid var(--rline); padding:8px 16px 8px;}
+  .rrow{display:flex; align-items:center; gap:10px; min-width:0;}
+  .rclase{flex:1; min-width:0; font-weight:600; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rref{flex:none; font-weight:600; font-size:17px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:20px; padding:6px 14px; min-height:42px; font-variant-numeric:tabular-nums;}
+  .rsub{margin-top:6px; font-size:13px; color:var(--rsoft);}
+  .rlive{display:flex; align-items:center; gap:7px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rlive i{width:9px; height:9px; border-radius:50%; background:var(--roff); flex:none;}
+  .rlive[data-s="live"] i{background:var(--rlive); box-shadow:0 0 0 3px color-mix(in srgb, var(--rlive) 28%, transparent);}
+  .rlive[data-s="free"] i{background:var(--rfree);}
+  .rpos{font-variant-numeric:tabular-nums; flex:none;}
+  .rtools{display:flex; gap:4px; flex:none;}
+  .rtools button{font-weight:600; font-size:14px; min-width:40px; height:36px; padding:0 8px; border-radius:18px; border:1px solid var(--rline); background:transparent; color:var(--rink);}
+  .rnote{display:flex; align-items:center; gap:10px; margin-top:8px; padding:8px 10px; background:var(--rsurface); border-left:3px solid var(--rfree); font-size:14px; line-height:1.35;}
+  .rnote button{margin-left:auto; flex:none; font-weight:600; font-size:14px; min-height:40px; padding:0 14px; border-radius:20px; border:none; background:var(--raccent); color:var(--raccent-ink);}
+  .rmain{flex:1; width:100%; max-width:1100px; margin:0 auto; padding:18px 16px calc(100px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:22px;}
+  .rlat{font-size:var(--rfs,21px); line-height:1.55; max-width:calc(21em + 2.6em); overflow-wrap:break-word;}
+  .rlat .l{gap:.45em;}
+  .rlat .vn{font-family:var(--f-body); font-weight:600; font-size:.55em; width:2.3em; color:var(--rsoft); letter-spacing:0;}
+  .rlat .lt{padding-left:1.2em; text-indent:-1.2em;}
+  .rpanel{border-top:1px solid var(--rline);}
+  .rtabs{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;}
+  .rtabs::-webkit-scrollbar{display:none;}
+  .rtabs button{flex:none; font-weight:600; font-size:15px; background:none; border:none; border-bottom:3px solid transparent; color:var(--rsoft); padding:10px 12px; min-height:46px; max-width:75vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rtabs button[aria-selected="true"]{color:var(--rink); border-bottom-color:var(--raccent);}
+  .rtab{font-size:17px; line-height:1.55; padding:12px 2px; overflow-wrap:break-word;}
+  .rtab ul,.rtab ol{margin:0; padding-left:1.2em;} .rtab li{margin:.3em 0;} .rtab li::marker{color:var(--raccent);}
+  .rtab p,.rtab div{margin:0;}
+  .rtab .rg{padding:.4em 0; border-bottom:1px solid var(--rline);} .rtab .rg:last-child{border-bottom:none;}
+  .rtab b,.rtab strong{font-weight:700;}
+  .rtab a{color:inherit; text-decoration-line:underline; text-decoration-color:var(--raccent); text-underline-offset:.16em;}
+  .rtab u{text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .rtab s,.rtab strike,.rtab del{text-decoration-thickness:.07em;}
+  .rmsg{padding:56px 16px; text-align:center; font-size:17px; line-height:1.5; color:var(--rsoft); max-width:460px; margin:0 auto;}
+  .rnav{position:fixed; left:0; right:0; bottom:0; z-index:5; display:flex; gap:10px; padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px)); background:var(--rbg); border-top:1px solid var(--rline);}
+  .rnav button{flex:1; min-height:52px; font-weight:600; font-size:17px; border-radius:26px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
+  .rnav #rNext{background:var(--raccent); color:var(--raccent-ink); border-color:var(--raccent);}
+  .rnav button:disabled{opacity:.4; cursor:default;}
+  .rsheet{position:fixed; inset:0; z-index:10; background:rgba(0,0,0,.45); display:flex; align-items:flex-end; justify-content:center;}
+  .rsheet-in{background:var(--rbg); color:var(--rink); width:100%; max-width:640px; max-height:82dvh; overflow:auto; border-radius:16px 16px 0 0; padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+  .rsheet-head{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
+  .rsheet-head .rlbl{margin:0; font-size:13px; color:var(--rsoft); width:100%;}
+  .rsheet-head select{flex:1; min-width:0; font:16px var(--f-body); padding:8px; min-height:44px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:8px;}
+  .rsheet-head button{font-weight:600; font-size:15px; min-height:44px; padding:0 16px; border-radius:22px; border:1px solid var(--rline); background:transparent; color:var(--rink); margin-left:auto;}
+  #rList{list-style:none; margin:0; padding:0;}
+  #rList button{width:100%; text-align:left; display:flex; gap:10px; align-items:baseline; padding:12px 10px; min-height:50px; background:none; border:none; border-left:4px solid transparent; color:var(--rink); font-size:16px;}
+  #rList button .rr{font-weight:600; flex:none; font-variant-numeric:tabular-nums;}
+  #rList button .rw{color:var(--rsoft); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; min-width:0;}
+  #rList button[aria-current="true"]{border-left-color:var(--raccent); background:var(--rsurface);}
+  @media (min-width:701px){
+    .rmain{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); align-items:start; gap:36px; padding-top:24px;}
+    .rpanel{border-top:none; border-left:1px solid var(--rline); padding-left:24px; position:sticky; top:110px; max-height:calc(100dvh - 210px); overflow:auto;}
+    .rnav{justify-content:center;} .rnav button{flex:0 1 260px;}
+  }
+</style></head>
+<body class="lector">
+<div id="lector">
+  <header class="rtop">
+    <div class="rrow">
+      <span class="rclase" id="rClase">Cargando…</span>
+      <button class="rref" id="rRef" aria-haspopup="dialog">—</button>
+    </div>
+    <div class="rrow rsub">
+      <span class="rlive" id="rLive"></span>
+      <span class="rpos" id="rPos"></span>
+      <span class="rtools">
+        <button id="rMinus" aria-label="Letra más chica">A−</button>
+        <button id="rPlus" aria-label="Letra más grande">A+</button>
+        <button id="rThemeBtn" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+      </span>
+    </div>
+    <div class="rnote" id="rNote" hidden></div>
+  </header>
+  <main class="rmain" id="rMain">
+    <section class="rlat" id="rLat" lang="grc" aria-label="Texto griego"></section>
+    <section class="rpanel" id="rPanel" hidden>
+      <div class="rtabs" role="tablist" id="rTabs"></div>
+      <div class="rtab" id="rTab" role="tabpanel"></div>
+    </section>
+  </main>
+  <p class="rmsg" id="rMsg" hidden></p>
+  <nav class="rnav" aria-label="Pasajes">
+    <button id="rPrev">◀ Anterior</button>
+    <button id="rNext">Siguiente ▶</button>
+  </nav>
+  <div class="rsheet" id="rSheet" hidden role="dialog" aria-label="Pasajes de la clase">
+    <div class="rsheet-in">
+      <div class="rsheet-head">
+        <p class="rlbl" id="rSheetLbl">Clase</p>
+        <select id="rSel" aria-label="Elegir clase"></select>
+        <button id="rSheetClose">Cerrar</button>
+      </div>
+      <ol id="rList"></ol>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"clase": "Práctico 9 (08.10)", "pasajes": [{"id": "aTuc-dides-2-37-1-Epitafio-de-Pericles-", "ref": "Tucídides 2.37.1 (Epitafio de Pericles)", "lines": ["χρώμεθα γὰρ πολιτείᾳ οὐ ζηλούσῃ τοὺς τῶν πέλας νόμους."], "trans": "Tenemos, en efecto, un régimen político que no envidia las leyes de los vecinos.", "gloss": "<div><b>γάρ:<\/b> pues<\/div><div><b>ζηλόω, -ῶ:<\/b> envidiar, emular<\/div><div><b>νόμος, -ου: ὁ.<\/b> ley<\/div><div><b>οὐ:<\/b> no<\/div><div><b>πέλας (adv.):<\/b> cerca; (οἱ πέλας) los vecinos, los demás<\/div><div><b>πολιτεία, -ας: ἡ.<\/b> régimen político, constitución<\/div><div><b>χράομαι, -ῶμαι (+ dat.):<\/b> usar, servirse de; tener<\/div>", "notes": "<ul><li>participio presente activo de -όω&nbsp;<\/li><li>χράομαι + dativo<\/li><li>artículo + adverbio sustantivado (τῶν πέλας)<\/li><\/ul>", "ctx": "Es la primera frase de la célebre definición de la democracia ateniense. Sigue: παράδειγμα δὲ μᾶλλον αὐτοὶ ὄντες τισὶν ἢ μιμούμενοι ἑτέρους («siendo nosotros más bien modelo para algunos que imitadores de otros»).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aOdisea-6-221-222", "ref": "Odisea 6.221-222", "lines": ["αἰδέομαι γὰρ γυμνοῦσθαι."], "trans": "Pues me da vergüenza desnudarme.", "gloss": "<div><b>αἰδέομαι:<\/b> sentir vergüenza, avergonzarse; respetar<\/div><div><b>γάρ:<\/b> pues<\/div><div><b>γυμνόω, -ῶ:<\/b> desnudar; (med.) desnudarse<\/div>", "notes": "<ul><li>infinitivo presente medio de -όω<\/li><li>αἰδέομαι + infinitivo<\/li><li>forma no contracta épica (αἰδέομαι = ático αἰδοῦμαι): sirve para repasar la contracción en -έω<\/li><\/ul>", "ctx": "Odiseo, náufrago y desnudo, les pide a las criadas de Nausícaa que se aparten mientras se baña en el río: ἄντην δ᾽ οὐκ ἂν ἐγώ γε λοέσσομαι· αἰδέομαι γὰρ / γυμνοῦσθαι («delante de ustedes no me voy a bañar»).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aOdisea-22-1", "ref": "Odisea 22.1", "lines": ["αὐτὰρ ὁ γυμνώθη ῥακέων πολύμητις Ὀδυσσεύς."], "trans": "Y entonces se despojó de los harapos el muy astuto Odiseo.", "gloss": "<div><b>αὐτάρ:<\/b> pero, y entonces<\/div><div><b>γυμνόω, -ῶ:<\/b> desnudar; (pas. + gen.) despojarse de<\/div><div><b>ὁ, ἡ, τό (valor pronominal):<\/b> él, ella<\/div><div><b>Ὀδυσσεύς, -έως: ὁ.<\/b> Odiseo<\/div><div><b>πολύμητις, -ιος:<\/b> muy astuto, de muchos recursos, muchas vueltas&nbsp;<\/div><div><b>ῥάκος, -ους: τό.<\/b> harapo<\/div>", "notes": "<ul><li>aoristo pasivo de -όω (sin aumento, griego homérico)<\/li><li>genitivo de separación cf. Ablativo<\/li><li>ὁ con valor demostrativo/anafórico<\/li><li>ῥακέων no contracto (griego homérico)<\/li><\/ul>", "ctx": "Primer verso del canto 22. Odiseo, que llevaba los harapos de mendigo desde el canto 13, se los quita y salta al umbral con el arco: empieza la matanza de los pretendientes.", "hl": {"3": "y"}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aMenandro-Mon-sticos-831-J-kel-545-Meineke-", "ref": "Menandro, Monósticos 831 Jäkel (= 545 Meineke)", "lines": ["χρόνος δ᾽ ἀμαυροῖ πάντα κεἰς λήθην ἄγει."], "trans": "Pues el tiempo borra todo y (todo) lo lleva al olvido.<br>Pues el tiempo borra todas las cosas y las lleva al olvido.&nbsp;", "gloss": "<div><b>ἄγω:<\/b> conducir, llevar<\/div><div><b>ἀμαυρόω, -ῶ:<\/b> oscurecer, borrar<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>εἰς (+ acus.):<\/b> a, hacia<\/div><div><b>καί:<\/b> y (en crasis: κεἰς = καὶ εἰς)<\/div><div><b>λήθη, -ης: ἡ.<\/b> olvido<\/div><div><b>πᾶς, πᾶσα, πᾶν:<\/b> todo<\/div><div><b>χρόνος, -ου: ὁ.<\/b> tiempo<\/div>", "notes": "<ul><li>presente de -όω (ο + ει → οι)<\/li><li>crasis (κεἰς = καὶ εἰς)<\/li><\/ul>", "ctx": "Sentencia sobre el tiempo. Está documentada en la colección de Monósticos atribuidos a Menandro (<i>Sententiae<\/i>, 831 Jäkel). También atribuida a Sófocles (fr. 954 Radt, incertae fabulae).", "hl": {"4": "g"}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aS-focles-Ant-gona-543", "ref": "Sófocles, Antígona 543", "lines": ["λόγοις δ᾽ ἐγὼ φιλοῦσαν οὐ στέργω φίλην."], "trans": "Pero yo no quiero a una amiga que ama con palabras<br>Pero yo no quiero a una amiga que quiere de palabra/de la boca para afuera.&nbsp;", "gloss": "<div><b>δέ:<\/b> pero, y<\/div><div><b>ἐγώ:<\/b> yo<\/div><div><b>λόγος, -ου: ὁ.<\/b> palabra, discurso<\/div><div><b>οὐ:<\/b> no<\/div><div><b>στέργω:<\/b> querer, sentir afecto por<\/div><div><b>φιλέω, -ῶ:<\/b> amar, querer<\/div><div><b>φίλος, -η, -ον:<\/b> amigo; (sust.) amigo, amiga<\/div>", "notes": "<ul><li>participio presente activo de -έω<\/li><li>dativo instrumental<\/li><li>φιλέω / στέργω (dos tipos de amor)<\/li><li>figura etimológica φιλοῦσαν… φίλην<\/li><\/ul>", "ctx": "Ismene quiere compartir la condena de Antígona después de haberse negado a ayudarla a enterrar a Polinices. Antígona la rechaza.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aEur-pides-Medea-326", "ref": "Eurípides, Medea 326", "lines": ["ἀλλ᾽ ἐξελᾷς με κοὐδὲν αἰδέσῃ λιτάς;"], "trans": "¿Pero me vas a echar sin considerar en nada mis súplicas?", "gloss": "<div><b>αἰδέομαι (fut. αἰδέσομαι):<\/b> respetar, tener consideración por<\/div><div><b>ἀλλά:<\/b> sino, pero; (en pregunta) ¿entonces…?<\/div><div><b>ἐγώ (acus. με):<\/b> yo<\/div><div><b>ἐξελαύνω (fut. ἐξελῶ):<\/b> expulsar, echar<\/div><div><b>καί:<\/b> y (en crasis: κοὐδέν = καὶ οὐδέν)<\/div><div><b>λιτή, -ῆς: ἡ.<\/b> súplica<\/div><div><b>οὐδείς, οὐδεμία, οὐδέν:<\/b> nadie, ninguno; (οὐδέν adv.) en nada<\/div>", "notes": "<ul><li>futuro contracto (ἐλῶ, -ᾷς)<\/li><li>futuro medio<\/li><li>crasis κοὐδέν<\/li><li>οὐδέν como acusativo adverbial<\/li><\/ul>", "ctx": "Creonte acaba de decretar el destierro de Medea y ella le suplica de rodillas.", "hl": {"3": "g"}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aLas-ltimas-palabras-de-Bruto-Di-n-Casio-47-49-2-", "ref": "Las últimas palabras de Bruto (Dión Casio 47.49.2)", "lines": ["ὦ τλῆμον Ἀρετή, λόγος ἄρ᾽ ἦσθ᾽, ἐγὼ δέ σε ὡς ἔργον ἤσκουν."], "trans": "¡Oh, desdichada Virtud!, entonces eras una palabra, y yo te practicaba como una realidad.", "gloss": "<div><b>ἄρα:<\/b> entonces<\/div><div><b>ἀρετή, -ῆς: ἡ.<\/b> virtud<\/div><div><b>ἀσκέω, -ῶ:<\/b> practicar, ejercitar<\/div><div><b>εἰμί (impf. 2ª sg. ἦσθα)<\/b><\/div><div><b>ἔργον, -ου: τό.<\/b> obra, hecho, realidad<\/div><div><b>λόγος, -ου: ὁ.<\/b> palabra, discurso<\/div><div><b>σύ (acus. σε):<\/b> tú<\/div><div><b>τλήμων, -ον:<\/b> desdichado<\/div><div><b>ὡς:<\/b>&nbsp;que, como<\/div>", "notes": "<ul><li>Adjetivo en vocativo τλῆμον<\/li><li>elisiones: ἦσθα, ἄρα<\/li><li>imperfecto de εἰμί (ἦσθα)<\/li><li>ὡς comparativo<\/li><\/ul>", "ctx": "Antes de suicidarse después de Filipos (42 a.C.), Bruto habría citado estos versos de una tragedia perdida (Dión Casio 47.49.2; TrGF adesp. 374). La cita sigue: σὺ δ᾽ ἄρ᾽ <mark class=\"c-g\">ἐδούλευες<\/mark> τύχῃ («pero vos eras esclava de la fortuna»). Plutarco cita los mismos versos al comienzo de Sobre la superstición, sin nombrar a Bruto.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aEsquilo-Agamen-n-1487", "ref": "Esquilo, Agamenón 1487", "lines": ["τί γὰρ βροτοῖς ἄνευ Διὸς τελεῖται;"], "trans": "¿Qué se cumple, pues, para los mortales sin Zeus?<br>Alt: ¿Qué les ocurre/sucede a los mortales sin Zeus?<br><br>Sin Zeus ¿Qué se les cumple a los mortales? (logro colectivo)", "gloss": "<div><b>ἄνευ (+ gen.):<\/b> sin<\/div><div><b>βροτός, -οῦ: ὁ.<\/b> mortal<\/div><div><b>γάρ:<\/b> pues<\/div><div><b>Ζεύς, Διός: ὁ.<\/b> Zeus<\/div><div><b>τελέω, -ῶ:<\/b> cumplir, llevar a término; (mediopas.) cumplirse<\/div><div><b>τίς, τί:<\/b> quién, qué<\/div>", "notes": "<ul><li>presente mediopasivo de -έω<\/li><li>ἄνευ + genitivo<\/li><li>dativo de interés<\/li><li>Ζεύς, Διός (3ª decl. irregular)<\/li><\/ul>", "ctx": "El coro, después del asesinato de Agamenón, reconoce que todo ocurre «por obra de Zeus, causa de todo, autor de todo» (1485-1486).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aPlat-n-Rep-blica-3-393c", "ref": "Platón, República 3.393c", "lines": ["Ὅμηρος καὶ οἱ ἄλλοι ποιηταὶ διὰ μιμήσεως τὴν διήγησιν ποιοῦνται."], "trans": "Homero y los demás poetas crean el relato por medio de la imitación.", "gloss": "<div><b>ἄλλος, -η, -ο:<\/b> otro<\/div><div><b>διά (+ gen.):<\/b> por medio de, a través de<\/div><div><b>διήγησις, -εως: ἡ.<\/b> narración, relato<\/div><div><b>μίμησις, -εως: ἡ.<\/b> imitación<\/div><div><b>Ὅμηρος, -ου: ὁ.<\/b> Homero<\/div><div><b>ποιέω, -ῶ:<\/b> hacer; (med. + sust.) hacer, realizar<\/div><div><b>ποιητής, -οῦ: ὁ.<\/b> poeta<\/div>", "notes": "<ul><li>presente medio de -έω (ποιοῦμαι)<\/li><li>διά + genitivo<\/li><li>3ª decl. tipo πόλις<\/li><\/ul>", "ctx": "Sócrates distingue la narración simple (haplê diḗgēsis) de la narración por imitación, en la que el poeta habla como si fuera otro. Es el pasaje que la narratología moderna (Genette) toma como punto de partida.", "hl": {"6": "y", "8": "y"}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aArist-teles-seg-n-Di-genes-Laercio-5-20", "ref": "Aristóteles, según Diógenes Laercio 5.20", "lines": ["τί ἐστι φίλος; μία ψυχὴ δύο σώμασιν ἐνοικοῦσα."], "trans": "¿Qué es un amigo? Un alma que habita en dos cuerpos.", "gloss": "<div><b>ἐνοικέω, -ῶ (+ dat.):<\/b> habitar en<br><\/div><div><b>σῶμα, -ατος: τό.<\/b> cuerpo<\/div><div><b>τίς, τί:<\/b> quién, qué<\/div><div><b>φίλος, -η, -ον:<\/b> amigo<\/div><div><b>ψυχή, -ῆς: ἡ.<\/b> alma<\/div>", "notes": "<ul><li>participio presente activo de verbo contracto -έω&nbsp;<\/li><li>interrogativo τίς τί<\/li><li>numerales<\/li><li>dativo con verbo compuesto en ἐν-<\/li><\/ul>", "ctx": "Entre los dichos de Aristóteles que recoge Diógenes: ἐρωτηθεὶς τί ἐστι φίλος, ἔφη… («preguntado qué es un amigo, dijo…»).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aOdisea-24-126", "ref": "Odisea 24.126", "lines": ["ἡ δ᾽ οὔτ᾽ ἠρνεῖτο στυγερὸν γάμον οὔτ᾽ ἐτελεύτα."], "trans": "Ella ni rechazaba la odiosa boda ni le ponía fin.", "gloss": "<div><b>ἀρνέομαι, -οῦμαι:<\/b> rechazar, negar<\/div><div><b>γάμος, -ου: ὁ.<\/b> boda, casamiento<\/div><div><b>ὁ, ἡ, τό (valor pronominal):<\/b> él, ella<\/div><div><b>οὔτε … οὔτε:<\/b> ni … ni<\/div><div><b>στυγερός, -ά, -όν:<\/b> odioso<\/div><div><b>τελευτάω, -ῶ:<\/b> terminar, poner fin, llevar a cabo<\/div>", "notes": "<ul><li>imperfecto de -έω (deponente) y de -άω<\/li><li>οὔτε… οὔτε<\/li><li>ἡ δέ con valor pronominal<\/li><\/ul>", "ctx": "En el Hades, la sombra del pretendiente Amfimedonte le cuenta a Agamenón cómo murieron: cortejaban a la mujer de Odiseo, y ella «ni rechazaba la odiosa boda ni le ponía fin», mientras tramaba su muerte. Inmediatamente después viene el relato del engaño del telar.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aLisias-Epitafio-11", "ref": "Lisias, Epitafio 11", "lines": ["οἱ παῖδες Ἡρακλέους ἔφευγον Εὐρυσθέα, ἐξηλαύνοντο δ᾽ ὑπὸ πάντων τῶν Ἑλλήνων φοβουμένων τὴν Εὐρυσθέως δύναμιν."], "trans": "Los hijos de Heracles huían de Euristeo, y eran expulsados por todos los griegos, que temían el poder de Euristeo.", "gloss": "<div><b>δέ:<\/b> pero, y<\/div><div><b>δύναμις, -εως: ἡ.<\/b> poder, fuerza<\/div><div><b>Ἕλλην, -ηνος: ὁ.<\/b> griego<\/div><div><b>ἐξελαύνω:<\/b> expulsar, echar<\/div><div><b>Εὐρυσθεύς, -έως: ὁ.<\/b> Euristeo<\/div><div><b>Ἡρακλῆς, -έους: ὁ.<\/b> Heracles<\/div><div><b>παῖς, παιδός: ὁ/ἡ.<\/b> hijo, niño<\/div><div><b>πᾶς, πᾶσα, πᾶν:<\/b> todo<\/div><div><b>ὑπό (+ gen.):<\/b> por (agente)<\/div><div><b>φεύγω:<\/b> huir; (+ acus.) huir de<\/div><div><b>φοβέομαι, -οῦμαι:<\/b> temer<\/div>", "notes": "<ul><li>participio presente de -έω atributivo (≠ genitivo absoluto)<\/li><li>imperfecto pasivo<\/li><li>ὑπό + genitivo agente<\/li><li>3ª decl. en -ευς<\/li><\/ul>", "ctx": "El elogio fúnebre recuerda que, muerto Heracles, Atenas acogió a sus hijos como suplicantes cuando nadie se atrevía, por miedo a Euristeo.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}]};
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rq = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('practico-9-08-10-' + k); return v == null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('practico-9-08-10-' + k, v); } catch(e){} }
+};
+/* saneado (igual que la mesa) */
+const OK = new Set(['B','I','U','EM','STRONG','BR','DIV','P','UL','OL','LI','MARK','S','STRIKE','DEL','A']);
+function safeUrl(u){ u = String(u || '').trim(); if(!u) return ''; if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u; return /^(https?:|mailto:)/i.test(u) ? u : ''; }
+function clean(h){
+  if(!h) return '';
+  const root = new DOMParser().parseFromString('<div>' + h + '</div>', 'text/html').body.firstElementChild;
+  (function walk(node){
+    [...node.childNodes].forEach(ch => {
+      if(ch.nodeType === 1){
+        if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(ch.tagName)){ ch.remove(); return; }
+        walk(ch);
+        if(!OK.has(ch.tagName)){ ch.replaceWith(...ch.childNodes); return; }
+        const cls = ch.tagName === 'MARK' && /^c-[yrbg]$/.test(ch.className) ? ch.className : '';
+        const ulCls = ch.tagName === 'U' && /^u-[yrbgk]( us-(double|wavy|dotted))?$/.test(ch.className) ? ch.className : '';
+        const href = ch.tagName === 'A' ? safeUrl(ch.getAttribute('href')) : '';
+        [...ch.attributes].forEach(a => ch.removeAttribute(a.name));
+        if(cls) ch.className = cls; if(ulCls) ch.className = ulCls;
+        if(ch.tagName === 'A'){ if(href) ch.setAttribute('href', href); else ch.replaceWith(...ch.childNodes); }
+      } else if(ch.nodeType !== 3) ch.remove();
+    });
+  })(root);
+  return root.innerHTML;
+}
+const hasText = h => !!(h && h.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim());
+/* latín con marcas (igual que la mesa) */
+function startLine(ref){ const m = String(ref).match(/^\s*\d+\s*[.,]\s*(\d+)/); return m ? +m[1] : null; }
+function wClass(i, n){
+  const f = n.fx[i] || '', u = n.ul[i];
+  const uc = u ? ' u u-' + u.split('-')[0] + (u.split('-')[1] ? ' us-' + u.split('-')[1] : '') : '';
+  return 'w' + (n.hl[i] ? ' c-' + n.hl[i] : '') + (f.includes('b') ? ' fb' : '') + (f.includes('s') ? ' fs' : '') + (n.lk[i] ? ' lk' : '') + uc;
+}
+function latHtml(t){
+  const s = startLine(t.ref); let wi = 0;
+  return t.lines.map((line, li) => {
+    const num = s != null ? s + li : null, showN = num != null && (li === 0 || num % 5 === 0);
+    const words = line.split(/(\s+)/).map(tok => {
+      if(!tok) return ''; if(/^\s+$/.test(tok)) return tok;
+      const i = wi++; return `<span class="${wClass(i, t)}" data-i="${i}">${esc(tok)}</span>`;
+    }).join('');
+    return `<div class="l"><span class="vn">${showN ? num : ''}</span><span class="lt">${words}</span></div>`;
+  }).join('');
+}
+const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+function sortGloss(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const key = el => fold(el.textContent);
+  const kids = [...d.children];
+  if(kids.length === 1 && /^(UL|OL)$/.test(kids[0].tagName)){
+    const ul = kids[0]; [...ul.children].sort((a, b) => key(a).localeCompare(key(b), 'es')).forEach(li => ul.appendChild(li)); return d.innerHTML;
+  }
+  const lines = []; let cur = document.createElement('div');
+  [...d.childNodes].forEach(nd => {
+    if(nd.nodeName === 'BR'){ lines.push(cur); cur = document.createElement('div'); }
+    else if(/^(DIV|P)$/.test(nd.nodeName)){ if(cur.childNodes.length){ lines.push(cur); cur = document.createElement('div'); } const x = document.createElement('div'); x.append(...nd.childNodes); lines.push(x); }
+    else cur.appendChild(nd);
+  });
+  if(cur.childNodes.length) lines.push(cur);
+  const ok = lines.filter(l => key(l));
+  if(ok.length < 2 || ok.some(l => l.querySelector('ul,ol,li'))) return h;
+  ok.sort((a, b) => key(a).localeCompare(key(b), 'es'));
+  return ok.map(l => `<div class="rg">${l.innerHTML}</div>`).join('');
+}
+function qLabel(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const first = d.firstElementChild, el = first && /^(UL|OL)$/.test(first.tagName) ? first.querySelector('li') : first;
+  const s = (el ? el.textContent : d.textContent).trim();
+  const qs = s.match(/¿[^?]*\?/g) || [];
+  if(qs.length > 1) return 'Preguntas';
+  const q = qs[0] || (/\?$/.test(s) ? s : '');
+  if(!q) return 'Para pensar';
+  return q.length > 40 ? q.slice(0, 38) + '…?' : q;
+}
+/* datos */
+const P = DATA.pasajes.map(t => Object.assign({}, t, {trans: clean(t.trans), gloss: clean(t.gloss), notes: clean(t.notes), ctx: clean(t.ctx),
+  hl: t.hl || {}, fx: t.fx || {}, ul: t.ul || {}, lk: Object.fromEntries(Object.entries(t.lk || {}).map(([k, v]) => [k, safeUrl(v)]).filter(x => x[1]))}));
+let idx = Math.max(0, P.findIndex(t => t.id === store.get('pid', '')));
+let fs = Math.max(16, Math.min(30, +store.get('fs', 21) || 21));
+let tabSel = store.get('tab', 'gloss');
+function applyPrefs(){
+  const th = store.get('theme', '');
+  if(th) document.body.dataset.rtheme = th; else delete document.body.dataset.rtheme;
+  rq('rLat').style.setProperty('--rfs', fs + 'px');
+}
+function render(){
+  const t = P[idx];
+  rq('rClase').textContent = DATA.clase;
+  rq('rRef').textContent = t.ref + ' ▾';
+  rq('rRef').setAttribute('aria-label', `Pasaje ${t.ref}. Ver la lista de pasajes`);
+  rq('rPos').textContent = (idx + 1) + '/' + P.length;
+  rq('rPrev').disabled = idx === 0; rq('rNext').disabled = idx === P.length - 1;
+  rq('rLat').innerHTML = latHtml(t);
+  const tabs = [];
+  if(hasText(t.ctx)) tabs.push(['ctx', 'Contexto']);
+  if(hasText(t.gloss)) tabs.push(['gloss', 'Glosario']);
+  if(hasText(t.trans)) tabs.push(['trans', 'Traducción']);
+  if(hasText(t.notes)) tabs.push(['notes', qLabel(t.notes)]);
+  rq('rPanel').hidden = !tabs.length;
+  const k = tabs.some(x => x[0] === tabSel) ? tabSel : (tabs[0] || [])[0];
+  rq('rTabs').innerHTML = tabs.map(([key, lbl]) => `<button role="tab" data-k="${key}" aria-selected="${key === k}" title="${esc(lbl)}">${esc(lbl)}</button>`).join('');
+  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : t[k];
+}
+function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
+function openSheet(){
+  rq('rSheetLbl').textContent = DATA.clase + ' · ' + P.length + ' pasajes';
+  rq('rList').innerHTML = P.map((t, j) => `<li><button data-j="${j}"${j === idx ? ' aria-current="true"' : ''}><span class="rr">${esc(t.ref)}</span><span class="rw" lang="grc">${esc((t.lines[0] || '').split(/\s+/).slice(0, 6).join(' '))}</span></button></li>`).join('');
+  rq('rSheet').hidden = false;
+  const c = rq('rList').querySelector('[aria-current]'); if(c) c.scrollIntoView({block:'center'});
+}
+rq('rSel').remove();
+rq('rPrev').onclick = () => go(idx - 1);
+rq('rNext').onclick = () => go(idx + 1);
+rq('rRef').onclick = openSheet;
+rq('rSheetClose').onclick = () => { rq('rSheet').hidden = true; };
+rq('rSheet').addEventListener('click', e => {
+  if(e.target === e.currentTarget){ rq('rSheet').hidden = true; return; }
+  const b = e.target.closest('[data-j]'); if(b){ rq('rSheet').hidden = true; go(+b.dataset.j); }
+});
+rq('rTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(!b) return; tabSel = b.dataset.k; store.set('tab', tabSel); render(); });
+rq('rMinus').onclick = () => { fs = Math.max(16, fs - 2); store.set('fs', fs); applyPrefs(); };
+rq('rPlus').onclick = () => { fs = Math.min(30, fs + 2); store.set('fs', fs); applyPrefs(); };
+rq('rThemeBtn').onclick = () => { const dark = getComputedStyle(document.body).colorScheme.includes('dark'); store.set('theme', dark ? 'light' : 'dark'); applyPrefs(); };
+const openUrl = u => { u = safeUrl(u); if(u){ try { window.open(u, '_blank', 'noopener'); } catch(e){} } };
+rq('rTab').addEventListener('click', e => { const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
+rq('rLat').addEventListener('click', e => { const w = e.target.closest('.w.lk'); if(w && getSelection().isCollapsed) openUrl(P[idx].lk[w.dataset.i]); });
+let sw = null;
+rq('rLat').addEventListener('touchstart', e => { if(e.touches.length === 1) sw = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()}; }, {passive:true});
+rq('rLat').addEventListener('touchend', e => {
+  if(!sw) return; const s = sw; sw = null; const p = e.changedTouches[0], dx = p.clientX - s.x, dy = p.clientY - s.y;
+  if(Date.now() - s.t > 700 || Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) / 2 || !getSelection().isCollapsed) return;
+  go(idx + (dx < 0 ? 1 : -1));
+}, {passive:true});
+window.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ rq('rSheet').hidden = true; return; }
+  if(!rq('rSheet').hidden) return;
+  if(e.key === 'ArrowRight') go(idx + 1); else if(e.key === 'ArrowLeft') go(idx - 1);
+});
+applyPrefs(); render();
+</script>
+</body></html>
