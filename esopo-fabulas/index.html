@@ -89,6 +89,7 @@
   .rtab p,.rtab div{margin:0;}
   .rtab .rg{padding:.4em 0; border-bottom:1px solid var(--rline);} .rtab .rg:last-child{border-bottom:none;}
   .rtab b,.rtab strong{font-weight:700;}
+  #lector .rver{font-weight:600; font-size:15px; min-height:46px; padding:0 18px; border-radius:23px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
   .rtab a{color:inherit; text-decoration-line:underline; text-decoration-color:var(--raccent); text-underline-offset:.16em;}
   .rtab u{text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
   .rtab s,.rtab strike,.rtab del{text-decoration-thickness:.07em;}
@@ -242,6 +243,7 @@ const P = DATA.pasajes.map(t => Object.assign({}, t, {trans: clean(t.trans), glo
 let idx = Math.max(0, P.findIndex(t => t.id === store.get('pid', '')));
 let fs = Math.max(16, Math.min(30, +store.get('fs', 21) || 21));
 let tabSel = store.get('tab', 'gloss');
+let transVista = false; // la traducción arranca tapada en cada pantalla
 function applyPrefs(){
   const th = store.get('theme', '');
   if(th) document.body.dataset.rtheme = th; else delete document.body.dataset.rtheme;
@@ -263,9 +265,9 @@ function render(){
   rq('rPanel').hidden = !tabs.length;
   const k = tabs.some(x => x[0] === tabSel) ? tabSel : (tabs[0] || [])[0];
   rq('rTabs').innerHTML = tabs.map(([key, lbl]) => `<button role="tab" data-k="${key}" aria-selected="${key === k}" title="${esc(lbl)}">${esc(lbl)}</button>`).join('');
-  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : t[k];
+  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : k === 'trans' && !transVista ? '<button class="rver" data-ver>Ver traducción</button>' : t[k];
 }
-function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
+function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; transVista = false; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
 function openSheet(){
   rq('rSheetLbl').textContent = DATA.clase + ' · ' + P.length + ' pasajes';
   rq('rList').innerHTML = P.map((t, j) => `<li><button data-j="${j}"${j === idx ? ' aria-current="true"' : ''}><span class="rr">${esc(t.ref)}</span><span class="rw" lang="grc">${esc((t.lines[0] || '').split(/\s+/).slice(0, 6).join(' '))}</span></button></li>`).join('');
@@ -286,7 +288,7 @@ rq('rMinus').onclick = () => { fs = Math.max(16, fs - 2); store.set('fs', fs); a
 rq('rPlus').onclick = () => { fs = Math.min(30, fs + 2); store.set('fs', fs); applyPrefs(); };
 rq('rThemeBtn').onclick = () => { const dark = getComputedStyle(document.body).colorScheme.includes('dark'); store.set('theme', dark ? 'light' : 'dark'); applyPrefs(); };
 const openUrl = u => { u = safeUrl(u); if(u){ try { window.open(u, '_blank', 'noopener'); } catch(e){} } };
-rq('rTab').addEventListener('click', e => { const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
+rq('rTab').addEventListener('click', e => { if(e.target.closest('[data-ver]')){ transVista = true; render(); return; } const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
 rq('rLat').addEventListener('click', e => { const w = e.target.closest('.w.lk'); if(w && getSelection().isCollapsed) openUrl(P[idx].lk[w.dataset.i]); });
 let sw = null;
 rq('rLat').addEventListener('touchstart', e => { if(e.touches.length === 1) sw = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()}; }, {passive:true});
