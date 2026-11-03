@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Griego II · Esopo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap">
+<style>
+  :root{--f-body:'Noto Serif','GFS Didot',Georgia,serif; --f-lat:'Noto Serif','GFS Didot',Georgia,serif; --f-label:'Noto Serif','GFS Didot',Georgia,serif; --label-w:600;}
+  *{box-sizing:border-box;} [hidden]{display:none!important;}
+  html,body{margin:0;} body{font-family:var(--f-body);}
+  button,select{font:inherit;}
+  .rlive{color:var(--rsoft);}
+  .l{display:flex; gap:.5em; align-items:baseline;}
+  .vn{font-style:normal; font-family:var(--f-label); font-weight:var(--label-w); font-size:.5em; color:var(--soft); width:2.4em; flex:none; text-align:right; letter-spacing:.03em; font-variant-numeric:tabular-nums;}
+  .lt{flex:1; min-width:0;}
+  .w{border-radius:.15em; padding:0 .06em; margin:0 -.06em;}
+  body.brush .w{cursor:pointer;}
+  body.brush .w:hover{outline:2px dashed var(--line); outline-offset:1px;}
+  .c-y{background:var(--mk-y); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-y-e);}
+  .c-r{background:var(--mk-r); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-r-e);}
+  .c-b{background:var(--mk-b); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-b-e);}
+  .c-g{background:var(--mk-g); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-g-e);}
+  mark{border-radius:.15em; padding:0 .05em;}
+  .body a,.w.lk{color:inherit; text-decoration-line:underline; text-decoration-color:var(--accent); text-decoration-thickness:.09em; text-underline-offset:.16em; cursor:pointer;}
+  .body s,.body strike,.body del,.w.fs{text-decoration-line:line-through; text-decoration-thickness:.07em;}
+  .w.lk.fs{text-decoration-line:underline line-through;}
+  .body u,.w.u{text-decoration-line:underline; text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .w.u.fs{text-decoration-line:underline line-through;}
+  .u-y{text-decoration-color:var(--ul-y)!important;} .u-r{text-decoration-color:var(--ul-r)!important;} .u-b{text-decoration-color:var(--ul-b)!important;}
+  .u-g{text-decoration-color:var(--ul-g)!important;} .u-k{text-decoration-color:var(--ul-k)!important;}
+  .us-double{text-decoration-style:double; text-decoration-thickness:.07em;} .us-wavy{text-decoration-style:wavy; text-decoration-thickness:.06em;} .us-dotted{text-decoration-style:dotted; text-decoration-thickness:.12em;}
+  .body b,.body strong,.w.fb{font-weight:700;}
+
+  body.lector{
+    --rbg:#FFFEFB; --rsurface:#F4EFE5; --rink:#2A2016; --rsoft:#5C4F3B; --rline:#DDD3C0; --raccent:#B32F2F; --raccent-ink:#FFFFFF;
+    --rlive:#2E7D32; --rfree:#A15C00; --roff:#7A6E5C;
+    --mk-y:#FFC000; --mk-r:#FF5E4D; --mk-b:#4F8DFF; --mk-g:#2FBF4F; --mk-ink:#2A2016;
+    --mk-y-e:#B07F00; --mk-r-e:#B8231A; --mk-b-e:#1A4FC4; --mk-g-e:#137A2E;
+    --ul-y:#E0A800; --ul-r:#E0342A; --ul-b:#1F5FE0; --ul-g:#1E9E3A; --ul-k:#2A2016; --accent:#B32F2F;
+    background:var(--rbg); color:var(--rink); color-scheme:light;
+  }
+  body.lector[data-rtheme="dark"]{
+    --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+    --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+    --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+    --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+    --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme:dark){
+    body.lector:not([data-rtheme="light"]){
+      --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+      --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+      --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+      --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+      --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+      color-scheme:dark;
+    }
+  }
+  #lector{min-height:100dvh; display:flex; flex-direction:column; background:var(--rbg); color:var(--rink); font-family:var(--f-body); -webkit-text-size-adjust:100%;}
+  #lector button{font-family:var(--f-body); cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  #lector button:focus-visible,#lector select:focus-visible{outline:3px solid var(--raccent); outline-offset:2px;}
+  .rtop{position:sticky; top:0; z-index:5; background:var(--rbg); border-bottom:1px solid var(--rline); padding:8px 16px 8px;}
+  .rrow{display:flex; align-items:center; gap:10px; min-width:0;}
+  .rclase{flex:1; min-width:0; font-weight:600; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rref{flex:0 1 auto; min-width:0; max-width:72%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; font-size:17px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:20px; padding:6px 14px; min-height:42px; font-variant-numeric:tabular-nums;}
+  .rsub{margin-top:6px; font-size:13px; color:var(--rsoft);}
+  .rlive{display:flex; align-items:center; gap:7px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rlive i{width:9px; height:9px; border-radius:50%; background:var(--roff); flex:none;}
+  .rlive[data-s="live"] i{background:var(--rlive); box-shadow:0 0 0 3px color-mix(in srgb, var(--rlive) 28%, transparent);}
+  .rlive[data-s="free"] i{background:var(--rfree);}
+  .rpos{font-variant-numeric:tabular-nums; flex:none;}
+  .rtools{display:flex; gap:4px; flex:none;}
+  .rtools button{font-weight:600; font-size:14px; min-width:40px; height:36px; padding:0 8px; border-radius:18px; border:1px solid var(--rline); background:transparent; color:var(--rink);}
+  .rnote{display:flex; align-items:center; gap:10px; margin-top:8px; padding:8px 10px; background:var(--rsurface); border-left:3px solid var(--rfree); font-size:14px; line-height:1.35;}
+  .rnote button{margin-left:auto; flex:none; font-weight:600; font-size:14px; min-height:40px; padding:0 14px; border-radius:20px; border:none; background:var(--raccent); color:var(--raccent-ink);}
+  .rmain{flex:1; width:100%; max-width:1100px; margin:0 auto; padding:18px 16px calc(100px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:22px;}
+  .rlat{font-size:var(--rfs,21px); line-height:1.55; max-width:calc(21em + 2.6em); overflow-wrap:break-word;}
+  .rlat .l{gap:.45em;}
+  .rlat .vn{font-family:var(--f-body); font-weight:600; font-size:.55em; width:2.3em; color:var(--rsoft); letter-spacing:0;}
+  .rlat .lt{padding-left:1.2em; text-indent:-1.2em;}
+  .rpanel{border-top:1px solid var(--rline);}
+  .rtabs{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;}
+  .rtabs::-webkit-scrollbar{display:none;}
+  .rtabs button{flex:none; font-weight:600; font-size:15px; background:none; border:none; border-bottom:3px solid transparent; color:var(--rsoft); padding:10px 12px; min-height:46px; max-width:75vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rtabs button[aria-selected="true"]{color:var(--rink); border-bottom-color:var(--raccent);}
+  .rtab{font-size:17px; line-height:1.55; padding:12px 2px; overflow-wrap:break-word;}
+  .rtab ul,.rtab ol{margin:0; padding-left:1.2em;} .rtab li{margin:.3em 0;} .rtab li::marker{color:var(--raccent);}
+  .rtab p,.rtab div{margin:0;}
+  .rtab .rg{padding:.4em 0; border-bottom:1px solid var(--rline);} .rtab .rg:last-child{border-bottom:none;}
+  .rtab b,.rtab strong{font-weight:700;}
+  .rtab a{color:inherit; text-decoration-line:underline; text-decoration-color:var(--raccent); text-underline-offset:.16em;}
+  .rtab u{text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .rtab s,.rtab strike,.rtab del{text-decoration-thickness:.07em;}
+  .rmsg{padding:56px 16px; text-align:center; font-size:17px; line-height:1.5; color:var(--rsoft); max-width:460px; margin:0 auto;}
+  .rnav{position:fixed; left:0; right:0; bottom:0; z-index:5; display:flex; gap:10px; padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px)); background:var(--rbg); border-top:1px solid var(--rline);}
+  .rnav button{flex:1; min-height:52px; font-weight:600; font-size:17px; border-radius:26px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
+  .rnav #rNext{background:var(--raccent); color:var(--raccent-ink); border-color:var(--raccent);}
+  .rnav button:disabled{opacity:.4; cursor:default;}
+  .rsheet{position:fixed; inset:0; z-index:10; background:rgba(0,0,0,.45); display:flex; align-items:flex-end; justify-content:center;}
+  .rsheet-in{background:var(--rbg); color:var(--rink); width:100%; max-width:640px; max-height:82dvh; overflow:auto; border-radius:16px 16px 0 0; padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+  .rsheet-head{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
+  .rsheet-head .rlbl{margin:0; font-size:13px; color:var(--rsoft); width:100%;}
+  .rsheet-head select{flex:1; min-width:0; font:16px var(--f-body); padding:8px; min-height:44px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:8px;}
+  .rsheet-head button{font-weight:600; font-size:15px; min-height:44px; padding:0 16px; border-radius:22px; border:1px solid var(--rline); background:transparent; color:var(--rink); margin-left:auto;}
+  #rList{list-style:none; margin:0; padding:0;}
+  #rList button{width:100%; text-align:left; display:flex; gap:10px; align-items:baseline; padding:12px 10px; min-height:50px; background:none; border:none; border-left:4px solid transparent; color:var(--rink); font-size:16px;}
+  #rList button .rr{font-weight:600; flex:none; font-variant-numeric:tabular-nums;}
+  #rList button .rw{color:var(--rsoft); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; min-width:0;}
+  #rList button[aria-current="true"]{border-left-color:var(--raccent); background:var(--rsurface);}
+  @media (min-width:701px){
+    .rmain{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); align-items:start; gap:36px; padding-top:24px;}
+    .rpanel{border-top:none; border-left:1px solid var(--rline); padding-left:24px; position:sticky; top:110px; max-height:calc(100dvh - 210px); overflow:auto;}
+    .rnav{justify-content:center;} .rnav button{flex:0 1 260px;}
+  }
+</style></head>
+<body class="lector">
+<div id="lector">
+  <header class="rtop">
+    <div class="rrow">
+      <span class="rclase" id="rClase">Cargando…</span>
+      <button class="rref" id="rRef" aria-haspopup="dialog">—</button>
+    </div>
+    <div class="rrow rsub">
+      <span class="rlive" id="rLive"></span>
+      <span class="rpos" id="rPos"></span>
+      <span class="rtools">
+        <button id="rMinus" aria-label="Letra más chica">A−</button>
+        <button id="rPlus" aria-label="Letra más grande">A+</button>
+        <button id="rThemeBtn" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+      </span>
+    </div>
+    <div class="rnote" id="rNote" hidden></div>
+  </header>
+  <main class="rmain" id="rMain">
+    <section class="rlat" id="rLat" lang="grc" aria-label="Texto griego"></section>
+    <section class="rpanel" id="rPanel" hidden>
+      <div class="rtabs" role="tablist" id="rTabs"></div>
+      <div class="rtab" id="rTab" role="tabpanel"></div>
+    </section>
+  </main>
+  <p class="rmsg" id="rMsg" hidden></p>
+  <nav class="rnav" aria-label="Pasajes">
+    <button id="rPrev">◀ Anterior</button>
+    <button id="rNext">Siguiente ▶</button>
+  </nav>
+  <div class="rsheet" id="rSheet" hidden role="dialog" aria-label="Pasajes de la clase">
+    <div class="rsheet-in">
+      <div class="rsheet-head">
+        <p class="rlbl" id="rSheetLbl">Clase</p>
+        <select id="rSel" aria-label="Elegir clase"></select>
+        <button id="rSheetClose">Cerrar</button>
+      </div>
+      <ol id="rList"></ol>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"clase": "Griego II · Esopo: tres fábulas", "etiquetaClaves": "Claves", "pasajes": [{"id": "aCh-70-Los-bueyes-y-el-eje", "ref": "Ch. 70 · Los bueyes y el eje", "lines": ["Βόες ἅμαξαν εἷλκον.", "Τοῦ δὲ ἄξονος τρίζοντος, ἔφασαν οὕτως πρὸς αὐτόν· “ Ὦ οὗτος, ἡμῶν τὸ ὅλον βάρος φερόντων, σὺ κέκραγας;”", "Οὕτω καὶ τῶν ἀνθρώπων ἔνιοι, μοχθούντων ἑτέρων, αὐτοὶ προσποιοῦνται κάμνειν."], "trans": "Unos bueyes tiraban de un carro. Y como el eje chirriaba, le dijeron así: «Eh, vos, ¿mientras nosotros llevamos todo el peso, vos estás chillando?». Así también algunos de los seres humanos, mientras otros se fatigan, simulan ser ellos mismos los que se esfuerzan.", "gloss": "<div><b>ἅμαξα, -ης: ἡ.<\/b> carro<\/div><div><b>ἄνθρωπος, -ου: ὁ, ἡ.<\/b> ser humano<\/div><div><b>ἄξων, -ονος: ὁ.<\/b> eje<\/div><div><b>αὐτός, -ή, -ό:<\/b> él, ella, ello; mismo<\/div><div><b>βάρος, -ους: τό.<\/b> peso, carga<\/div><div><b>βοῦς, βοός: ὁ, ἡ.<\/b> buey, toro, vaca<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>ἐγώ (gen. pl. ἡμῶν):<\/b> yo<\/div><div><b>ἕλκω:<\/b> arrastrar, tirar de<\/div><div><b>ἔνιοι, -αι, -α:<\/b> algunos<\/div><div><b>ἕτερος, -α, -ον:<\/b> otro<\/div><div><b>καί:<\/b> y; también<\/div><div><b>κάμνω (aor. tem. ἔκαμον):<\/b> esforzarse, cansarse<\/div><div><b>κράζω (aor. tem. ἔκραγον; perf. κέκραγα, con valor de presente):<\/b> gritar, chillar<\/div><div><b>μοχθέω, -ῶ:<\/b> trabajar duro, fatigarse<\/div><div><b>ὅλος, -η, -ον:<\/b> entero, todo<\/div><div><b>οὗτος, αὕτη, τοῦτο:<\/b> este; (ὦ οὗτος) eh, vos<\/div><div><b>οὕτω(ς) (adv.):<\/b> así<\/div><div><b>πρός (+ ac.):<\/b> hacia, a<\/div><div><b>προσποιέω, -ῶ:<\/b> (med. + inf.) simular<\/div><div><b>σύ:<\/b> tú<\/div><div><b>τρίζω:<\/b> rechinar, chirriar<\/div><div><b>φέρω (aor. ἤνεγκον / ἤνεγκα):<\/b> llevar<\/div><div><b>φημί:<\/b> decir, afirmar, sostener<\/div><div><b>ὦ:<\/b> (partícula del vocativo) oh<\/div>", "notes": "<ul><li>genitivo absoluto<\/li><li>imperfecto<\/li><li>perfecto con valor de presente<\/li><li>infinitivo complementario<\/li><\/ul><div><b>Aoristos temáticos:<\/b> En el texto no aparece ningún aoristo temático.<\/div><div><b>Para no confundir:<\/b> εἷλκον: imperfecto de ἕλκω (ε + ἑ- da εἱ-); su aoristo es εἵλκυσα. ἔφασαν: imperfecto de φημί, no aoristo sigmático. κέκραγας: perfecto de κράζω, con valor de presente.<\/div>", "ctx": "La escena es la más cotidiana del mundo rural griego: una yunta de bueyes tirando de un carro de carga. Un carro cargado no avanzaba en silencio: el eje de las ruedas chirriaba por el roce. Atención a la expresión ὦ οὗτος: es una forma poco amable de llamar a alguien, como nuestro «eh, vos».", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aCh-125-Zeus-y-la-tortuga", "ref": "Ch. 125 · Zeus y la tortuga", "lines": ["Ζεὺς γαμῶν πάντα τὰ ζῷα εἱστία.", "Μόνης δὲ χελώνης ὑστερησάσης, διαπορῶν τὴν αἰτίαν, τῇ ὑστεραίᾳ ἐπυνθάνετο αὐτῆς διὰ τί μόνη ἐπὶ τὸ δεῖπνον οὐκ ἦλθε.", "Τῆς δὲ εἰπούσης· “Οἶκος φίλος, οἶκος ἄριστος”, ἀγανακτήσας κατ᾿ αὐτῆς παρεσκεύασεν αὐτὴν τὸν οἶκον αὐτὸν βαστάζουσαν περιφέρειν.", "Οὕτω πολλοὶ τῶν ἀνθρώπων αἱροῦνται μᾶλλον λιτῶς οἰκεῖν ἢ παρ᾿ ἄλλοις πολυτελῶς διαιτᾶσθαι."], "trans": "Zeus, al casarse, ofrecía un banquete a todos los animales. Y como solo la tortuga llegó tarde, sin saber la causa, al día siguiente le preguntaba por qué ella sola no había ido al banquete. Y cuando ella dijo: «Casa propia, la mejor casa», indignado contra ella, hizo que anduviera cargando su casa misma. Así muchos de los seres humanos eligen vivir con sencillez antes que residir lujosamente en casa de otros.", "gloss": "<div><b>ἀγανακτέω, -ῶ:<\/b> irritarse, indignarse<\/div><div><b>αἱρέω, -ῶ (aor. tem. εἷλον; med. εἱλόμην):<\/b> tomar; (med.) elegir, preferir<\/div><div><b>αἰτία, -ας: ἡ.<\/b> causa, motivo<\/div><div><b>ἄλλος, -η, -ο:<\/b> otro<\/div><div><b>ἄνθρωπος, -ου: ὁ, ἡ.<\/b> ser humano<\/div><div><b>ἄριστος, -η, -ον:<\/b> excelente, el mejor<\/div><div><b>αὐτός, -ή, -ό:<\/b> él, ella, ello; mismo<\/div><div><b>βαστάζω:<\/b> llevar, cargar<\/div><div><b>γαμέω, -ῶ:<\/b> casarse<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>δεῖπνον, -ου: τό.<\/b> comida, banquete<\/div><div><b>διά (+ ac.):<\/b> por, a causa de<\/div><div><b>διαιτάω, -ῶ:<\/b> (med.) residir, vivir de cierto modo<\/div><div><b>διαπορέω, -ῶ:<\/b> estar perplejo, no saber<\/div><div><b>ἐπί (+ ac.):<\/b> hacia, a<\/div><div><b>ἔρχομαι (aor. tem. ἦλθον):<\/b> ir, venir, llegar<\/div><div><b>ἑστιάω, -ῶ:<\/b> agasajar con una comida, ofrecer un banquete<\/div><div><b>Ζεύς, Διός: ὁ.<\/b> Zeus<\/div><div><b>ζῷον, -ου: τό.<\/b> animal, ser viviente<\/div><div><b>ἤ:<\/b> o; (tras μᾶλλον) que, antes que<\/div><div><b>κατά (+ gen.):<\/b> contra<\/div><div><b>λέγω (aor. tem. εἶπον):<\/b> decir<\/div><div><b>λιτῶς (adv.):<\/b> con sencillez, modestamente<\/div><div><b>μᾶλλον (adv.):<\/b> más; (μᾶλλον… ἤ) antes… que<\/div><div><b>μόνος, -η, -ον:<\/b> solo, único<\/div><div><b>οἰκέω, -ῶ:<\/b> vivir, habitar<\/div><div><b>οἶκος, -ου: ὁ.<\/b> casa, hogar<\/div><div><b>οὐ, οὐκ:<\/b> no<\/div><div><b>οὕτω(ς) (adv.):<\/b> así<\/div><div><b>παρά (+ dat.):<\/b> junto a, en casa de<\/div><div><b>παρασκευάζω:<\/b> preparar, disponer; (+ ac. + inf.) hacer que<\/div><div><b>πᾶς, πᾶσα, πᾶν:<\/b> todo<\/div><div><b>περιφέρω (aor. περιήνεγκον / περιήνεγκα):<\/b> llevar alrededor, llevar consigo<\/div><div><b>πολύς, πολλή, πολύ:<\/b> mucho<\/div><div><b>πολυτελῶς (adv.):<\/b> lujosamente<\/div><div><b>πυνθάνομαι (aor. tem. ἐπυθόμην) (+ gen. de persona):<\/b> preguntar, averiguar<\/div><div><b>τίς, τί:<\/b> quién, qué; (διὰ τί) por qué<\/div><div><b>ὑστεραῖος, -α, -ον:<\/b> posterior; (τῇ ὑστεραίᾳ) al día siguiente<\/div><div><b>ὑστερέω, -ῶ:<\/b> llegar tarde<\/div><div><b>φίλος, -η, -ον:<\/b> querido; (aquí) propio<\/div><div><b>χελώνη, -ης: ἡ.<\/b> tortuga<\/div>", "notes": "<ul><li>genitivo absoluto<\/li><li>aoristo temático (indicativo y participio)<\/li><li>interrogativa indirecta<\/li><li>acusativo + infinitivo<\/li><li>μᾶλλον… ἤ<\/li><\/ul><div><b>Aoristos temáticos:<\/b> ἦλθε: 3.ª sg. ind. aor. tem. de ἔρχομαι (ἦλθον). εἰπούσης: part. aor. tem., gen. fem. sg., de λέγω (εἶπον).<\/div><div><b>Para no confundir:<\/b> ἐπυνθάνετο: imperfecto, formado sobre el tema de presente πυνθαν-; el aoristo sería ἐπύθετο. αἱροῦνται: presente medio de αἱρέω; el aoristo sería εἵλοντο. ὑστερησάσης, ἀγανακτήσας, παρεσκεύασεν: aoristos sigmáticos.<\/div>", "ctx": "Es una fábula etiológica: explica el origen de un rasgo natural. Parte de un motivo narratológico reconocible: fiesta/banquete de un superior, invitado ausente, castigo. La respuesta de la tortuga tiene forma de refrán; la repiten Hesíodo en Trabajos y días y Hermes —justamente ante una tortuga— en el Himno homérico a Hermes: οἴκοι βέλτερον εἶναι (Hes. Trabajos 365; Himno a Hermes 36). Atención a φίλος: podría pensarse con el sentido de «propio», no de «querido».", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aCh-77-La-comadreja-y-la-lima", "ref": "Ch. 77 · La comadreja y la lima", "lines": ["Γαλῆ εἰσελθοῦσα εἰς χαλκέως ἐργαστήριον τὴν ἐκεῖ κειμένην ῥίνην περιέλειχε.", "Συνέβη δὲ, ἐκτριβομένης τῆς γλώσσης, πολὺ αἷμα φέρεσθαι.", "Ἡ δὲ ἐτέρπετο ὑπονοοῦσά τι τοῦ σιδήρου ἀφαιρεῖσθαι, μέχρι παντελῶς ἀπέβαλε τὴν γλῶσσαν.", "Ὁ λόγος εἴρηται πρὸς τοὺς ἐν φιλονεικίαις ἑαυτοὺς καταβλάπτοντας."], "trans": "Una comadreja, apenas entró en el taller de un herrero, se puso a lamer la lima que estaba allí. Y sucedió que, al desgastarse su lengua, corría mucha sangre. Y ella se deleitaba, suponiendo que le sacaba algo al hierro, hasta que perdió por completo la lengua. La fábula está dicha con referencia a quienes, en las rivalidades, se dañan a sí mismos.", "gloss": "<div><b>αἷμα, -ατος: τό.<\/b> sangre<\/div><div><b>ἀποβάλλω (aor. tem. ἀπέβαλον):<\/b> arrojar, perder<\/div><div><b>ἀφαιρέω, -ῶ (aor. tem. ἀφεῖλον; med. ἀφειλόμην):<\/b> quitar; (med.) quitar, sacar para sí<\/div><div><b>γαλῆ, -ῆς: ἡ.<\/b> comadreja<\/div><div><b>γλῶσσα, -ης: ἡ.<\/b> lengua<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>ἑαυτοῦ, -ῆς, -οῦ (pron. reflexivo):<\/b> de sí mismo, a sí mismo<\/div><div><b>εἰς (+ ac.):<\/b> a, hacia, dentro de<\/div><div><b>εἰσέρχομαι (aor. tem. εἰσῆλθον):<\/b> entrar<\/div><div><b>ἐκεῖ (adv.):<\/b> allí<\/div><div><b>ἐκτρίβω:<\/b> gastar por el roce, rozar<\/div><div><b>ἐν (+ dat.):<\/b> en<\/div><div><b>ἐργαστήριον, -ου: τό.<\/b> taller<\/div><div><b>καταβλάπτω:<\/b> dañar gravemente, herir<\/div><div><b>κεῖμαι:<\/b> estar colocado, yacer<\/div><div><b>λέγω (aor. tem. εἶπον; perf. m.-p. εἴρημαι):<\/b> decir<\/div><div><b>λόγος, -ου: ὁ.<\/b> palabra, discurso; (aquí) relato, fábula<\/div><div><b>μέχρι (conj.):<\/b> hasta que<\/div><div><b>παντελῶς (adv.):<\/b> totalmente, por completo<\/div><div><b>περιλείχω:<\/b> lamer alrededor<\/div><div><b>πολύς, πολλή, πολύ:<\/b> mucho<\/div><div><b>πρός (+ ac.):<\/b> hacia, a; con referencia a<\/div><div><b>ῥίνη, -ης: ἡ.<\/b> lima<\/div><div><b>σίδηρος, -ου: ὁ.<\/b> hierro<\/div><div><b>συμβαίνω (aor. atemático συνέβην):<\/b> suceder, ocurrir<\/div><div><b>τέρπω:<\/b> alegrar; (med.-pas.) alegrarse, deleitarse<\/div><div><b>τις, τι:<\/b> alguien, algo<\/div><div><b>ὑπονοέω, -ῶ:<\/b> sospechar, suponer<\/div><div><b>φέρω (aor. ἤνεγκον / ἤνεγκα):<\/b> llevar; (med.-pas.) correr, fluir<\/div><div><b>φιλονεικία, -ας: ἡ.<\/b> rivalidad, afán de disputa<\/div><div><b>χαλκεύς, -έως: ὁ.<\/b> herrero<\/div>", "notes": "<ul><li>aoristo temático (indicativo y participio)<\/li><li>genitivo absoluto<\/li><li>συνέβη + acusativo + infinitivo<\/li><li>temporal con μέχρι<\/li><li>participio atributivo<\/li><li>perfecto medio-pasivo<\/li><\/ul><div><b>Aoristos temáticos:<\/b> εἰσελθοῦσα: part. aor. tem., nom. fem. sg., de εἰσέρχομαι (εἰσῆλθον). ἀπέβαλε: 3.ª sg. ind. aor. tem. de ἀποβάλλω (ἀπέβαλον).<\/div><div><b>Para no confundir:<\/b> συνέβη: aoristo también, pero atemático (de συμβαίνω). περιέλειχε, ἐτέρπετο: imperfectos; comparar περιέλειχε con ἀπέβαλε: la misma desinencia, pero el tema de aoristo βαλ- se distingue del tema de presente βαλλ-. εἴρηται: perfecto medio-pasivo de λέγω.<\/div>", "ctx": "Antes de que el gato se difundiera en Grecia, la comadreja (γαλῆ) era el animal doméstico que controlaba a los roedores; de ahí que aparezca a menudo en las fábulas y que sea un personaje familiar y merodeador. La escena transcurre en el taller de un herrero. El epimitio aplica la historia a la φιλονεικία, el afán de ganar una disputa. Atención a περιέλειχε: el imperfecto presenta aquí una acción que comienza de inmediato («apenas entrar, ya estaba… »).", "hl": {}, "fx": {}, "ul": {}, "lk": {}}]};
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rq = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('griego-ii-esopo-tres-fabulas-' + k); return v == null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('griego-ii-esopo-tres-fabulas-' + k, v); } catch(e){} }
+};
+/* saneado (igual que la mesa) */
+const OK = new Set(['B','I','U','EM','STRONG','BR','DIV','P','UL','OL','LI','MARK','S','STRIKE','DEL','A']);
+function safeUrl(u){ u = String(u || '').trim(); if(!u) return ''; if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u; return /^(https?:|mailto:)/i.test(u) ? u : ''; }
+function clean(h){
+  if(!h) return '';
+  const root = new DOMParser().parseFromString('<div>' + h + '</div>', 'text/html').body.firstElementChild;
+  (function walk(node){
+    [...node.childNodes].forEach(ch => {
+      if(ch.nodeType === 1){
+        if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(ch.tagName)){ ch.remove(); return; }
+        walk(ch);
+        if(!OK.has(ch.tagName)){ ch.replaceWith(...ch.childNodes); return; }
+        const cls = ch.tagName === 'MARK' && /^c-[yrbg]$/.test(ch.className) ? ch.className : '';
+        const ulCls = ch.tagName === 'U' && /^u-[yrbgk]( us-(double|wavy|dotted))?$/.test(ch.className) ? ch.className : '';
+        const href = ch.tagName === 'A' ? safeUrl(ch.getAttribute('href')) : '';
+        [...ch.attributes].forEach(a => ch.removeAttribute(a.name));
+        if(cls) ch.className = cls; if(ulCls) ch.className = ulCls;
+        if(ch.tagName === 'A'){ if(href) ch.setAttribute('href', href); else ch.replaceWith(...ch.childNodes); }
+      } else if(ch.nodeType !== 3) ch.remove();
+    });
+  })(root);
+  return root.innerHTML;
+}
+const hasText = h => !!(h && h.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim());
+/* latín con marcas (igual que la mesa) */
+function startLine(ref){ const m = String(ref).match(/^\s*\d+\s*[.,]\s*(\d+)/); return m ? +m[1] : null; }
+function wClass(i, n){
+  const f = n.fx[i] || '', u = n.ul[i];
+  const uc = u ? ' u u-' + u.split('-')[0] + (u.split('-')[1] ? ' us-' + u.split('-')[1] : '') : '';
+  return 'w' + (n.hl[i] ? ' c-' + n.hl[i] : '') + (f.includes('b') ? ' fb' : '') + (f.includes('s') ? ' fs' : '') + (n.lk[i] ? ' lk' : '') + uc;
+}
+function latHtml(t){
+  const s = startLine(t.ref); let wi = 0;
+  return t.lines.map((line, li) => {
+    const num = s != null ? s + li : null, showN = num != null && (li === 0 || num % 5 === 0);
+    const words = line.split(/(\s+)/).map(tok => {
+      if(!tok) return ''; if(/^\s+$/.test(tok)) return tok;
+      const i = wi++; return `<span class="${wClass(i, t)}" data-i="${i}">${esc(tok)}</span>`;
+    }).join('');
+    return `<div class="l"><span class="vn">${showN ? num : ''}</span><span class="lt">${words}</span></div>`;
+  }).join('');
+}
+const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+function sortGloss(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const key = el => fold(el.textContent);
+  const kids = [...d.children];
+  if(kids.length === 1 && /^(UL|OL)$/.test(kids[0].tagName)){
+    const ul = kids[0]; [...ul.children].sort((a, b) => key(a).localeCompare(key(b), 'es')).forEach(li => ul.appendChild(li)); return d.innerHTML;
+  }
+  const lines = []; let cur = document.createElement('div');
+  [...d.childNodes].forEach(nd => {
+    if(nd.nodeName === 'BR'){ lines.push(cur); cur = document.createElement('div'); }
+    else if(/^(DIV|P)$/.test(nd.nodeName)){ if(cur.childNodes.length){ lines.push(cur); cur = document.createElement('div'); } const x = document.createElement('div'); x.append(...nd.childNodes); lines.push(x); }
+    else cur.appendChild(nd);
+  });
+  if(cur.childNodes.length) lines.push(cur);
+  const ok = lines.filter(l => key(l));
+  if(ok.length < 2 || ok.some(l => l.querySelector('ul,ol,li'))) return h;
+  ok.sort((a, b) => key(a).localeCompare(key(b), 'es'));
+  return ok.map(l => `<div class="rg">${l.innerHTML}</div>`).join('');
+}
+function qLabel(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const first = d.firstElementChild, el = first && /^(UL|OL)$/.test(first.tagName) ? first.querySelector('li') : first;
+  const s = (el ? el.textContent : d.textContent).trim();
+  const qs = s.match(/¿[^?]*\?/g) || [];
+  if(qs.length > 1) return 'Preguntas';
+  const q = qs[0] || (/\?$/.test(s) ? s : '');
+  if(!q) return 'Para pensar';
+  return q.length > 40 ? q.slice(0, 38) + '…?' : q;
+}
+/* datos */
+const P = DATA.pasajes.map(t => Object.assign({}, t, {trans: clean(t.trans), gloss: clean(t.gloss), notes: clean(t.notes), ctx: clean(t.ctx),
+  hl: t.hl || {}, fx: t.fx || {}, ul: t.ul || {}, lk: Object.fromEntries(Object.entries(t.lk || {}).map(([k, v]) => [k, safeUrl(v)]).filter(x => x[1]))}));
+let idx = Math.max(0, P.findIndex(t => t.id === store.get('pid', '')));
+let fs = Math.max(16, Math.min(30, +store.get('fs', 21) || 21));
+let tabSel = store.get('tab', 'gloss');
+function applyPrefs(){
+  const th = store.get('theme', '');
+  if(th) document.body.dataset.rtheme = th; else delete document.body.dataset.rtheme;
+  rq('rLat').style.setProperty('--rfs', fs + 'px');
+}
+function render(){
+  const t = P[idx];
+  rq('rClase').textContent = DATA.clase;
+  rq('rRef').textContent = t.ref + ' ▾';
+  rq('rRef').setAttribute('aria-label', `Pasaje ${t.ref}. Ver la lista de pasajes`);
+  rq('rPos').textContent = (idx + 1) + '/' + P.length;
+  rq('rPrev').disabled = idx === 0; rq('rNext').disabled = idx === P.length - 1;
+  rq('rLat').innerHTML = latHtml(t);
+  const tabs = [];
+  if(hasText(t.ctx)) tabs.push(['ctx', 'Contexto']);
+  if(hasText(t.gloss)) tabs.push(['gloss', 'Glosario']);
+  if(hasText(t.trans)) tabs.push(['trans', 'Traducción']);
+  if(hasText(t.notes)) tabs.push(['notes', DATA.etiquetaClaves || qLabel(t.notes)]);
+  rq('rPanel').hidden = !tabs.length;
+  const k = tabs.some(x => x[0] === tabSel) ? tabSel : (tabs[0] || [])[0];
+  rq('rTabs').innerHTML = tabs.map(([key, lbl]) => `<button role="tab" data-k="${key}" aria-selected="${key === k}" title="${esc(lbl)}">${esc(lbl)}</button>`).join('');
+  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : t[k];
+}
+function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
+function openSheet(){
+  rq('rSheetLbl').textContent = DATA.clase + ' · ' + P.length + ' pasajes';
+  rq('rList').innerHTML = P.map((t, j) => `<li><button data-j="${j}"${j === idx ? ' aria-current="true"' : ''}><span class="rr">${esc(t.ref)}</span><span class="rw" lang="grc">${esc((t.lines[0] || '').split(/\s+/).slice(0, 6).join(' '))}</span></button></li>`).join('');
+  rq('rSheet').hidden = false;
+  const c = rq('rList').querySelector('[aria-current]'); if(c) c.scrollIntoView({block:'center'});
+}
+rq('rSel').remove();
+rq('rPrev').onclick = () => go(idx - 1);
+rq('rNext').onclick = () => go(idx + 1);
+rq('rRef').onclick = openSheet;
+rq('rSheetClose').onclick = () => { rq('rSheet').hidden = true; };
+rq('rSheet').addEventListener('click', e => {
+  if(e.target === e.currentTarget){ rq('rSheet').hidden = true; return; }
+  const b = e.target.closest('[data-j]'); if(b){ rq('rSheet').hidden = true; go(+b.dataset.j); }
+});
+rq('rTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(!b) return; tabSel = b.dataset.k; store.set('tab', tabSel); render(); });
+rq('rMinus').onclick = () => { fs = Math.max(16, fs - 2); store.set('fs', fs); applyPrefs(); };
+rq('rPlus').onclick = () => { fs = Math.min(30, fs + 2); store.set('fs', fs); applyPrefs(); };
+rq('rThemeBtn').onclick = () => { const dark = getComputedStyle(document.body).colorScheme.includes('dark'); store.set('theme', dark ? 'light' : 'dark'); applyPrefs(); };
+const openUrl = u => { u = safeUrl(u); if(u){ try { window.open(u, '_blank', 'noopener'); } catch(e){} } };
+rq('rTab').addEventListener('click', e => { const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
+rq('rLat').addEventListener('click', e => { const w = e.target.closest('.w.lk'); if(w && getSelection().isCollapsed) openUrl(P[idx].lk[w.dataset.i]); });
+let sw = null;
+rq('rLat').addEventListener('touchstart', e => { if(e.touches.length === 1) sw = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()}; }, {passive:true});
+rq('rLat').addEventListener('touchend', e => {
+  if(!sw) return; const s = sw; sw = null; const p = e.changedTouches[0], dx = p.clientX - s.x, dy = p.clientY - s.y;
+  if(Date.now() - s.t > 700 || Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) / 2 || !getSelection().isCollapsed) return;
+  go(idx + (dx < 0 ? 1 : -1));
+}, {passive:true});
+window.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ rq('rSheet').hidden = true; return; }
+  if(!rq('rSheet').hidden) return;
+  if(e.key === 'ArrowRight') go(idx + 1); else if(e.key === 'ArrowLeft') go(idx - 1);
+});
+applyPrefs(); render();
+</script>
+</body></html>
