@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Esopo: tres fábulas (II) · Pantallas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap">
+<style>
+  :root{--f-body:'Noto Serif','GFS Didot',Georgia,serif; --f-lat:'Noto Serif','GFS Didot',Georgia,serif; --f-label:'Noto Serif','GFS Didot',Georgia,serif; --label-w:600;}
+  *{box-sizing:border-box;} [hidden]{display:none!important;}
+  html,body{margin:0;} body{font-family:var(--f-body);}
+  button,select{font:inherit;}
+  .rlive{color:var(--rsoft);}
+  .l{display:flex; gap:.5em; align-items:baseline;}
+  .vn{font-style:normal; font-family:var(--f-label); font-weight:var(--label-w); font-size:.5em; color:var(--soft); width:2.4em; flex:none; text-align:right; letter-spacing:.03em; font-variant-numeric:tabular-nums;}
+  .lt{flex:1; min-width:0;}
+  .w{border-radius:.15em; padding:0 .06em; margin:0 -.06em;}
+  body.brush .w{cursor:pointer;}
+  body.brush .w:hover{outline:2px dashed var(--line); outline-offset:1px;}
+  .c-y{background:var(--mk-y); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-y-e);}
+  .c-r{background:var(--mk-r); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-r-e);}
+  .c-b{background:var(--mk-b); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-b-e);}
+  .c-g{background:var(--mk-g); color:var(--mk-ink); box-shadow:inset 0 -.14em 0 var(--mk-g-e);}
+  mark{border-radius:.15em; padding:0 .05em;}
+  .body a,.w.lk{color:inherit; text-decoration-line:underline; text-decoration-color:var(--accent); text-decoration-thickness:.09em; text-underline-offset:.16em; cursor:pointer;}
+  .body s,.body strike,.body del,.w.fs{text-decoration-line:line-through; text-decoration-thickness:.07em;}
+  .w.lk.fs{text-decoration-line:underline line-through;}
+  .body u,.w.u{text-decoration-line:underline; text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .w.u.fs{text-decoration-line:underline line-through;}
+  .u-y{text-decoration-color:var(--ul-y)!important;} .u-r{text-decoration-color:var(--ul-r)!important;} .u-b{text-decoration-color:var(--ul-b)!important;}
+  .u-g{text-decoration-color:var(--ul-g)!important;} .u-k{text-decoration-color:var(--ul-k)!important;}
+  .us-double{text-decoration-style:double; text-decoration-thickness:.07em;} .us-wavy{text-decoration-style:wavy; text-decoration-thickness:.06em;} .us-dotted{text-decoration-style:dotted; text-decoration-thickness:.12em;}
+  .body b,.body strong,.w.fb{font-weight:700;}
+
+  body.lector{
+    --rbg:#FFFEFB; --rsurface:#F4EFE5; --rink:#2A2016; --rsoft:#5C4F3B; --rline:#DDD3C0; --raccent:#B32F2F; --raccent-ink:#FFFFFF;
+    --rlive:#2E7D32; --rfree:#A15C00; --roff:#7A6E5C;
+    --mk-y:#FFC000; --mk-r:#FF5E4D; --mk-b:#4F8DFF; --mk-g:#2FBF4F; --mk-ink:#2A2016;
+    --mk-y-e:#B07F00; --mk-r-e:#B8231A; --mk-b-e:#1A4FC4; --mk-g-e:#137A2E;
+    --ul-y:#E0A800; --ul-r:#E0342A; --ul-b:#1F5FE0; --ul-g:#1E9E3A; --ul-k:#2A2016; --accent:#B32F2F;
+    background:var(--rbg); color:var(--rink); color-scheme:light;
+  }
+  body.lector[data-rtheme="dark"]{
+    --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+    --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+    --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+    --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+    --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+    color-scheme:dark;
+  }
+  @media (prefers-color-scheme:dark){
+    body.lector:not([data-rtheme="light"]){
+      --rbg:#121110; --rsurface:#1F1D1A; --rink:#F3EFE8; --rsoft:#BDB5A8; --rline:#3D3833; --raccent:#FFD54A; --raccent-ink:#000000;
+      --rlive:#5BD86B; --rfree:#FFB547; --roff:#9C948A;
+      --mk-y:#FFE000; --mk-r:#FF6E5E; --mk-b:#6CB4FF; --mk-g:#4BE36B; --mk-ink:#000000;
+      --mk-y-e:transparent; --mk-r-e:transparent; --mk-b-e:transparent; --mk-g-e:transparent;
+      --ul-y:#FFE000; --ul-r:#FF6E5E; --ul-b:#6CB4FF; --ul-g:#4BE36B; --ul-k:#F3EFE8; --accent:#FFD54A;
+      color-scheme:dark;
+    }
+  }
+  #lector{min-height:100dvh; display:flex; flex-direction:column; background:var(--rbg); color:var(--rink); font-family:var(--f-body); -webkit-text-size-adjust:100%;}
+  #lector button{font-family:var(--f-body); cursor:pointer; -webkit-tap-highlight-color:transparent;}
+  #lector button:focus-visible,#lector select:focus-visible{outline:3px solid var(--raccent); outline-offset:2px;}
+  .rtop{position:sticky; top:0; z-index:5; background:var(--rbg); border-bottom:1px solid var(--rline); padding:8px 16px 8px;}
+  .rrow{display:flex; align-items:center; gap:10px; min-width:0;}
+  .rclase{flex:1; min-width:0; font-weight:600; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rref{flex:0 1 auto; min-width:0; max-width:72%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600; font-size:17px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:20px; padding:6px 14px; min-height:42px; font-variant-numeric:tabular-nums;}
+  .rsub{margin-top:6px; font-size:13px; color:var(--rsoft);}
+  .rlive{display:flex; align-items:center; gap:7px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rlive i{width:9px; height:9px; border-radius:50%; background:var(--roff); flex:none;}
+  .rlive[data-s="live"] i{background:var(--rlive); box-shadow:0 0 0 3px color-mix(in srgb, var(--rlive) 28%, transparent);}
+  .rlive[data-s="free"] i{background:var(--rfree);}
+  .rpos{font-variant-numeric:tabular-nums; flex:none;}
+  .rtools{display:flex; gap:4px; flex:none;}
+  .rtools button{font-weight:600; font-size:14px; min-width:40px; height:36px; padding:0 8px; border-radius:18px; border:1px solid var(--rline); background:transparent; color:var(--rink);}
+  .rnote{display:flex; align-items:center; gap:10px; margin-top:8px; padding:8px 10px; background:var(--rsurface); border-left:3px solid var(--rfree); font-size:14px; line-height:1.35;}
+  .rnote button{margin-left:auto; flex:none; font-weight:600; font-size:14px; min-height:40px; padding:0 14px; border-radius:20px; border:none; background:var(--raccent); color:var(--raccent-ink);}
+  .rmain{flex:1; width:100%; max-width:1100px; margin:0 auto; padding:18px 16px calc(100px + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; gap:22px;}
+  .rlat{font-size:var(--rfs,21px); line-height:1.55; max-width:calc(21em + 2.6em); overflow-wrap:break-word;}
+  .rlat .l{gap:.45em;}
+  .rlat .vn{font-family:var(--f-body); font-weight:600; font-size:.55em; width:2.3em; color:var(--rsoft); letter-spacing:0;}
+  .rlat .lt{padding-left:1.2em; text-indent:-1.2em;}
+  .rpanel{border-top:1px solid var(--rline);}
+  .rtabs{display:flex; gap:2px; overflow-x:auto; scrollbar-width:none;}
+  .rtabs::-webkit-scrollbar{display:none;}
+  .rtabs button{flex:none; font-weight:600; font-size:15px; background:none; border:none; border-bottom:3px solid transparent; color:var(--rsoft); padding:10px 12px; min-height:46px; max-width:75vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .rtabs button[aria-selected="true"]{color:var(--rink); border-bottom-color:var(--raccent);}
+  .rtab{font-size:17px; line-height:1.55; padding:12px 2px; overflow-wrap:break-word;}
+  .rtab ul,.rtab ol{margin:0; padding-left:1.2em;} .rtab li{margin:.3em 0;} .rtab li::marker{color:var(--raccent);}
+  .rtab p,.rtab div{margin:0;}
+  .rtab .rg{padding:.4em 0; border-bottom:1px solid var(--rline);} .rtab .rg:last-child{border-bottom:none;}
+  .rtab b,.rtab strong{font-weight:700;}
+  #lector .rver{font-weight:600; font-size:15px; min-height:46px; padding:0 18px; border-radius:23px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
+  .rtab a{color:inherit; text-decoration-line:underline; text-decoration-color:var(--raccent); text-underline-offset:.16em;}
+  .rtab u{text-decoration-thickness:.09em; text-underline-offset:.2em; text-decoration-skip-ink:none;}
+  .rtab s,.rtab strike,.rtab del{text-decoration-thickness:.07em;}
+  .rmsg{padding:56px 16px; text-align:center; font-size:17px; line-height:1.5; color:var(--rsoft); max-width:460px; margin:0 auto;}
+  .rnav{position:fixed; left:0; right:0; bottom:0; z-index:5; display:flex; gap:10px; padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px)); background:var(--rbg); border-top:1px solid var(--rline);}
+  .rnav button{flex:1; min-height:52px; font-weight:600; font-size:17px; border-radius:26px; border:1px solid var(--rline); background:var(--rsurface); color:var(--rink);}
+  .rnav #rNext{background:var(--raccent); color:var(--raccent-ink); border-color:var(--raccent);}
+  .rnav button:disabled{opacity:.4; cursor:default;}
+  .rsheet{position:fixed; inset:0; z-index:10; background:rgba(0,0,0,.45); display:flex; align-items:flex-end; justify-content:center;}
+  .rsheet-in{background:var(--rbg); color:var(--rink); width:100%; max-width:640px; max-height:82dvh; overflow:auto; border-radius:16px 16px 0 0; padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));}
+  .rsheet-head{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px;}
+  .rsheet-head .rlbl{margin:0; font-size:13px; color:var(--rsoft); width:100%;}
+  .rsheet-head select{flex:1; min-width:0; font:16px var(--f-body); padding:8px; min-height:44px; background:var(--rsurface); color:var(--rink); border:1px solid var(--rline); border-radius:8px;}
+  .rsheet-head button{font-weight:600; font-size:15px; min-height:44px; padding:0 16px; border-radius:22px; border:1px solid var(--rline); background:transparent; color:var(--rink); margin-left:auto;}
+  #rList{list-style:none; margin:0; padding:0;}
+  #rList button{width:100%; text-align:left; display:flex; gap:10px; align-items:baseline; padding:12px 10px; min-height:50px; background:none; border:none; border-left:4px solid transparent; color:var(--rink); font-size:16px;}
+  #rList button .rr{font-weight:600; flex:none; font-variant-numeric:tabular-nums;}
+  #rList button .rw{color:var(--rsoft); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; min-width:0;}
+  #rList button[aria-current="true"]{border-left-color:var(--raccent); background:var(--rsurface);}
+  @media (min-width:701px){
+    .rmain{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); align-items:start; gap:36px; padding-top:24px;}
+    .rpanel{border-top:none; border-left:1px solid var(--rline); padding-left:24px; position:sticky; top:110px; max-height:calc(100dvh - 210px); overflow:auto;}
+    .rnav{justify-content:center;} .rnav button{flex:0 1 260px;}
+  }
+</style></head>
+<body class="lector">
+<div id="lector">
+  <header class="rtop">
+    <div class="rrow">
+      <span class="rclase" id="rClase">Cargando…</span>
+      <button class="rref" id="rRef" aria-haspopup="dialog">—</button>
+    </div>
+    <div class="rrow rsub">
+      <span class="rlive" id="rLive"></span>
+      <span class="rpos" id="rPos"></span>
+      <span class="rtools">
+        <button id="rMinus" aria-label="Letra más chica">A−</button>
+        <button id="rPlus" aria-label="Letra más grande">A+</button>
+        <button id="rThemeBtn" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+      </span>
+    </div>
+    <div class="rnote" id="rNote" hidden></div>
+  </header>
+  <main class="rmain" id="rMain">
+    <section class="rlat" id="rLat" lang="grc" aria-label="Texto griego"></section>
+    <section class="rpanel" id="rPanel" hidden>
+      <div class="rtabs" role="tablist" id="rTabs"></div>
+      <div class="rtab" id="rTab" role="tabpanel"></div>
+    </section>
+  </main>
+  <p class="rmsg" id="rMsg" hidden></p>
+  <nav class="rnav" aria-label="Pasajes">
+    <button id="rPrev">◀ Anterior</button>
+    <button id="rNext">Siguiente ▶</button>
+  </nav>
+  <div class="rsheet" id="rSheet" hidden role="dialog" aria-label="Pasajes de la clase">
+    <div class="rsheet-in">
+      <div class="rsheet-head">
+        <p class="rlbl" id="rSheetLbl">Clase</p>
+        <select id="rSel" aria-label="Elegir clase"></select>
+        <button id="rSheetClose">Cerrar</button>
+      </div>
+      <ol id="rList"></ol>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"clase": "Esopo: tres fábulas (II)", "etiquetaClaves": "Claves", "pasajes": [{"id": "aCh-224-El-lobo-y-la-garza", "ref": "Ch. 224 · El lobo y la garza", "lines": ["Λύκος καταπιὼν ὀστοῦν περιῄει τὸν ἰασόμενον αὐτὸν ζητῶν.", "Περιτυχὼν δὲ ἐρωδιῷ, τοῦτον παρεκάλει ἐπὶ μισθῷ τὸ ὀστοῦν ἐκβαλεῖν.", "Κἀκεῖνος καθεὶς τὴν ἑαυτοῦ κεφαλὴν εἰς τὴν φάρυγγα αὐτοῦ τὸ ὀστοῦν ἐξέσπασε καὶ τὸν ὡμολογημένον μισθὸν ἀπῄτει.", "Ὁ δὲ ὑποτυχὼν εἶπεν· “ Ὦ οὗτος, οὐκ ἀγαπᾷς ἐκ λύκου στόματος σῴαν τὴν κεφαλὴν ἐξενεγκών, ἀλλὰ καὶ μισθὸν ἀπαιτεῖς;”", "Ὁ λόγος δηλοῖ ὅτι μεγίστη παρὰ τοῖς πονηροῖς εὐεργεσίας ἀμοιβὴ τὸ μὴ προσαδικεῖσθαι ὑπ᾿ αὐτῶν."], "trans": "Un lobo, después de tragarse un hueso, andaba de un lado a otro buscando a quien lo curara. Y al toparse con una garza, le pedía que, a cambio de una paga, le sacara el hueso. Y ella, tras meter su propia cabeza en la garganta de él, le arrancó el hueso y le reclamaba la paga acordada. Pero él, replicando, dijo: «Eh, vos, ¿no te contentás con haber sacado sana tu cabeza de la boca de un lobo, sino que además reclamás una paga?». La fábula muestra que, entre los malvados, la mayor retribución de un favor es no recibir además un daño de parte de ellos.", "gloss": "<div><b>ἀγαπάω, -ῶ:<\/b> amar; (+ part.) contentarse con<\/div><div><b>ἀλλά:<\/b> pero, sino<\/div><div><b>ἀμοιβή, -ῆς: ἡ.<\/b> retribución, recompensa<\/div><div><b>ἀπαιτέω, -ῶ:<\/b> reclamar, exigir<\/div><div><b>αὐτός, -ή, -ό:<\/b> él, ella, ello; mismo<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>δηλόω, -ῶ:<\/b> mostrar, poner de manifiesto<\/div><div><b>ἑαυτοῦ, -ῆς, -οῦ (pron. reflexivo):<\/b> de sí mismo, a sí mismo<\/div><div><b>εἰς (+ ac.):<\/b> a, hacia, dentro de<\/div><div><b>ἐκ (+ gen.):<\/b> de, desde<\/div><div><b>ἐκβάλλω (aor. tem. ἐξέβαλον):<\/b> arrojar, sacar<\/div><div><b>ἐκεῖνος, -η, -ο:<\/b> aquel (κἀκεῖνος = καὶ ἐκεῖνος)<\/div><div><b>ἐκσπάω, -ῶ:<\/b> arrancar, sacar tirando<\/div><div><b>ἐκφέρω (aor. ἐξήνεγκον / ἐξήνεγκα):<\/b> llevar afuera, sacar<\/div><div><b>ἐπί (+ dat.):<\/b> a cambio de<\/div><div><b>ἐρωδιός, -οῦ: ὁ.<\/b> garza<\/div><div><b>εὐεργεσία, -ας: ἡ.<\/b> beneficio, favor<\/div><div><b>ζητέω, -ῶ:<\/b> buscar<\/div><div><b>ἰάομαι, -ῶμαι (fut. ἰάσομαι):<\/b> curar<\/div><div><b>καθίημι (part. aor. καθείς):<\/b> bajar, meter<\/div><div><b>καί:<\/b> y; también, incluso<\/div><div><b>καταπίνω (aor. tem. κατέπιον):<\/b> tragar<\/div><div><b>κεφαλή, -ῆς: ἡ.<\/b> cabeza<\/div><div><b>λέγω (aor. tem. εἶπον):<\/b> decir<\/div><div><b>λόγος, -ου: ὁ.<\/b> palabra, discurso; (aquí) relato, fábula<\/div><div><b>λύκος, -ου: ὁ.<\/b> lobo<\/div><div><b>μέγας, μεγάλη, μέγα (sup. μέγιστος, -η, -ον):<\/b> grande; el más grande, el mayor<\/div><div><b>μή:<\/b> no<\/div><div><b>μισθός, -οῦ: ὁ.<\/b> paga, salario<\/div><div><b>ὁμολογέω, -ῶ:<\/b> acordar, convenir<\/div><div><b>ὀστοῦν, -οῦ: τό.<\/b> hueso<\/div><div><b>ὅτι:<\/b> que<\/div><div><b>οὐ, οὐκ:<\/b> no<\/div><div><b>οὗτος, αὕτη, τοῦτο:<\/b> este; (ὦ οὗτος) eh, vos<\/div><div><b>παρά (+ dat.):<\/b> junto a, entre<\/div><div><b>παρακαλέω, -ῶ:<\/b> llamar; pedir, rogar<\/div><div><b>περίειμι (impf. περιῄειν):<\/b> andar alrededor, ir de un lado a otro<\/div><div><b>περιτυγχάνω (aor. tem. περιέτυχον) (+ dat.):<\/b> toparse con, encontrarse con<\/div><div><b>πονηρός, -ά, -όν:<\/b> malvado<\/div><div><b>προσαδικέω, -ῶ:<\/b> dañar además; (pas.) recibir además un daño<\/div><div><b>σῷος, -α, -ον:<\/b> sano y salvo, intacto<\/div><div><b>στόμα, -ατος: τό.<\/b> boca<\/div><div><b>ὑπό (+ gen.):<\/b> por (agente)<\/div><div><b>ὑποτυγχάνω (aor. tem. ὑπέτυχον):<\/b> replicar, responder<\/div><div><b>φάρυγξ, -υγγος: ἡ.<\/b> garganta<\/div><div><b>ὦ:<\/b> (partícula del vocativo) oh<\/div>", "notes": "<ul><li>aoristo temático (participio e infinitivo)<\/li><li>participio de futuro<\/li><li>participio perfecto medio-pasivo<\/li><li>ὅτι declarativo<\/li><li>infinitivo con artículo<\/li><\/ul><div><b>Aoristos temáticos:<\/b> καταπιών: part. aor. tem., nom. masc. sg., de καταπίνω (κατέπιον). περιτυχών: part. aor. tem., nom. masc. sg., de περιτυγχάνω (περιέτυχον). ἐκβαλεῖν: inf. aor. tem. de ἐκβάλλω (ἐξέβαλον). ὑποτυχών: part. aor. tem., nom. masc. sg., de ὑποτυγχάνω (ὑπέτυχον). εἶπεν: 3.ª sg. ind. aor. tem. de λέγω (εἶπον). ἐξενεγκών: part. aor. tem., nom. masc. sg., de ἐκφέρω (ἐξήνεγκον).<\/div><div><b>Para no confundir:<\/b> περιῄει: imperfecto, no aoristo. καθείς: participio de aoristo, pero atemático. ἐξέσπασε: aoristo sigmático de ἐκσπάω. παρεκάλει, ἀπῄτει: imperfectos de verbos contractos. ἰασόμενον: participio de futuro (σ sin aumento y sin -σα-). ὡμολογημένον: participio perfecto medio-pasivo.<\/div><div><b>Fuera de lo visto:<\/b> καθείς: participio de aoristo de καθίημι («bajar, meter»), verbo en -μι: «tras meter». περιῄει: imperfecto de περίειμι, compuesto de εἶμι («ir»): «andaba de un lado a otro».<\/div>", "ctx": "En las fábulas el lobo es el depredador por excelencia. La garza (ἐρωδιός) tiene el cuello y el pico largos: es el único animal capaz de meter la cabeza en la garganta de un lobo. Toda la historia gira en torno de un servicio y su paga, el μισθός que se acuerda antes del trabajo. Babrio la versificó en griego (fábula 94) y Fedro la retomó en latín (I 8), con una grulla en lugar de la garza. Atención a ὦ οὗτος: es la misma forma poco amable de llamar a alguien que en Los bueyes y el eje («eh, vos»). Atención a ἀγαπάω con participio: significa «contentarse con» haber hecho algo. Fuera de lo visto: καθείς: participio de aoristo de καθίημι («bajar, meter»), verbo en -μι: «tras meter». περιῄει: imperfecto de περίειμι, compuesto de εἶμι («ir»): «andaba de un lado a otro».", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aCh-61-El-hombre-que-rompi-la-estatua", "ref": "Ch. 61 · El hombre que rompió la estatua", "lines": ["Ἄνθρωπός τις ξύλινον θεὸν ἔχων πένης ὢν καθικέτευε τοῦ ἀγαθοποιῆσαι.", "Ὡς οὖν ταῦτ᾿ ἔπραττε καὶ μᾶλλον ἐν πενίᾳ διῆγε, θυμωθείς, ἐκ τοῦ σκέλους ἄρας αὐτὸν τῷ τοίχῳ προσέκρουσε.", "Τῆς δὲ κεφαλῆς αὐτοῦ παραχρῆμα κλασθείσης, ἔρρευσε χρυσὸς ἐξ αὐτῆς, ὃν συναγαγὼν ὁ ἄνθρωπος ἐβόα· “Στρεβλὸς τυγχάνεις, ὡς οἶμαι, καὶ ἀγνώμων· τιμῶντά σε γὰρ οὐδὲν ὠφελησάς με· τυπτήσαντα δὲ πολλοῖς καλοῖς ἠμείψω.”", "Ὁ μῦθος δηλοῖ ὅτι οὐδὲν ὠφελήσεις σαυτὸν πονηρὸν ἄνδρα τιμῶν, αὐτὸν δὲ τύπτων πλέον ὠφεληθήσῃ."], "trans": "Un hombre que tenía un dios de madera, como era pobre, le suplicaba que le hiciera el bien. Entonces, como hacía esto y vivía cada vez más en la pobreza, enojado, lo levantó de la pierna y lo estrelló contra la pared. Y al quebrarse al instante su cabeza, brotó de ella oro; el hombre, mientras lo juntaba, gritaba: «Resultás ser retorcido, según creo, y desagradecido: pues mientras te honraba en nada me ayudaste, y ahora que te golpeé me retribuiste con muchos bienes». La fábula muestra que en nada te beneficiarás a vos mismo honrando a un hombre malvado, pero golpeándolo sacarás más provecho.", "gloss": "<div><b>ἀγαθοποιέω, -ῶ:<\/b> hacer el bien, favorecer<\/div><div><b>ἀγνώμων, -ον (gen. -ονος):<\/b> desconsiderado, desagradecido<\/div><div><b>αἴρω (aor. ἦρα):<\/b> levantar, alzar<\/div><div><b>ἀμείβομαι (aor. ἠμειψάμην):<\/b> retribuir; (+ ac. de persona + dat.) pagarle a alguien con algo<\/div><div><b>ἀνήρ, ἀνδρός: ὁ.<\/b> hombre, varón<\/div><div><b>ἄνθρωπος, -ου: ὁ, ἡ.<\/b> ser humano, hombre<\/div><div><b>αὐτός, -ή, -ό:<\/b> él, ella, ello; mismo<\/div><div><b>βοάω, -ῶ:<\/b> gritar<\/div><div><b>γάρ:<\/b> pues<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>δηλόω, -ῶ:<\/b> mostrar, poner de manifiesto<\/div><div><b>διάγω:<\/b> pasar (el tiempo), vivir<\/div><div><b>ἐγώ (ac. με):<\/b> yo<\/div><div><b>ἐκ, ἐξ (+ gen.):<\/b> de, desde<\/div><div><b>ἐν (+ dat.):<\/b> en<\/div><div><b>ἔχω:<\/b> tener<\/div><div><b>θεός, -οῦ: ὁ.<\/b> dios; (aquí) imagen de un dios<\/div><div><b>θυμόω, -ῶ:<\/b> enojar; (pas.) enojarse<\/div><div><b>καθικετεύω:<\/b> suplicar<\/div><div><b>καί:<\/b> y<\/div><div><b>καλός, -ή, -όν:<\/b> bello, bueno; (pl. neutro) bienes<\/div><div><b>κεφαλή, -ῆς: ἡ.<\/b> cabeza<\/div><div><b>κλάω (aor. pas. ἐκλάσθην):<\/b> romper, quebrar<\/div><div><b>μᾶλλον (adv.):<\/b> más<\/div><div><b>μῦθος, -ου: ὁ.<\/b> relato, fábula<\/div><div><b>ξύλινος, -η, -ον:<\/b> de madera<\/div><div><b>οἴομαι / οἶμαι:<\/b> creer, pensar<\/div><div><b>ὅς, ἥ, ὅ (pron. relativo):<\/b> que, el cual<\/div><div><b>ὅτι:<\/b> que<\/div><div><b>οὐδείς, οὐδεμία, οὐδέν:<\/b> nadie, nada; (οὐδέν, adv.) en nada<\/div><div><b>οὖν:<\/b> entonces, así pues<\/div><div><b>οὗτος, αὕτη, τοῦτο:<\/b> este<\/div><div><b>παραχρῆμα (adv.):<\/b> al instante<\/div><div><b>πενία, -ας: ἡ.<\/b> pobreza<\/div><div><b>πένης, -ητος: ὁ.<\/b> pobre<\/div><div><b>πλέον (adv.):<\/b> más<\/div><div><b>πολύς, πολλή, πολύ:<\/b> mucho<\/div><div><b>πονηρός, -ά, -όν:<\/b> malvado<\/div><div><b>πράττω:<\/b> hacer<\/div><div><b>προσκρούω:<\/b> golpear contra, estrellar contra<\/div><div><b>ῥέω (aor. ἔρρευσα):<\/b> fluir, brotar<\/div><div><b>σεαυτοῦ (σαυτοῦ), -ῆς (pron. reflexivo):<\/b> de vos mismo, a vos mismo<\/div><div><b>σκέλος, -ους: τό.<\/b> pierna<\/div><div><b>στρεβλός, -ή, -όν:<\/b> torcido, retorcido<\/div><div><b>σύ (ac. σε):<\/b> tú, vos<\/div><div><b>συνάγω (aor. tem. συνήγαγον):<\/b> juntar, recoger<\/div><div><b>τιμάω, -ῶ:<\/b> honrar<\/div><div><b>τις, τι:<\/b> alguien, algo; un, uno<\/div><div><b>τοῖχος, -ου: ὁ.<\/b> pared, muro<\/div><div><b>τυγχάνω (aor. tem. ἔτυχον):<\/b> (+ part. o adj.) resultar ser<\/div><div><b>τύπτω (aor. ἐτύπτησα):<\/b> golpear<\/div><div><b>χρυσός, -οῦ: ὁ.<\/b> oro<\/div><div><b>ὠφελέω, -ῶ:<\/b> ayudar, beneficiar; (pas.) sacar provecho<\/div><div><b>ὡς:<\/b> como; (conj. temporal) cuando, como<\/div>", "notes": "<ul><li>ὡς temporal<\/li><li>genitivo absoluto<\/li><li>aoristo pasivo<\/li><li>relativa<\/li><li>aoristo medio<\/li><li>futuro<\/li><\/ul><div><b>Aoristos temáticos:<\/b> συναγαγών: part. aor. tem., nom. masc. sg., de συνάγω (συνήγαγον), con el tema reduplicado ἀγ-αγ-.<\/div><div><b>Para no confundir:<\/b> ἄρας: aoristo de αἴρω sin σ (verbo en líquida). προσέκρουσε, ἔρρευσε, ὠφέλησας, τυπτήσαντα: aoristos sigmáticos (en ἔρρευσε la ρ se duplica después del aumento). θυμωθείς, κλασθείσης: aoristos pasivos. ἠμείψω: 2.ª sg. del aoristo medio (-σω &lt; -σα-σο). καθικέτευε, ἔπραττε, διῆγε, ἐβόα: imperfectos. ὠφελήσεις: futuro activo; ὠφεληθήσῃ: futuro pasivo.<\/div><div><b>Fuera de lo visto:<\/b> τοῦ ἀγαθοποιῆσαι: infinitivo de aoristo con artículo en genitivo; acá expresa lo que se pide: «[le suplicaba] que le hiciera el bien». ἄρας: participio de aoristo de αἴρω («levantar»). Es un verbo en líquida y su aoristo no lleva σ (ἦρα): «tras levantar». ὠφεληθήσῃ: 2.ª sg. del futuro pasivo de ὠφελέω, con el formante -θη- del aoristo pasivo más -σ-: «sacarás provecho».<\/div>", "ctx": "En las casas griegas había imágenes de los dioses, muchas veces de madera, a las que se dirigían plegarias y ofrendas. La relación con los dioses se pensaba como un intercambio: se honra al dios y se espera de él un favor a cambio. La fábula da vuelta ese esquema. Supone además que la estatua era hueca y guardaba oro adentro. En la versión en verso de Babrio (fábula 119) la estatua es de Hermes, dios de la ganancia. Atención a τυγχάνεις con un adjetivo: τυγχάνω significa aquí «resultar ser» (se sobrentiende ὤν). Atención a ὡς οἶμαι: es un inciso, «según creo»; οἶμαι es la forma abreviada de οἴομαι. Fuera de lo visto: τοῦ ἀγαθοποιῆσαι: infinitivo de aoristo con artículo en genitivo; acá expresa lo que se pide: «[le suplicaba] que le hiciera el bien». ἄρας: participio de aoristo de αἴρω («levantar»). Es un verbo en líquida y su aoristo no lleva σ (ἦρα): «tras levantar». ὠφεληθήσῃ: 2.ª sg. del futuro pasivo de ὠφελέω, con el formante -θη- del aoristo pasivo más -σ-: «sacarás provecho».", "hl": {}, "fx": {}, "ul": {}, "lk": {}}, {"id": "aCh-58-El-hombre-y-la-zorra", "ref": "Ch. 58 · El hombre y la zorra", "lines": ["Ἀλώπεκά τις ἐχθρὰν ἔχων ὡς βλάπτουσαν αὐτόν, κρατήσας καὶ θέλων ἐπὶ πολὺ τιμωρήσασθαι, στυππεῖα ἐλαίῳ βεβρεγμένα τῇ οὐρᾷ προσδήσας ὑφῆψε.", "Ταύτην δὲ δαίμων εἰς τὰς ἀρούρας τοῦ βαλόντος ὡδήγει· ἦν δὲ καιρὸς τοῦ ἀμήτου.", "Ὁ δὲ ἠκολούθει θρηνῶν μηδὲν θερίσας.", "Ὅτι πρᾷον εἶναι χρὴ καὶ μὴ ἀμέτρως θυμοῦσθαι· ἐξ ὀργῆς γὰρ πολλάκις βλάβη γίνεται μεγάλη τοῖς δυσοργήτοις."], "trans": "Un hombre que tenía por enemiga a una zorra, porque [según él] le hacía daño, después de atraparla y queriendo vengarse largamente, le ató a la cola estopa empapada en aceite y le prendió fuego. Pero una divinidad la guiaba hacia los sembrados del que la había soltado; y era el tiempo de la cosecha. Y él la seguía lamentándose, sin haber cosechado nada. [La fábula muestra] que es necesario ser apacible y no enojarse desmesuradamente: pues a menudo, a partir de la ira, se produce un gran daño para los irascibles.", "gloss": "<div><b>ἀκολουθέω, -ῶ:<\/b> seguir<\/div><div><b>ἀλώπηξ, -εκος: ἡ.<\/b> zorra<\/div><div><b>ἀμέτρως (adv.):<\/b> sin medida, desmesuradamente<\/div><div><b>ἄμητος, -ου: ὁ.<\/b> siega, cosecha<\/div><div><b>ἄρουρα, -ας: ἡ.<\/b> campo de cultivo, sembrado<\/div><div><b>αὐτός, -ή, -ό:<\/b> él, ella, ello; mismo<\/div><div><b>βάλλω (aor. tem. ἔβαλον):<\/b> arrojar, lanzar; soltar<\/div><div><b>βλάβη, -ης: ἡ.<\/b> daño<\/div><div><b>βλάπτω:<\/b> dañar, perjudicar<\/div><div><b>βρέχω (perf. m.-p. βέβρεγμαι):<\/b> mojar, empapar<\/div><div><b>γάρ:<\/b> pues<\/div><div><b>γίγνομαι / γίνομαι (aor. tem. ἐγενόμην):<\/b> llegar a ser, producirse<\/div><div><b>δαίμων, -ονος: ὁ.<\/b> divinidad<\/div><div><b>δέ:<\/b> pero, y<\/div><div><b>δυσόργητος, -ον:<\/b> irascible<\/div><div><b>εἰμί:<\/b> ser, estar, haber<\/div><div><b>εἰς (+ ac.):<\/b> a, hacia<\/div><div><b>ἐκ, ἐξ (+ gen.):<\/b> de, desde; a partir de<\/div><div><b>ἔλαιον, -ου: τό.<\/b> aceite<\/div><div><b>ἐπί (+ ac.):<\/b> (ἐπὶ πολύ) por mucho tiempo, largamente<\/div><div><b>ἐχθρός, -ά, -όν:<\/b> enemigo, odiado<\/div><div><b>ἔχω:<\/b> tener; (+ ac. + predicativo) tener a alguien por<\/div><div><b>θέλω (= ἐθέλω):<\/b> querer<\/div><div><b>θερίζω:<\/b> segar, cosechar<\/div><div><b>θρηνέω, -ῶ:<\/b> lamentarse<\/div><div><b>θυμόω, -ῶ:<\/b> enojar; (med.-pas.) enojarse<\/div><div><b>καί:<\/b> y<\/div><div><b>καιρός, -οῦ: ὁ.<\/b> momento oportuno, tiempo<\/div><div><b>κρατέω, -ῶ:<\/b> dominar; atrapar<\/div><div><b>μέγας, μεγάλη, μέγα:<\/b> grande<\/div><div><b>μή:<\/b> no<\/div><div><b>μηδείς, μηδεμία, μηδέν:<\/b> nadie, nada<\/div><div><b>ὁδηγέω, -ῶ:<\/b> guiar, conducir<\/div><div><b>ὀργή, -ῆς: ἡ.<\/b> ira, enojo<\/div><div><b>ὅτι:<\/b> que<\/div><div><b>οὐρά, -ᾶς: ἡ.<\/b> cola<\/div><div><b>οὗτος, αὕτη, τοῦτο:<\/b> este<\/div><div><b>πολλάκις (adv.):<\/b> muchas veces, a menudo<\/div><div><b>πολύς, πολλή, πολύ:<\/b> mucho<\/div><div><b>πρᾶος (πρᾷος), -ον:<\/b> manso, apacible<\/div><div><b>προσδέω:<\/b> atar a<\/div><div><b>στυππεῖον, -ου: τό.<\/b> estopa<\/div><div><b>τιμωρέω, -ῶ:<\/b> (med.) vengarse, castigar<\/div><div><b>τις, τι:<\/b> alguien, algo<\/div><div><b>ὑφάπτω (aor. ὑφῆψα):<\/b> prender fuego por debajo, encender<\/div><div><b>χρή:<\/b> es necesario<\/div><div><b>ὡς (+ part.):<\/b> como, porque (según el que actúa)<\/div>", "notes": "<ul><li>ὡς + participio<\/li><li>participio perfecto medio-pasivo<\/li><li>aoristo temático (participio)<\/li><li>χρή + infinitivo<\/li><\/ul><div><b>Aoristos temáticos:<\/b> βαλόντος: part. aor. tem., gen. masc. sg., de βάλλω (ἔβαλον): «del que la había soltado».<\/div><div><b>Para no confundir:<\/b> κρατήσας, τιμωρήσασθαι, προσδήσας, θερίσας: aoristos sigmáticos. ὑφῆψε: aoristo sigmático de ὑφάπτω (π + σ = ψ). ὡδήγει, ἠκολούθει: imperfectos de verbos contractos. βεβρεγμένα: participio perfecto medio-pasivo de βρέχω. γίνεται: presente.<\/div><div><b>Fuera de lo visto:<\/b> Nada: todo lo que aparece en esta fábula ya lo vimos.<\/div>", "ctx": "Para los campesinos, la zorra era una plaga: atacaba los corrales y las viñas. Atar fuego a la cola de una zorra y soltarla entre los sembrados es un motivo antiguo. Sansón lo hace en la Biblia para quemar las mieses de los filisteos (Jueces 15, 4-5), y Ovidio cuenta que en las fiestas de Ceres se soltaban zorras con antorchas, en recuerdo de una que había incendiado los campos (Fastos IV 681-712). El δαίμων de la fábula es una divinidad que no se nombra: la que hace que el castigo se vuelva contra quien lo inventó. Atención al epimitio: empieza directamente con Ὅτι; se sobrentiende «la fábula muestra» (ὁ μῦθος δηλοῖ). Fuera de lo visto: Nada: todo lo que aparece en esta fábula ya lo vimos.", "hl": {}, "fx": {}, "ul": {}, "lk": {}}]};
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const rq = id => document.getElementById(id);
+const store = {
+  get(k, d){ try { const v = localStorage.getItem('esopo-tres-fabulas-ii-' + k); return v == null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem('esopo-tres-fabulas-ii-' + k, v); } catch(e){} }
+};
+/* saneado (igual que la mesa) */
+const OK = new Set(['B','I','U','EM','STRONG','BR','DIV','P','UL','OL','LI','MARK','S','STRIKE','DEL','A']);
+function safeUrl(u){ u = String(u || '').trim(); if(!u) return ''; if(!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u; return /^(https?:|mailto:)/i.test(u) ? u : ''; }
+function clean(h){
+  if(!h) return '';
+  const root = new DOMParser().parseFromString('<div>' + h + '</div>', 'text/html').body.firstElementChild;
+  (function walk(node){
+    [...node.childNodes].forEach(ch => {
+      if(ch.nodeType === 1){
+        if(['SCRIPT','STYLE','IFRAME','OBJECT'].includes(ch.tagName)){ ch.remove(); return; }
+        walk(ch);
+        if(!OK.has(ch.tagName)){ ch.replaceWith(...ch.childNodes); return; }
+        const cls = ch.tagName === 'MARK' && /^c-[yrbg]$/.test(ch.className) ? ch.className : '';
+        const ulCls = ch.tagName === 'U' && /^u-[yrbgk]( us-(double|wavy|dotted))?$/.test(ch.className) ? ch.className : '';
+        const href = ch.tagName === 'A' ? safeUrl(ch.getAttribute('href')) : '';
+        [...ch.attributes].forEach(a => ch.removeAttribute(a.name));
+        if(cls) ch.className = cls; if(ulCls) ch.className = ulCls;
+        if(ch.tagName === 'A'){ if(href) ch.setAttribute('href', href); else ch.replaceWith(...ch.childNodes); }
+      } else if(ch.nodeType !== 3) ch.remove();
+    });
+  })(root);
+  return root.innerHTML;
+}
+const hasText = h => !!(h && h.replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').trim());
+/* latín con marcas (igual que la mesa) */
+function startLine(ref){ const m = String(ref).match(/^\s*\d+\s*[.,]\s*(\d+)/); return m ? +m[1] : null; }
+function wClass(i, n){
+  const f = n.fx[i] || '', u = n.ul[i];
+  const uc = u ? ' u u-' + u.split('-')[0] + (u.split('-')[1] ? ' us-' + u.split('-')[1] : '') : '';
+  return 'w' + (n.hl[i] ? ' c-' + n.hl[i] : '') + (f.includes('b') ? ' fb' : '') + (f.includes('s') ? ' fs' : '') + (n.lk[i] ? ' lk' : '') + uc;
+}
+function latHtml(t){
+  const s = startLine(t.ref); let wi = 0;
+  return t.lines.map((line, li) => {
+    const num = s != null ? s + li : null, showN = num != null && (li === 0 || num % 5 === 0);
+    const words = line.split(/(\s+)/).map(tok => {
+      if(!tok) return ''; if(/^\s+$/.test(tok)) return tok;
+      const i = wi++; return `<span class="${wClass(i, t)}" data-i="${i}">${esc(tok)}</span>`;
+    }).join('');
+    return `<div class="l"><span class="vn">${showN ? num : ''}</span><span class="lt">${words}</span></div>`;
+  }).join('');
+}
+const fold = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+function sortGloss(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const key = el => fold(el.textContent);
+  const kids = [...d.children];
+  if(kids.length === 1 && /^(UL|OL)$/.test(kids[0].tagName)){
+    const ul = kids[0]; [...ul.children].sort((a, b) => key(a).localeCompare(key(b), 'es')).forEach(li => ul.appendChild(li)); return d.innerHTML;
+  }
+  const lines = []; let cur = document.createElement('div');
+  [...d.childNodes].forEach(nd => {
+    if(nd.nodeName === 'BR'){ lines.push(cur); cur = document.createElement('div'); }
+    else if(/^(DIV|P)$/.test(nd.nodeName)){ if(cur.childNodes.length){ lines.push(cur); cur = document.createElement('div'); } const x = document.createElement('div'); x.append(...nd.childNodes); lines.push(x); }
+    else cur.appendChild(nd);
+  });
+  if(cur.childNodes.length) lines.push(cur);
+  const ok = lines.filter(l => key(l));
+  if(ok.length < 2 || ok.some(l => l.querySelector('ul,ol,li'))) return h;
+  ok.sort((a, b) => key(a).localeCompare(key(b), 'es'));
+  return ok.map(l => `<div class="rg">${l.innerHTML}</div>`).join('');
+}
+function qLabel(h){
+  const d = document.createElement('div'); d.innerHTML = h;
+  const first = d.firstElementChild, el = first && /^(UL|OL)$/.test(first.tagName) ? first.querySelector('li') : first;
+  const s = (el ? el.textContent : d.textContent).trim();
+  const qs = s.match(/¿[^?]*\?/g) || [];
+  if(qs.length > 1) return 'Preguntas';
+  const q = qs[0] || (/\?$/.test(s) ? s : '');
+  if(!q) return 'Para pensar';
+  return q.length > 40 ? q.slice(0, 38) + '…?' : q;
+}
+/* datos */
+const P = DATA.pasajes.map(t => Object.assign({}, t, {trans: clean(t.trans), gloss: clean(t.gloss), notes: clean(t.notes), ctx: clean(t.ctx),
+  hl: t.hl || {}, fx: t.fx || {}, ul: t.ul || {}, lk: Object.fromEntries(Object.entries(t.lk || {}).map(([k, v]) => [k, safeUrl(v)]).filter(x => x[1]))}));
+let idx = Math.max(0, P.findIndex(t => t.id === store.get('pid', '')));
+let fs = Math.max(16, Math.min(30, +store.get('fs', 21) || 21));
+let tabSel = store.get('tab', 'gloss');
+let transVista = false; // la traducción arranca tapada en cada pantalla
+function applyPrefs(){
+  const th = store.get('theme', '');
+  if(th) document.body.dataset.rtheme = th; else delete document.body.dataset.rtheme;
+  rq('rLat').style.setProperty('--rfs', fs + 'px');
+}
+function render(){
+  const t = P[idx];
+  rq('rClase').textContent = DATA.clase;
+  rq('rRef').textContent = t.ref + ' ▾';
+  rq('rRef').setAttribute('aria-label', `Pasaje ${t.ref}. Ver la lista de pasajes`);
+  rq('rPos').textContent = (idx + 1) + '/' + P.length;
+  rq('rPrev').disabled = idx === 0; rq('rNext').disabled = idx === P.length - 1;
+  rq('rLat').innerHTML = latHtml(t);
+  const tabs = [];
+  if(hasText(t.ctx)) tabs.push(['ctx', 'Contexto']);
+  if(hasText(t.gloss)) tabs.push(['gloss', 'Glosario']);
+  if(hasText(t.trans)) tabs.push(['trans', 'Traducción']);
+  if(hasText(t.notes)) tabs.push(['notes', DATA.etiquetaClaves || qLabel(t.notes)]);
+  rq('rPanel').hidden = !tabs.length;
+  const k = tabs.some(x => x[0] === tabSel) ? tabSel : (tabs[0] || [])[0];
+  rq('rTabs').innerHTML = tabs.map(([key, lbl]) => `<button role="tab" data-k="${key}" aria-selected="${key === k}" title="${esc(lbl)}">${esc(lbl)}</button>`).join('');
+  rq('rTab').innerHTML = !k ? '' : k === 'gloss' ? sortGloss(t.gloss) : k === 'trans' && !transVista ? '<button class="rver" data-ver>Ver traducción</button>' : t[k];
+}
+function go(i){ i = Math.max(0, Math.min(P.length - 1, i)); if(i === idx) return; idx = i; transVista = false; store.set('pid', P[idx].id); render(); window.scrollTo(0, 0); }
+function openSheet(){
+  rq('rSheetLbl').textContent = DATA.clase + ' · ' + P.length + ' pasajes';
+  rq('rList').innerHTML = P.map((t, j) => `<li><button data-j="${j}"${j === idx ? ' aria-current="true"' : ''}><span class="rr">${esc(t.ref)}</span><span class="rw" lang="grc">${esc((t.lines[0] || '').split(/\s+/).slice(0, 6).join(' '))}</span></button></li>`).join('');
+  rq('rSheet').hidden = false;
+  const c = rq('rList').querySelector('[aria-current]'); if(c) c.scrollIntoView({block:'center'});
+}
+rq('rSel').remove();
+rq('rPrev').onclick = () => go(idx - 1);
+rq('rNext').onclick = () => go(idx + 1);
+rq('rRef').onclick = openSheet;
+rq('rSheetClose').onclick = () => { rq('rSheet').hidden = true; };
+rq('rSheet').addEventListener('click', e => {
+  if(e.target === e.currentTarget){ rq('rSheet').hidden = true; return; }
+  const b = e.target.closest('[data-j]'); if(b){ rq('rSheet').hidden = true; go(+b.dataset.j); }
+});
+rq('rTabs').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if(!b) return; tabSel = b.dataset.k; store.set('tab', tabSel); render(); });
+rq('rMinus').onclick = () => { fs = Math.max(16, fs - 2); store.set('fs', fs); applyPrefs(); };
+rq('rPlus').onclick = () => { fs = Math.min(30, fs + 2); store.set('fs', fs); applyPrefs(); };
+rq('rThemeBtn').onclick = () => { const dark = getComputedStyle(document.body).colorScheme.includes('dark'); store.set('theme', dark ? 'light' : 'dark'); applyPrefs(); };
+const openUrl = u => { u = safeUrl(u); if(u){ try { window.open(u, '_blank', 'noopener'); } catch(e){} } };
+rq('rTab').addEventListener('click', e => { if(e.target.closest('[data-ver]')){ transVista = true; render(); return; } const a = e.target.closest('a'); if(a){ e.preventDefault(); openUrl(a.getAttribute('href')); } });
+rq('rLat').addEventListener('click', e => { const w = e.target.closest('.w.lk'); if(w && getSelection().isCollapsed) openUrl(P[idx].lk[w.dataset.i]); });
+let sw = null;
+rq('rLat').addEventListener('touchstart', e => { if(e.touches.length === 1) sw = {x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now()}; }, {passive:true});
+rq('rLat').addEventListener('touchend', e => {
+  if(!sw) return; const s = sw; sw = null; const p = e.changedTouches[0], dx = p.clientX - s.x, dy = p.clientY - s.y;
+  if(Date.now() - s.t > 700 || Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) / 2 || !getSelection().isCollapsed) return;
+  go(idx + (dx < 0 ? 1 : -1));
+}, {passive:true});
+window.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ rq('rSheet').hidden = true; return; }
+  if(!rq('rSheet').hidden) return;
+  if(e.key === 'ArrowRight') go(idx + 1); else if(e.key === 'ArrowLeft') go(idx - 1);
+});
+applyPrefs(); render();
+</script>
+</body></html>
